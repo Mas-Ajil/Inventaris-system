@@ -1,0 +1,48 @@
+body {
+    background-image: url('/asset/bg_login.jpg'); 
+    background-size: cover;
+    height: 100%;
+    
+    
+}
+
+  .form-signin {
+    max-width: 330px;
+    padding: 1rem;
+    
+        position: relative;
+        background: rgba(255, 255, 255, 0.277);
+        backdrop-filter: blur(5px); 
+        border-radius: 10px; 
+        padding: 20px;
+        margin-top: 20px; 
+    
+  }
+  
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+  
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+
+
+
+  .form-registrations {
+    position: relative;
+    background: rgba(255, 255, 255, 0.8); 
+    backdrop-filter: blur(5px); 
+    border-radius: 10px; 
+    padding: 20px;
+    margin-top: 20px;
+}

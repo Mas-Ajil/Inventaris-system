@@ -19,16 +19,16 @@
         font-family: 'Poppins', sans-serif;
         margin: 0;
         padding: 0;
-        background: url('/assets/bg-all.jpg') no-repeat center center fixed; /* Use the same background image */
-        background-size: cover; /* Make sure the image covers the entire background */
+        background: url('/assets/bg-all.jpg') no-repeat center center fixed;
+        background-size: cover;
         color: #343a40;
     }
 
     .container {
-        background-color: rgba(255, 255, 255, 0.85); /* Slight transparency for better readability */
+        background-color: rgba(255, 255, 255, 0.85);
         padding: 40px;
         border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
     }
 
@@ -43,7 +43,7 @@
 
     .product-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 20px;
     }
 
@@ -54,21 +54,26 @@
         padding: 20px;
         text-align: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-top: 4px solid transparent; 
+        background-image: linear-gradient(to bottom right, #ffffff 30%, #f8f9fa); 
     }
 
     .product-card:hover {
-        transform: translateY(-5px); /* Card hover effect */
+        transform: translateY(-5px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+       
+        background: linear-gradient(45deg, #ff7e5f, #feb47b); 
+        color: white; 
     }
 
     .product-card h2 {
         font-size: 1.5rem;
-        color: #343a40;
+        color: inherit; 
         margin-bottom: 10px;
     }
 
     .product-card p {
-        color: #6c757d;
+        color: inherit;
         margin-bottom: 15px;
     }
 
@@ -86,7 +91,7 @@
     }
 
     .btn-primary {
-        background: linear-gradient(45deg, #ff7e5f, #feb47b); /* Button gradient */
+        background: linear-gradient(45deg, #007bff, #00c6ff); 
         border: none;
         color: white;
         padding: 15px 30px;
@@ -96,7 +101,7 @@
     }
 
     .btn-primary:hover {
-        background: linear-gradient(45deg, #ff6b4d, #fea16e); /* Darker hover */
+        background: linear-gradient(45deg, #0069d9, #00aaff); 
         transform: scale(1.05);
     }
 
@@ -128,7 +133,7 @@
                 <div class="product-card">
                     <h2>{{ $product->name }}</h2>
                     <p>Stok: {{ $product->stock }}</p>
-                    <input type="number" name="quantity[]" max="{{ $product->stock }}"  value="0">
+                    <input type="number" name="quantity[]" max="{{ $product->stock }}" value="0">
                     <input type="hidden" name="product_id[]" value="{{ $product->id }}">
                 </div>
             @endforeach

@@ -30,11 +30,21 @@ Route::get('/home', function () {
 
 
 Route::group(['middleware' => ['auth','ceklevel:user']], function(){
-    // dasboard user
+    //  user
    
     Route::get('/loans', [LoanController::class, 'index'])->name('loans')->middleware('auth');
     Route::post('/loans', [LoanController::class, 'store'])->name('loans.store')->middleware('auth');
 
-    Route::get('/my-loans', [LoanController::class, 'userLoans'])->name('loans.user')->middleware('auth');
+    Route::get('/status', [LoanController::class, 'userLoans'])->name('loans.user')->middleware('auth');
+
+    Route::get('/history', [LoanController::class, 'history'])->name('loans.history');
     
+});
+
+
+
+Route::group(['middleware' => ['auth','ceklevel:admin']], function(){
+    // admin
+   
+
 });

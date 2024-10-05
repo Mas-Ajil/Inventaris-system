@@ -1,6 +1,6 @@
 @extends('layouts.main')
-@section('container')
 
+@section('container')
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,23 +112,19 @@
   </style>
 </head>
 <body>
-
 <div class="container">
-    <h1>
-        Borrowed Equipment
-        <a href="/return" class="return-button">Return</a> 
-    </h1>
+    <h1>Histori Peminjaman Produk</h1>
 
     @if($loans->isEmpty())
-        <p>You haven't borrowed any equipment yet.</p>
+        <p>Tidak ada produk yang sudah dikembalikan.</p>
     @else
         <table class="table">
             <thead>
                 <tr>
-                    <th>Equipment Name</th>
-                    <th>Quantity</th>
-                    <th>Borrowed Date</th>
-                    <th>Return Date</th>
+                    <th>Nama Produk</th>
+                    <th>Jumlah</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Kembali</th>
                 </tr>
             </thead>
             <tbody>
@@ -144,8 +140,6 @@
         </table>
     @endif
 </div>
-
 </body>
 </html>
-
 @endsection

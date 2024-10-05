@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Relasi ke product
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relasi ke user
-            $table->integer('quantity')->default(1); // Jumlah item yang dipinjam
-            $table->date('borrowed_at'); // Tanggal pinjam
-            $table->date('returned_at'); // Tanggal kembali
+            $table->foreignId('product_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
+            $table->integer('quantity')->default(1); 
+            $table->date('borrowed_at'); 
+            $table->date('returned_at'); 
             $table->timestamps();
         });
     }

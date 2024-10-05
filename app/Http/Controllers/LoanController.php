@@ -19,26 +19,26 @@ class loanController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input
+        
         $request->validate([
             'product_id.*' => 'required|exists:products,id',
-            'quantity.*' => 'required|integer|min:0', // Allow 0, but will filter it out later
+            'quantity.*' => 'required|integer|min:0', 
             'borrowed_at' => 'required|date',
             'returned_at' => 'required|date|after_or_equal:borrowed_at',
         ]);
 
-        // Loop untuk setiap produk yang dipilih
+        
         foreach ($request->product_id as $index => $productId) {
             $quantity = $request->quantity[$index];
 
-            // Hanya lanjutkan jika quantity lebih dari 0
+            
             if ($quantity > 0) {
-                // Ambil produk dari database
+               
                 $product = Product::find($productId);
 
-                // Pastikan stok cukup
+               
                 if ($product->stock >= $quantity) {
-                    // Buat entri peminjaman
+                    
                     Loan::create([
                         'product_id' => $productId,
                         'user_id' => Auth::id(),
@@ -47,10 +47,10 @@ class loanController extends Controller
                         'returned_at' => $request->returned_at,
                     ]);
 
-                    // Kurangi stok produk
+                    
                     $product->reduceStock($quantity);
                 } else {
-                    // Jika stok tidak cukup, bisa memberikan pesan error
+                    
                     return redirect()->back()->withErrors(["Stok produk {$product->name} tidak cukup."]);
                 }
             }
@@ -59,12 +59,19 @@ class loanController extends Controller
         return redirect()->route('loans.user')->with('success', 'Peminjaman berhasil!');
     }
 
-    public function userLoans()
-{
-    // Mengambil semua peminjaman user yang sedang login, termasuk detail produk
-    $loans = Auth::user()->loans()->with('product')->get();
+        public function userLoans()
+    {
+        $loans = Auth::user()->loans()->where('status', 'borrowed')->with('product')->get();
 
-    return view('users.pengembalian', compact('loans'));
-}
+        return view('users.pengembalian', compact('loans'));
+    }
+
+    public function history()
+    {
+        
+        $loans = Auth::user()->loans()->where('status', 'returned')->with('product')->get();
+
+        return view('users.history', compact('loans'));
+    }
 }
 
