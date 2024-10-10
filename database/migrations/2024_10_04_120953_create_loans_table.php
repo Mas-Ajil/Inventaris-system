@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade'); 
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->integer('quantity')->default(1); 
-            $table->date('borrowed_at'); 
-            $table->date('returned_at'); 
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Kolom ID user peminjam (foreign key)
+            $table->string('user_name'); 
+            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Produk yang dipinjam
+            $table->integer('quantity'); // Jumlah barang yang dipinjam
+            $table->date('borrowed_at'); // Tanggal pinjam
+            $table->date('returned_at')->nullable(); // Tanggal kembali (optional)
+            $table->text('notes')->nullable(); // Keterangan tambahan
+            $table->enum('status', ['borrowed', 'returned'])->default('borrowed'); // Status pinjaman
             $table->timestamps();
         });
     }

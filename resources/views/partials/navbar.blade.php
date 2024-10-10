@@ -70,7 +70,7 @@
             <a class="nav-link {{ request()->is('home') ? 'active' : '' }}" href="/home"><i class="bi bi-house-door-fill"></i> Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ request()->is('loans') ? 'active' : '' }}" href="/loans"><i class="bi bi-file-earmark-plus-fill"></i> Borrowing</a>
+            <a class="nav-link {{ request()->is('product') ? 'active' : '' }}" href="/products"><i class="bi bi-file-earmark-plus-fill"></i> Borrowing</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ request()->is('status') ? 'active' : '' }}" href="/status"><i class="bi bi-check-circle-fill"></i> Status</a> <!-- Changed to Status -->

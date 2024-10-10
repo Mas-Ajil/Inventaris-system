@@ -11,11 +11,7 @@ class loan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id',
-        'user_id',
-        'borrowed_at',
-        'returned_at',
-        'quantity',
+        'user_id', 'user_name', 'product_id', 'quantity', 'borrowed_at', 'returned_at', 'notes', 'status',
     ];
 
     // Relasi ke User
@@ -29,4 +25,9 @@ class loan extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function products()
+{
+    return $this->hasMany(Product::class, 'loan_id'); // sesuaikan 'loan_id' jika berbeda
+}
 }

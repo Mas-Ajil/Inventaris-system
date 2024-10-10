@@ -13,6 +13,11 @@ class product extends Model
         'stock',
     ];
 
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
+    
     // Metode untuk mengurangi stok produk
     public function reduceStock($quantity)
     {

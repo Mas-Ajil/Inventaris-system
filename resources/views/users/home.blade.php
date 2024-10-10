@@ -87,7 +87,7 @@
     <div class="hero-text">
       <h1>Welcome To <span style="color: #20c997;">Studio Equipment Borrow System</span></h1>
       <p>The Studio Equipment Borrow and Return System is a comprehensive solution designed to streamline the management of studio equipment within a creative or production facility. This system allows users to efficiently borrow and return various studio tools and devices, ensuring that all equipment is accounted for and maintained in optimal condition.</p>
-      <a href="{{ route('loans') }}" class="btn btn-custom">Get Started</a>
+      <a href="{{ route('products.index') }}" class="btn btn-custom">Get Started</a>
     </div>
     <img src="{{ url('/assets/heroImage.jpg') }}" class="hero-image" alt="Hero Image"> 
   </header>

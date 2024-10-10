@@ -6,13 +6,13 @@ use App\Models\product;
 use App\Http\Requests\StoreproductRequest;
 use App\Http\Requests\UpdateproductRequest;
 
-class productController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(){
-        return view('users.peminjaman',[
+        return view('users.products',[
             "products" => product::all()
         ]);
             

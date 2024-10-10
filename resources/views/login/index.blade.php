@@ -32,11 +32,12 @@
             <form action="/login" method="POST" class="row g-3" >
                 @csrf
                 <div class="col-md-12">
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email"  >
-                    @error('email')
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Nama" >
+                    @error('name')
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
-                </div> 
+                </div>
+
 
                 <div class="col-md-12">
                   <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password" >
@@ -51,7 +52,7 @@
               </form>
             
 
-            <small class="d-block text-center mt-3">belum punya akun? <a href="/register">Register Now!</a></small>
+            
     </div>
 </div>
 @endsection
