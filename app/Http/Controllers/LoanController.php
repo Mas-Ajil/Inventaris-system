@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Loan;
+use App\Models\transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,9 @@ class LoanController extends Controller
     DB::beginTransaction();
 
     try {
+        $transaction = Transaction::create([
+            'user_id' => $user_id,
+        ]);
         // Loop untuk menyimpan semua produk yang dipilih
         foreach ($selectedProducts as $productId => $productData) {
             // Validasi keberadaan produk dan jumlah
@@ -55,6 +59,7 @@ class LoanController extends Controller
            
             $loan = new Loan();
             $loan->user_id = $user_id;
+            $loan->transaction_id = $transaction->id;
             $loan->user_name = $validated['user_name'];
             $loan->borrowed_at = $validated['borrow_date'];
             $loan->returned_at = $validated['return_date'];
@@ -85,62 +90,74 @@ class LoanController extends Controller
 
         public function userLoans()
     {
-        $loans = Loan::with(['user', 'product'])->get();
+        $transactions = Transaction::with('loans', 'user')
+            ->where('status', 'borrowed')
+            
+            ->get();
 
-        return view('users.status', compact('loans'));
+        return view('users.status', compact('transactions'));
     }
 
-    public function history()
-    {
-        
-        $loans = loan::where('status', 'returned')->with('product')->get();
-
-        return view('users.history', compact('loans'));
-    }
+   
 
 
-    public function showLoans($userName)
+    public function showLoans( Transaction $transaction)
 {
-    $loans = Loan::where('user_name', $userName)
-        ->where('status', 'borrowed')
-        ->with('product')
-        ->get();
 
-    return view('users.products.show', compact('loans', 'userName'));
+    $loans = $transaction
+            ->loans()
+            ->with('product')
+            
+            ->get(); 
+
+
+    return view('users.products.show', compact('loans', 'transaction'));
 }
 
-public function return($userName)
+public function return($transaction_id)
 {
-    // Temukan semua pinjaman berdasarkan user_name
-    $loans = Loan::where('user_name', $userName)
-                 ->where('status', 'borrowed') // Pastikan hanya mengubah status yang masih borrowed
-                 ->get();
+    
+    $transaction = Transaction::with('loans')->findOrFail($transaction_id);
 
-    foreach ($loans as $loan) {
-        // Perbarui status menjadi 'returned'
-        $loan->status = 'returned';
-        $loan->returned_at = now(); // Tambahkan tanggal pengembalian
-        $loan->save();
+   
+    $receiver = auth()->user()->name;
+
+    
+    if ($transaction->status === 'borrowed') {
+        foreach ($transaction->loans as $loan) {
+            
+           
+            $product = Product::find($loan->product_id); 
+            if ($product) {
+                $product->stock += $loan->quantity; 
+                $product->save(); 
+            }
+
+         
+            $loan->receiver = $receiver;
+            $loan->save();
+        }
+
+       
+        $transaction->status = 'returned';
+        $transaction->save(); 
     }
 
     return redirect()->back()->with('success', 'Equipment has been successfully returned.');
 }
 
-public function showDetails($userName, $borrowedAt)
+public function history()
 {
-    // Ambil pinjaman berdasarkan user_name dan borrowed_at
-    $loanDetails = Loan::where('user_name', $userName)
-                        ->where('borrowed_at', $borrowedAt)
-                        ->first();
-
-    if (!$loanDetails) {
-        return redirect()->back()->with('error', 'Loan details not found.');
-    }
     
-    return view('users.products.showReturned', compact('loanDetails'));
+    $transactions = Transaction::with('loans', 'user')
+        ->where('status', 'Returned')
+        ->orderBy('created_at', 'desc') 
+        ->get();
+
+    return view('users.history', compact('transactions'));
 }
 
-    
+
 }
 
 

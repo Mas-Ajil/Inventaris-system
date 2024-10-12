@@ -34,15 +34,16 @@ Route::group(['middleware' => ['auth','ceklevel:user']], function(){
     Route::get('/products', [LoanController::class, 'index'])->name('products.index');
     Route::post('/submit-loan', [LoanController::class, 'store'])->name('submit-loan');
 
-    Route::get('/status', [LoanController::class, 'userLoans'])->name('loans.user')->middleware('auth');
-    Route::get('/status/{userName}', [LoanController::class, 'showLoans'])->name('loans.show');
-    Route::post('/return/{user_name}', [LoanController::class, 'return'])->name('loan.return');
+    Route::get('/status', [LoanController::class, 'userLoans'])->name('status.loans');
+    Route::get('/status/{transaction}', [LoanController::class, 'showLoans'])->name('loan.show');
+    Route::post('/return/{transaction_id}', [LoanController::class, 'return'])->name('loan.return');
+
 
 
 
 
     Route::get('/history', [LoanController::class, 'history'])->name('loans.history');
-    Route::get('/loan/details/{userName}/{borrowedAt}', [LoanController::class, 'showDetails'])->name('loan.details');
+    
 
     
 });

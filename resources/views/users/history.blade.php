@@ -9,8 +9,6 @@
   <title>History</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
- 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -35,19 +33,16 @@
         font-size: 2.5rem;
         font-weight: 600;
         color: #20c997; 
-        text-align: center;
+        text-align: center;  /* Centering the h1 */
         margin-bottom: 40px;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
     }
 
-    .return-button {
+    .more-button {
         background: linear-gradient(45deg, #ff7e5f, #feb47b); 
         border: none;
         color: white;
-        padding: 15px 30px; 
+        padding: 5px 10px; 
         font-size: 1rem; 
         border-radius: 5px;
         transition: background 0.3s ease, transform 0.3s;
@@ -55,7 +50,7 @@
         text-align: center; 
     }
 
-    .return-button:hover {
+    .more-button:hover {
         background: linear-gradient(45deg, #ff6b4d, #fea16e); 
         transform: scale(1.05); 
     }
@@ -113,9 +108,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>Borrowed Equipment</h1>
+        <h1>Transaction History</h1>
     
-        @if($loans->isEmpty())
+        @if($transactions->isEmpty())
             <p>You haven't borrowed any equipment yet.</p>
         @else
             <table class="table">
@@ -130,34 +125,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $previousUser = null;
-                    @endphp
-                    @foreach($loans as $loan)
-                        @if($loan->status === 'returned' && $loan->user_name !== $previousUser)
-                            <tr>
-                                <td>{{ $loan->user_name }}</td>
-                                <td>{{ $loan->user->name }}</td>
-                                <td>{{ $loan->user->name }}</td>
-                                <td>{{ $loan->borrowed_at }}</td>
-                                <td>{{ $loan->returned_at ?? 'Not returned' }}</td>
-                                <td>
-                                    
-                                        <a href="{{ route('loan.details', ['userName' => $loan->user_name, 'borrowedAt' => $loan->borrowed_at]) }}" class="more-button">More</a>
-                                       
-                                    
-                                </td>
-                            </tr>
-                            @php
-                                $previousUser = $loan->user_name; 
-                            @endphp
-                        @endif
+                    @foreach($transactions as $transaction) 
+                        @php
+                            // Mengambil data pinjaman pertama untuk ditampilkan
+                            $firstLoan = $transaction->loans->first(); 
+                        @endphp
+                        <tr>
+                            <td>{{ $firstLoan->user_name }}</td> 
+                            <td>{{ $transaction->user->name }}</td> 
+                            <td>{{ $firstLoan->receiver }}</td> 
+                            <td>{{ $firstLoan->borrowed_at }}</td>
+                            <td>{{ $firstLoan->returned_at ?? 'Not returned' }}</td>
+                            <td>
+                                <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">More</a>
+                                
+                               
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         @endif
-    </div>
-    
-</body>
+        </div>
+
+    </body>
 </html>
 @endsection

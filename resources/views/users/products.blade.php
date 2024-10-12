@@ -9,20 +9,41 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
     <style>
-        /* Blue gradient for the 'Add' button */
+        /* Styling yang sudah ada */
+
+        body {
+            overflow: -moz-scrollbars-none; /*  Firefox */
+            -ms-overflow-style: none;  /*  Internet Explorer and Edge */
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('/assets/bg-all.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            color: #343a40;
+        }
+
+        body::-webkit-scrollbar {
+            display: none; /*  Chrome, Safari, and Opera */
+        }
+
         .btn-add {
             background: linear-gradient(45deg, #007bff, #00c6ff); /* Blue gradient */
             border: none;
             color: white;
+            padding: 5px 10px;
             transition: background 0.3s ease, transform 0.3s;
         }
 
-        .btn-add:hover {
+        .btn-add:disabled {
+            background: #cccccc; /* Grey color when disabled */
+            cursor: not-allowed;
+        }
+
+        .btn-add:hover:enabled {
             background: linear-gradient(45deg, #0056b3, #0081c9); /* Darker blue on hover */
             transform: scale(1.05); /* Slight scale effect on hover */
         }
 
-        /* Red gradient for the 'Remove' button */
         .btn-remove {
             background: linear-gradient(45deg, #ff4d4d, #ff7979); /* Red gradient */
             border: none;
@@ -38,7 +59,7 @@
 </head>
 <body>
 
-    @if ($errors->any())
+@if ($errors->any())
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
@@ -54,17 +75,22 @@
     </div>
 @endif
 
-
 <div class="container mt-5">
     <div class="row">
         <!-- Kolom Kiri: Daftar Produk -->
         <div class="col-md-6">
             <h4>Product List</h4>
+            
+            <!-- Input pencarian -->
+            <input type="text" id="search" class="form-control mb-3" placeholder="Search product..." onkeyup="searchProduct()">
+
             <ul class="list-group" id="product-list">
                 @foreach ($products as $product)
-                    <li class="list-group-item">
+                    <li class="list-group-item product-item">
                         <span>{{ $product->name }} (Stock: <span class="stock" data-id="{{ $product->id }}">{{ $product->stock }}</span>)</span>
-                        <button class="btn btn-add btn-sm float-right" onclick="addProduct('{{ $product->id }}', '{{ $product->name }}')">
+                        <button class="btn btn-add btn-sm float-right" 
+                                onclick="addProduct('{{ $product->id }}', '{{ $product->name }}')" 
+                                {{ $product->stock == 0 ? 'disabled' : '' }}>
                             Add
                         </button>
                     </li>
@@ -129,17 +155,28 @@
         } else {
             alert('Stock is out for this product.');
         }
+
+        // Cek jika stok habis, nonaktifkan tombol
+        if (parseInt(stockElement.textContent) === 0) {
+            document.querySelector(`button[onclick="addProduct('${id}', '${name}')"]`).setAttribute('disabled', true);
+        }
     }
 
     function removeProduct(id) {
-        if (selectedProducts[id]) {
-            const stockElement = document.querySelector(`.stock[data-id='${id}']`);
-            stockElement.textContent = parseInt(stockElement.textContent) + selectedProducts[id].count; // Tambah stok kembali
+    if (selectedProducts[id]) {
+        const stockElement = document.querySelector(`.stock[data-id='${id}']`);
+        stockElement.textContent = parseInt(stockElement.textContent) + 1; // Tambah stok kembali
 
-            delete selectedProducts[id];
-            displaySelectedProducts();
+        selectedProducts[id].count--; // Kurangi jumlah produk
+
+        if (selectedProducts[id].count === 0) {
+            delete selectedProducts[id]; // Jika jumlahnya 0, hapus produk dari list
         }
+
+        displaySelectedProducts(); // Perbarui tampilan produk yang dipilih
     }
+}
+
 
     function displaySelectedProducts() {
         const selectedProductsList = document.getElementById('selected-products');
@@ -171,6 +208,20 @@
         }
         
         document.getElementById('loan-form').submit();
+    }
+
+    function searchProduct() {
+        const searchValue = document.getElementById('search').value.toLowerCase();
+        const productItems = document.querySelectorAll('.product-item');
+
+        productItems.forEach(function(item) {
+            const productName = item.textContent.toLowerCase();
+            if (productName.includes(searchValue)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     }
 </script>
 

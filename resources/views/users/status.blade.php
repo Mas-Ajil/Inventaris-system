@@ -119,54 +119,48 @@
   </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Borrowed Equipment</h1>
-    
-        @if($loans->isEmpty())
-            <p>You haven't borrowed any equipment yet.</p>
-        @else
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Peminjam</th>
-                        <th>Giver</th>
-                        <th>Borrowed Date</th>
-                        <th>Return Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+   <div class="container">
+    <h1>Borrowed Equipment</h1>
+
+    @if($transactions->isEmpty())
+        <p>You haven't borrowed any equipment yet.</p>
+    @else
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Peminjam</th>
+                    <th>Giver</th>
+                    <th>Borrowed Date</th>
+                    <th>Return Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($transactions as $transaction) 
                     @php
-                        $previousUser = null;
+                        // Mengambil data pinjaman pertama untuk ditampilkan
+                        $firstLoan = $transaction->loans->first(); 
                     @endphp
-                    @foreach($loans as $loan)
-                        @if($loan->status === 'borrowed' && $loan->user_name !== $previousUser)
-                            <tr>
-                                <td>{{ $loan->user_name }}</td>
-                                <td>{{ $loan->user->name }}</td>
-                                <td>{{ $loan->borrowed_at }}</td>
-                                <td>{{ $loan->returned_at ?? 'Not returned' }}</td>
-                                <td>
-                                    <a href="/status/{{ $loan->user_name }}" class="more-button">More</a>
-                
-                                        <form action="{{ route('loan.return', $loan->user_name) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            <button type="submit" class="return-button">Return</button>
-                                        </form>
-                                        
-                                    
-                                </td>
-                            </tr>
-                            @php
-                                $previousUser = $loan->user_name; 
-                            @endphp
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
-    </div>
-    
+                    <tr>
+                        <td>{{ $firstLoan->user_name }}</td> 
+                        <td>{{ $transaction->user->name }}</td> 
+                        <td>{{ \Carbon\Carbon::parse($firstLoan->borrowed_at)->format('d-m-Y') }}</td>
+                        <td>{{ $firstLoan->returned_at ? \Carbon\Carbon::parse($firstLoan->returned_at)->format('d-m-Y') : 'Not returned' }}</td>
+                        <td>
+                            <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">More</a>
+                            
+                            <form action="{{ route('loan.return', $transaction->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="submit" class="return-button">Return</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
+
 </body>
 </html>
 
