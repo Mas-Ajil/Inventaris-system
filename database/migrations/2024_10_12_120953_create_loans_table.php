@@ -20,7 +20,8 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Foreign key untuk produk
             $table->integer('quantity'); 
             $table->date('borrowed_at'); 
-            $table->date('returned_at')->nullable(); 
+            $table->date('returned_at');
+            $table->date('give_back')->nullable(); 
             $table->text('notes')->nullable(); 
             $table->timestamps();
         });

@@ -118,27 +118,39 @@
             <td>{{ $loans->first()->user_name }}</td>
         </tr>
         <tr>
-            <th>Giver</th>
+            <th>Pemberi</th>
             <td>{{ $loans->first()->user->name }}</td>
         </tr>
         <tr>
-            <th>Receiver</th>
+            <th>Penerima</th>
             <td>{{ $loans->first()->receiver }}</td>
         </tr>
         <tr>
-            <th>Borrowed Date</th>
+            <th>Tanggal pinjam</th>
             <td>{{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->format('d-m-Y') }}</td>
         </tr>
         <tr>
-            <th>Returned Date</th>
-            <td>{{ $loans->first()->returned_at ? \Carbon\Carbon::parse($loans->first()->returned_at)->format('d-m-Y') : 'Not returned' }}</td>
+            <th>Durasi Peminjaman</th>
+            <td>
+                @if($loans->first()->returned_at)
+                    {{ \Carbon\Carbon::parse($loans->first()->returned_at)->format('d-m-Y') }} ({{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->diffInDays(\Carbon\Carbon::parse($loans->first()->returned_at)) }} hari)
+                @endif
+            </td>
         </tr>
         <tr>
             <th>Status</th>
             <td>{{ $loans->first()->transaction->status }}</td>
         </tr>
         <tr>
-            <th>Notes</th>
+            <th>Dikembalikan</th>
+            <td>
+                @if($loans->first()->give_back)
+                        {{ \Carbon\Carbon::parse($loans->first()->give_back)->format('d-m-Y') }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <th>Keterangan</th>
             <td>{{ $loans->first()->notes ?? 'Tidak ada keterangan' }}</td>
         </tr>
     </table>

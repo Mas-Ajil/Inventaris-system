@@ -116,7 +116,7 @@
 
                     <div class="form-group">
                         <label for="borrow_date">Borrow Date</label>
-                        <input type="date" id="borrow_date" name="borrow_date" class="form-control" required>
+                        <input type="date" id="borrow_date" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" name="borrow_date" class="form-control" required>
                     </div>
 
                     <div class="form-group">

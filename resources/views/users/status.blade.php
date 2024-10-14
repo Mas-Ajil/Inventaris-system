@@ -129,9 +129,9 @@
             <thead>
                 <tr>
                     <th>Peminjam</th>
-                    <th>Giver</th>
-                    <th>Borrowed Date</th>
-                    <th>Return Date</th>
+                    <th>Pemberi</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Perkiraan Kembali</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -145,13 +145,57 @@
                         <td>{{ $firstLoan->user_name }}</td> 
                         <td>{{ $transaction->user->name }}</td> 
                         <td>{{ \Carbon\Carbon::parse($firstLoan->borrowed_at)->format('d-m-Y') }}</td>
-                        <td>{{ $firstLoan->returned_at ? \Carbon\Carbon::parse($firstLoan->returned_at)->format('d-m-Y') : 'Not returned' }}</td>
+                        <td>
+                            @if($firstLoan->returned_at)
+                            {{ \Carbon\Carbon::parse($firstLoan->returned_at)->format('d-m-Y') }} ({{ \Carbon\Carbon::parse($firstLoan->borrowed_at)->diffInDays(\Carbon\Carbon::parse($firstLoan->returned_at)) }} hari)
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">More</a>
                             
-                            <form action="{{ route('loan.return', $transaction->id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('loan.return', $transaction->id) }}" method="POST" style="display:inline;" id="returnForm-{{ $transaction->id }}">
                                 @csrf
-                                <button type="submit" class="return-button">Return</button>
+                                <button type="button" class="return-button" onclick="confirmReturn({{ $transaction->id }})">Return</button>
+                            </form>
+                                <script>
+                                    function confirmReturn(transactionId) {
+                                        Swal.fire({
+                                            title: "Apakah Kamu ingin mengembalikan?",
+                                            text: "Jika kamu yakin klik tombol dibawah ini!",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#3085d6",
+                                            cancelButtonColor: "#d33",
+                                            confirmButtonText: "Yes, Return!"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Submit the form if confirmed
+                                                document.getElementById('returnForm-' + transactionId).submit();
+                                                Swal.fire({
+                                                        title: "Returned!",
+                                                        text: "Barang sudah dikembalikan",
+                                                        icon: "success"
+                                                        });
+                                            }
+                                        });
+                                    }
+
+                                    Swal.fire({
+  title: "Do you want to save the changes?",
+  showDenyButton: true,
+  showCancelButton: true,
+  confirmButtonText: "Save",
+  denyButtonText: `Don't save`
+}).then((result) => {
+  /* Read more about isConfirmed, isDenied below */
+  if (result.isConfirmed) {
+    Swal.fire("Saved!", "", "success");
+  } else if (result.isDenied) {
+    Swal.fire("Changes are not saved", "", "info");
+  }
+});
+                                    </script>
+                                    
                             </form>
                         </td>
                     </tr>

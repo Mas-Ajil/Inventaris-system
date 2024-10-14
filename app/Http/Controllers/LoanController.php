@@ -116,13 +116,13 @@ class LoanController extends Controller
 
 public function return($transaction_id)
 {
-    
+   
     $transaction = Transaction::with('loans')->findOrFail($transaction_id);
 
-   
+    
     $receiver = auth()->user()->name;
 
-    
+   
     if ($transaction->status === 'borrowed') {
         foreach ($transaction->loans as $loan) {
             
@@ -133,8 +133,9 @@ public function return($transaction_id)
                 $product->save(); 
             }
 
-         
+           
             $loan->receiver = $receiver;
+            $loan->give_back = now(); 
             $loan->save();
         }
 
@@ -145,6 +146,7 @@ public function return($transaction_id)
 
     return redirect()->back()->with('success', 'Equipment has been successfully returned.');
 }
+
 
 public function history()
 {

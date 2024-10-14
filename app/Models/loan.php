@@ -19,6 +19,7 @@ class loan extends Model
         'quantity', 
         'borrowed_at',
         'returned_at', 
+        'give_back',
         'notes', 
         'status',
     ];
