@@ -110,7 +110,8 @@
 <body>
     <div class="container">
         <h1>Riwayat Peminjaman</h1>
-    
+        <a href="{{ route('loans.export') }}" class="btn btn-primary">Export to Excel</a>
+
         @if($transactions->isEmpty())
             <p>You haven't borrowed any equipment yet.</p>
         @else

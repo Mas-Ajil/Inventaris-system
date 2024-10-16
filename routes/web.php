@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function()
     Route::get('/home', function () {
         return view('users/home');
     });
-    
+
     Route::get('/products', [LoanController::class, 'index'])->name('products.index');
     Route::post('/submit-loan', [LoanController::class, 'store'])->name('submit-loan');
 
@@ -63,5 +63,5 @@ Route::group(['middleware' => ['auth','ceklevel:superAdmin']], function(){
 
 });
 
-
+Route::get('/history/export', [LoanController::class, 'export'])->name('loans.export');
 

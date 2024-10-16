@@ -10,6 +10,8 @@ use App\Models\Loan;
 use App\Models\transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\LoansExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LoanController extends Controller
 {
@@ -159,6 +161,12 @@ public function history()
     return view('users.history', compact('transactions'));
 }
 
+
+
+public function export() 
+    {
+        return Excel::download(new LoansExport, 'loans-history.xlsx');
+    }
 
 }
 
