@@ -25,7 +25,7 @@
 </head>
 <body>
     <footer>
-        ©2024 Tribun News
+        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tribun News 
     </footer>
 </body>
 </html>

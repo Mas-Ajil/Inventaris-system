@@ -1,178 +1,458 @@
 [
     {
       "id": 1,
-      "name": "Laptop Dell Inspiron",
-      "stock": 50,
+      "name": "HDMI (20 Meter Biru 4K)",
+      "stock": 5,
       "created_at": "2024-10-01 12:30:00",
       "updated_at": "2024-10-05 14:45:00"
     },
     {
       "id": 2,
-      "name": "Keyboard Mechanical Razer",
-      "stock": 120,
+      "name": "HDMI (20 Meter)",
+      "stock": 3,
       "created_at": "2024-10-01 13:10:00",
       "updated_at": "2024-10-05 14:50:00"
     },
     {
       "id": 3,
-      "name": "Mouse Logitech G502",
-      "stock": 80,
+      "name": "HDMI (10 Meter)",
+      "stock": 1,
       "created_at": "2024-10-01 14:00:00",
       "updated_at": "2024-10-05 14:55:00"
     },
     {
       "id": 4,
-      "name": "Monitor Samsung 24 inch",
-      "stock": 30,
+      "name": "HDMI (15 Meter HD)",
+      "stock": 1,
       "created_at": "2024-10-01 15:20:00",
       "updated_at": "2024-10-05 15:10:00"
     },
     {
       "id": 5,
-      "name": "Printer Canon Pixma",
-      "stock": 25,
+      "name": "HDMI (10 Meter 4K)",
+      "stock": 1,
       "created_at": "2024-10-01 16:00:00",
       "updated_at": "2024-10-05 15:30:00"
     },
     {
       "id": 6,
-      "name": "Laptop HP Pavilion",
-      "stock": 60,
+      "name": "SDI (20 Meter)",
+      "stock": 5,
       "created_at": "2024-10-01 16:30:00",
       "updated_at": "2024-10-05 16:00:00"
     },
     {
       "id": 7,
-      "name": "Webcam Logitech C920",
-      "stock": 45,
+      "name": "Kabel Type C to Sata",
+      "stock": 1,
       "created_at": "2024-10-01 17:00:00",
       "updated_at": "2024-10-05 16:20:00"
     },
     {
       "id": 8,
-      "name": "Speaker JBL GO 3",
-      "stock": 100,
+      "name": "Converter SDI to HDMI (HD)",
+      "stock": 1,
       "created_at": "2024-10-01 17:30:00",
       "updated_at": "2024-10-05 16:40:00"
     },
     {
       "id": 9,
-      "name": "Projector Epson EB-E10",
-      "stock": 15,
+      "name": "Converter SDI to HDMI (FHD)",
+      "stock": 2,
       "created_at": "2024-10-01 18:00:00",
       "updated_at": "2024-10-05 17:00:00"
     },
     {
       "id": 10,
-      "name": "Router TP-Link Archer AX50",
-      "stock": 35,
+      "name": "Kabel Roll",
+      "stock": 4,
       "created_at": "2024-10-01 18:30:00",
       "updated_at": "2024-10-05 17:20:00"
     },
     {
       "id": 11,
-      "name": "Tablet Samsung Galaxy Tab S7",
-      "stock": 20,
+      "name": "Kamera + Charger (Sony PXW)",
+      "stock": 3,
       "created_at": "2024-10-02 09:00:00",
       "updated_at": "2024-10-06 09:20:00"
     },
     {
       "id": 12,
-      "name": "External Hard Drive WD 2TB",
-      "stock": 75,
+      "name": "Kamera + Charger (Sony PXW 4K)",
+      "stock": 3,
       "created_at": "2024-10-02 09:30:00",
       "updated_at": "2024-10-06 09:40:00"
     },
     {
       "id": 13,
-      "name": "Smartphone Xiaomi Redmi Note 10",
-      "stock": 50,
+      "name": "Kamera + Charger (Sony NX)",
+      "stock": 1,
       "created_at": "2024-10-02 10:00:00",
       "updated_at": "2024-10-06 10:10:00"
     },
     {
       "id": 14,
-      "name": "Smartwatch Apple Watch Series 7",
-      "stock": 10,
+      "name": "Kamera + Charger (Sony A6300 + Lensa Kit)",
+      "stock": 1,
       "created_at": "2024-10-02 10:30:00",
       "updated_at": "2024-10-06 10:40:00"
     },
     {
       "id": 15,
-      "name": "Bluetooth Earbuds Sony WF-1000XM4",
-      "stock": 85,
+      "name": "Kamera + Charger (Sony A6400 + Lensa Kit)",
+      "stock": 825,
       "created_at": "2024-10-02 11:00:00",
       "updated_at": "2024-10-06 11:10:00"
     },
     {
       "id": 16,
-      "name": "Gaming Chair DXRacer",
-      "stock": 25,
+      "name": "Kamera + Charger (Webcam)",
+      "stock": 2,
       "created_at": "2024-10-02 11:30:00",
       "updated_at": "2024-10-06 11:40:00"
     },
     {
       "id": 17,
-      "name": "Graphics Card Nvidia RTX 3080",
-      "stock": 10,
+      "name": "Go Pro",
+      "stock": 2,
       "created_at": "2024-10-02 12:00:00",
       "updated_at": "2024-10-06 12:20:00"
     },
     {
       "id": 18,
-      "name": "Power Supply Corsair RM850x",
-      "stock": 40,
+      "name": "Go Pro 360",
+      "stock": 1,
       "created_at": "2024-10-02 12:30:00",
       "updated_at": "2024-10-06 12:40:00"
     },
     {
       "id": 19,
-      "name": "SSD Samsung 980 Pro 1TB",
-      "stock": 70,
+      "name": "Drone",
+      "stock": 2,
       "created_at": "2024-10-02 13:00:00",
       "updated_at": "2024-10-06 13:10:00"
     },
     {
       "id": 20,
-      "name": "Motherboard ASUS ROG Strix Z490-E",
-      "stock": 15,
+      "name": "Lensa (Tele 70-200 mm)",
+      "stock": 1,
       "created_at": "2024-10-02 13:30:00",
       "updated_at": "2024-10-06 13:40:00"
     },
     {
       "id": 21,
-      "name": "Cooling Fan Noctua NH-D15",
-      "stock": 25,
+      "name": "Lensa Fix",
+      "stock": 1,
       "created_at": "2024-10-02 14:00:00",
       "updated_at": "2024-10-06 14:20:00"
     },
     {
       "id": 22,
-      "name": "RAM Corsair Vengeance 16GB",
-      "stock": 90,
+      "name": "Lensa Wide",
+      "stock": 1,
       "created_at": "2024-10-02 14:30:00",
       "updated_at": "2024-10-06 14:40:00"
     },
     {
       "id": 23,
-      "name": "Headset SteelSeries Arctis 7",
-      "stock": 45,
+      "name": "Baterai Mirrorless",
+      "stock": 6,
       "created_at": "2024-10-02 15:00:00",
       "updated_at": "2024-10-06 15:20:00"
     },
     {
       "id": 24,
-      "name": "Smartphone OnePlus 9 Pro",
-      "stock": 35,
+      "name": "Baterai PXW",
+      "stock": 7,
       "created_at": "2024-10-02 15:30:00",
       "updated_at": "2024-10-06 15:40:00"
     },
     {
       "id": 25,
-      "name": "Laptop MacBook Pro 14 inch",
-      "stock": 20,
+      "name": "Baterai NX",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 26,
+      "name": "Baterai Go Pro",
+      "stock": 6,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 27,
+      "name": "Rode (4 Set)",
+      "stock": 4,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 28,
+      "name": "Senheizer (4 Set)",
+      "stock": 4,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 29,
+      "name": "Mic Podcast",
+      "stock": 4,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 30,
+      "name": "Mic Rode (bulu)",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 31,
+      "name": "Saramonic",
+      "stock": 3,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 32,
+      "name": "Soundcard",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 33,
+      "name": "Podtrack",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 34,
+      "name": "H6",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 35,
+      "name": "Evo 4",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 36,
+      "name": "Audio Interface Focusrite Scarlett",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 37,
+      "name": "Mic Holly land",
+      "stock": 2,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 38,
+      "name": "Memory Card (32 gb 90 mbps Extreme)",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 39,
+      "name": "Memory Card (64 gb 170 mbps Extreme)",
+      "stock": 9,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 40,
+      "name": "Memory Card (64 gb 170 mbps Extreme Pro)",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 41,
+      "name": "Memory Card (Micro SD 64 gb Extreme)",
+      "stock": 3,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 42,
+      "name": "Switcher ATEM + Black Magic",
+      "stock": 2,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 43,
+      "name": "Video Capture",
+      "stock": 3,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 44,
+      "name": "Intercome (1 set (8 buah))",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 45,
+      "name": "HT (1 set (8 buah))",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 46,
+      "name": "Hollyland + Transmitter (3 set)",
+      "stock": 3,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 47,
+      "name": "Baterai Hollyland",
+      "stock": 6,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 48,
+      "name": "Laptop (Putih) + Charger",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 49,
+      "name": "Laptop ROG + Charger",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 50,
+      "name": "Tripod",
+      "stock": 5,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 51,
+      "name": "Lightstand",
+      "stock": 11,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 52,
+      "name": "Monopod",
+      "stock": 2,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 53,
+      "name": "Ipad",
+      "stock": 3,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 54,
+      "name": "Lighting Softbox",
+      "stock": 5,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 55,
+      "name": "Lighting Besar godox",
+      "stock": 6,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 56,
+      "name": "Lighting Gvm (4 set)",
+      "stock": 4,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 57,
+      "name": "Baterai Lighting",
+      "stock": 9,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 58,
+      "name": "Gimbal",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 59,
+      "name": "Mixer",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 60,
+      "name": "Teleprompter",
+      "stock": 4,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 61,
+      "name": "Smart TV",
+      "stock": 5,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 62,
+      "name": "Layar Viltrox",
+      "stock": 2,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 63,
+      "name": "Mic Boya",
+      "stock": 1,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 64,
+      "name": "Standing Mic Podcast",
+      "stock": 2,
+      "created_at": "2024-10-02 16:00:00",
+      "updated_at": "2024-10-06 16:10:00"
+    },
+    {
+      "id": 65,
+      "name": "Slider Camera",
+      "stock": 1,
       "created_at": "2024-10-02 16:00:00",
       "updated_at": "2024-10-06 16:10:00"
     }
   ]
-  
+ 

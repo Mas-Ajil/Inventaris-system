@@ -9,6 +9,7 @@
   <title>History</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -108,7 +109,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Transaction History</h1>
+        <h1>Riwayat Peminjaman</h1>
     
         @if($transactions->isEmpty())
             <p>You haven't borrowed any equipment yet.</p>
@@ -117,10 +118,10 @@
                 <thead>
                     <tr>
                         <th>Peminjam</th>
-                        <th>Giver</th>
-                        <th>Receiver</th>
-                        <th>Borrowed Date</th>
-                        <th>Return Date</th>
+                        <th>Pemberi</th>
+                        <th>Penerima</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Estimasi Kembali</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -134,20 +135,18 @@
                             <td>{{ $firstLoan->user_name }}</td> 
                             <td>{{ $transaction->user->name }}</td> 
                             <td>{{ $firstLoan->receiver }}</td> 
-                            <td>{{ $firstLoan->borrowed_at }}</td>
-                            <td>{{ $firstLoan->returned_at ?? 'Not returned' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($firstLoan->borrowed_at)->format('d-m-Y') }}</td>
+                            <td>{{ $firstLoan->returned_at ? \Carbon\Carbon::parse($firstLoan->returned_at)->format('d-m-Y') : 'Belum Kembali' }}</td>
                             <td>
                                 <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">More</a>
-                                
-                               
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         @endif
-        </div>
+    </div>
 
-    </body>
+</body>
 </html>
 @endsection

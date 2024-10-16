@@ -10,13 +10,13 @@
 
 <body>
   
-    @include('partials.navbar')
+@include('partials.navbar')
 
 <div class="container mt-4">
     @yield('container')
 </div>
 
-    @include('partials.footer')
+@include('partials.footer')
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
