@@ -25,7 +25,7 @@
 </head>
 <body>
     <footer>
-        Copyright &copy;<script>document.write(new Date().getFullYear());</script> Tribun News 
+        &copy;<script>document.write(new Date().getFullYear());</script> Infromation Technology Tribuns Solo 
     </footer>
 </body>
 </html>

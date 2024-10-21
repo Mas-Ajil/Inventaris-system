@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Ensure Bootstrap Icons is loaded -->
 
   <style>
     body {
@@ -30,17 +31,27 @@
         margin-top: 30px;
     }
 
-    h1 {
+    .header-flex {
+        display: flex;
+        justify-content: center; /* Ensures the h1 is centered */
+        align-items: center; /* Vertically aligns the button and h1 */
+        position: relative;
+        margin-bottom: 40px;
+    }
+
+    .header-flex h1 {
         font-size: 2.5rem;
         font-weight: 600;
         color: #20c997; 
-        text-align: center;  /* Centering the h1 */
-        margin-bottom: 40px;
+        margin: 0; /* Remove default margin */
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
-    .more-button {
-        background: linear-gradient(45deg, #ff7e5f, #feb47b); 
+    .export-button {
+        position: absolute; /* Make sure the button is absolute */
+        right: 0; /* Aligns the button to the far right */
+        top: 19%;
+        background: linear-gradient(45deg, #007bff, #00c6ff); 
         border: none;
         color: white;
         padding: 5px 10px; 
@@ -51,8 +62,8 @@
         text-align: center; 
     }
 
-    .more-button:hover {
-        background: linear-gradient(45deg, #ff6b4d, #fea16e); 
+    .export-button:hover {
+        background: linear-gradient(45deg, #0056b3, #00aaff);  
         transform: scale(1.05); 
     }
 
@@ -86,6 +97,38 @@
         margin-top: 20px;
     }
 
+    .more-button {
+        background: linear-gradient(45deg, #ff7e5f, #feb47b); 
+        border: none;
+        color: white;
+        padding: 5px 10px; 
+        font-size: 1rem; 
+        border-radius: 5px;
+        transition: background 0.3s ease, transform 0.3s;
+        text-decoration: none; 
+        text-align: center; 
+    }
+
+    .more-button:hover {
+        background: linear-gradient(45deg, #ff6b4d, #fea16e); 
+        transform: scale(1.05); 
+    }
+
+    .search-container {
+    display: flex;
+    align-items: center; /* Align vertically center */
+    }
+
+    .input-group {
+        width: 300px; /* Adjust width of the input group */
+    }
+
+    .form-control {
+        width: 100%; /* Fill the input group */
+    }
+
+
+
     /* Responsive */
     @media (max-width: 768px) {
         .container {
@@ -96,28 +139,45 @@
             font-size: 0.9rem;
         }
 
-        h1 {
-            flex-direction: column; 
-            align-items: flex-start; 
+        .header-flex {
+            flex-direction: column; /* Stack h1 and button on small screens */
+            align-items: flex-start;
         }
 
-        .return-button {
-            margin-top: 10px; 
+        .export-button {
+            position: relative;
+            margin-top: 10px;
+            transform: none; /* Disable transform when stacked */
         }
     }
   </style>
 </head>
 <body>
     <div class="container">
-        <h1>Riwayat Peminjaman</h1>
-        <a href="{{ route('loans.export') }}" class="btn btn-primary">Export to Excel</a>
-
+        <div class="header-flex">
+            <h1>Riwayat Peminjaman</h1>
+            <a href="{{ route('loans.export') }}" class="export-button">
+                <i class="bi bi-archive" style="margin-right: 5px;"></i>
+                Export to Excel
+            </a>
+        </div>
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text" id="search-addon">
+                    <i class="bi-search"></i>
+                </span>
+                <input type="text" id="search" onkeyup="searchTransaction()" class="form-control" placeholder="Cari riwayat peminjaman..." aria-describedby="search-addon">
+            </div>
+        </div>
+       
+        
         @if($transactions->isEmpty())
-            <p>You haven't borrowed any equipment yet.</p>
+            <p>Belum ada riwayat peminjaman sama sekali.</p>
         @else
             <table class="table">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Peminjam</th>
                         <th>Pemberi</th>
                         <th>Penerima</th>
@@ -127,12 +187,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($transactions as $transaction) 
+                    @foreach($transactions as $index => $transaction) 
                         @php
-                            // Mengambil data pinjaman pertama untuk ditampilkan
                             $firstLoan = $transaction->loans->first(); 
+                            $totalTransactions = $transactions->count();
                         @endphp
-                        <tr>
+                        <tr class="transaction-item"> <!-- Add class here -->
+                            <td>{{ $totalTransactions - $loop->index }}</td> 
                             <td>{{ $firstLoan->user_name }}</td> 
                             <td>{{ $transaction->user->name }}</td> 
                             <td>{{ $firstLoan->receiver }}</td> 
@@ -143,11 +204,31 @@
                             </td>
                         </tr>
                     @endforeach
-                </tbody>
+                </tbody>                
             </table>
         @endif
     </div>
+    <script>
+        function searchTransaction() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const transactions = document.querySelectorAll('.transaction-item');
 
+            transactions.forEach(item => {
+                const cells = item.getElementsByTagName('td');
+                let found = false;
+
+                // Check if any cell in the row matches the search input
+                for (let i = 0; i < cells.length; i++) {
+                    if (cells[i].textContent.toLowerCase().includes(input)) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                item.style.display = found ? '' : 'none'; // Show or hide the row based on the search
+            });
+        }
+    </script>
 </body>
 </html>
 @endsection

@@ -4,9 +4,23 @@ namespace App\Http\Controllers;
 use App\Models\product;
 use Illuminate\Http\Request;
 use App\Models\user;
+use App\Models\transaction;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
+
+    public function showHomeAdmin()
+    {
+        $users = User::all();
+        return view('admin.homeAdmin', compact('users'));
+        
+    }
+
+
+
+
+
     
     public function listUser()
     {
@@ -18,7 +32,7 @@ class AdminController extends Controller
     public function addUser(Request $request)
 {
    $validate = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:users,name',
             'password' => 'required|min:5|max:255'
         ]);
     
@@ -97,5 +111,9 @@ public function destroyProduct($id){
 
     return redirect('/listProduct')->with('success', 'Products deleted successfully');
 }
+
+
+
+
 }
 

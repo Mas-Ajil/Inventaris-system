@@ -3,68 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\product;
-use App\Http\Requests\StoreproductRequest;
-use App\Http\Requests\UpdateproductRequest;
-
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\transaction;
+use Carbon\Carbon;
+use App\Models\user;
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(){
-        return view('users.products',[
-            "products" => product::all()
+
+
+
+    public function showHome(Request $request)
+    {
+        $totalUsers = User::where('level', 'admin')
+                    ->count();  
+        $totalPeminjamBulanIni = Transaction::whereMonth('created_at', date('m'))
+                                             ->whereYear('created_at', date('Y'))
+                                             ->count();
+        $totalBorrowed = Transaction::where('status', 'borrowed')->count();
+        $totalReturned = Transaction::where('status', 'returned')->count();
+
+
+
+
+        $year = $request->input('year', date('Y'));
+
+        // Ambil data transaksi dengan status 'returned' dalam tahun ini
+        $returnedTransactions = Transaction::where('status', 'returned')
+            ->whereYear('created_at', $year) // Menggunakan created_at dari tabel transactions
+            ->get();
+
+
+        // Inisialisasi array untuk bulan-bulan dalam satu tahun (Jan - Dec)
+        $monthlyTransactions = collect([
+            'January' => 0, 'February' => 0, 'March' => 0, 'April' => 0, 
+            'May' => 0, 'June' => 0, 'July' => 0, 'August' => 0,
+            'September' => 0, 'October' => 0, 'November' => 0, 'December' => 0
         ]);
-            
-     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        // Kelompokkan transaksi berdasarkan bulan dan hitung jumlahnya
+        $groupedReturned = $returnedTransactions->groupBy(function($date) {
+            return Carbon::parse($date->returned_at)->format('F'); // Nama bulan
+        })->map(function($row) {
+            return $row->count();
+        });
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreproductRequest $request)
-    {
-        //
-    }
+      
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $products = Product::where('id', $id)->get()->first();
+        // Gabungkan dengan array bulan (mengisi bulan yang tidak ada transaksi dengan 0)
+        foreach ($groupedReturned as $month => $count) {
+            $monthlyTransactions[$month] = $count;
+        }
+
         
-        return view('users.peminjaman', compact('products'));
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateproductRequest $request, product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(product $product)
-    {
-        //
+       
+        return view('users.home', compact('totalUsers', 'totalPeminjamBulanIni', 'totalBorrowed', 'totalReturned','monthlyTransactions', 'year'));
     }
 }

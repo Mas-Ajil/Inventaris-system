@@ -10,7 +10,6 @@ use App\Http\Controllers\RegisterController;
 
 Route::get('/', function () { 
     return view('login.index',[
-        'title' => 'Login'
        ] );
 });
 
@@ -24,11 +23,9 @@ Route::post('/logout', [LoginController::class, 'logout']);
 
 
 Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function() {
-    //  user
+    //  admin and super admin
     
-    Route::get('/home', function () {
-        return view('users/home');
-    });
+    Route::get('/home', [ProductController::class, 'showHome'])->name('transactions.chart');
 
     Route::get('/products', [LoanController::class, 'index'])->name('products.index');
     Route::post('/submit-loan', [LoanController::class, 'store'])->name('submit-loan');
@@ -36,15 +33,14 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function()
     Route::get('/status', [LoanController::class, 'userLoans'])->name('status.loans');
     Route::get('/status/{transaction}', [LoanController::class, 'showLoans'])->name('loan.show');
     Route::post('/return/{transaction_id}', [LoanController::class, 'return'])->name('loan.return');
-
+    Route::get('/loan/{id}/download', [LoanController::class, 'downloadPDF'])->name('loan.download');
 
     Route::get('/history', [LoanController::class, 'history'])->name('loans.history');
+    Route::get('/history/export', [LoanController::class, 'export'])->name('loans.export');
 
-
-    Route::get('/admin', function () { 
-        return view('admin.homeAdmin',[] );
-    });
+//dashboard
     
+Route::get('/homeAdmin', [AdminController::class, 'showHomeAdmin']);
     Route::get('/listProduct', [AdminController::class, 'listProducts'])->name('admin.listProducts');
     Route::post('/listproduct', [AdminController::class, 'addProducts'])->name('products.store');
     Route::put('/listProduct/{id}', [AdminController::class, 'updateProducts'])->name('products.update');
@@ -54,7 +50,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function()
     
 });
 
-
+//super admin only
 Route::group(['middleware' => ['auth','ceklevel:superAdmin']], function(){
     Route::get('/listUser', [AdminController::class, 'listUser'])->name('admin.listUser');
     Route::post('/listusers', [AdminController::class, 'addUser'])->name('users.store');
@@ -63,5 +59,7 @@ Route::group(['middleware' => ['auth','ceklevel:superAdmin']], function(){
 
 });
 
-Route::get('/history/export', [LoanController::class, 'export'])->name('loans.export');
+
+
+
 

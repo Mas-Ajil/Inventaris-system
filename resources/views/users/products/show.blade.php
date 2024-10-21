@@ -1,8 +1,9 @@
-@extends('layouts.main')
+@extends('layouts.pdf')
 
 @section('container')
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -15,20 +16,34 @@
     }
 
     .container {
-        background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for better blending */
+        background-color: rgba(255, 255, 255, 0.9);
         padding: 40px;
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
     }
 
+    .header-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .header-title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
     h1 {
         font-size: 2.5rem;
         font-weight: 600;
-        color: #20c997; 
-        text-align: center; 
-        margin-bottom: 30px;
+        color: #20c997;
+        margin: 0;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        text-align: center;
     }
 
     table {
@@ -58,12 +73,10 @@
         background-color: #f1f1f1;
     }
 
-    /* Tabel Detail Peminjaman */
     .table:first-of-type {
         margin-bottom: 30px;
     }
 
-    /* Tabel Daftar Produk */
     .table:nth-of-type(2) {
         border: 1px solid #dee2e6;
         border-radius: 10px;
@@ -71,20 +84,20 @@
     }
 
     .table:nth-of-type(2) th {
-        background-color: #20c997; /* Warna header tabel produk */
+        background-color: #20c997;
         color: white;
     }
 
     .table:nth-of-type(2) td {
-        background-color: #ffffff; /* Warna latar belakang sel tabel */
+        background-color: #ffffff;
     }
 
     .table:nth-of-type(2) tr:nth-child(even) td {
-        background-color: #f8f9fa; /* Warna latar belakang baris genap */
+        background-color: #f8f9fa;
     }
 
-    .btn-secondary {
-        background-color: #6c757d;
+    .btn-back {
+        background: linear-gradient(90deg, #f1c40f, #f39c12);
         border: none;
         padding: 10px 15px;
         color: white;
@@ -93,28 +106,69 @@
         transition: background-color 0.3s ease;
     }
 
-    .btn-secondary:hover {
-        background-color: #5a6268; /* Warna hover */
+    .btn-back:hover {
+        background: linear-gradient(90deg, #f39c12, #e67e22);
     }
 
-    /* Responsive */
+    .export-button {
+        background: linear-gradient(45deg, #007bff, #00c6ff);
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        font-size: 1rem;
+        border-radius: 5px;
+        transition: background 0.3s ease, transform 0.3s;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .export-button:hover {
+        background: linear-gradient(45deg, #0056b3, #00aaff);
+        transform: scale(1.05);
+    }
+
     @media (max-width: 768px) {
         .container {
             padding: 20px;
         }
 
         h1 {
-            font-size: 2rem; /* Mengurangi ukuran font di perangkat kecil */
+            font-size: 2rem;
         }
 
         th, td {
-            padding: 10px; /* Mengurangi padding di perangkat kecil */
+            padding: 10px;
+        }
+
+        .export-button {
+            padding: 10px 15px;
+            font-size: 0.875rem;
+        }
+
+        .header-flex {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .export-button {
+            margin-top: 10px;
+            align-self: flex-end;
         }
     }
 </style>
 
 <div class="container">
-    <h1>Detail Peminjaman</h1>
+    <div class="header-flex">
+        <div class="header-title">
+            <h1>Rincian</h1>
+        </div>
+    <br>
+        <a href="{{ route('loan.download', $transaction->id) }}" class="export-button">
+            <i class="bi bi-printer"></i>  
+            Cetak
+        </a>
+    </div>
+    
 
     <table class="table">
         <tr>
@@ -176,20 +230,21 @@
             <tbody>
                 @foreach($loans as $loan)
                     <tr>
-                        <td>{{ $loan->product->name }}</td> 
-                        <td>{{ $loan->quantity }}</td> 
+                        <td>{{ $loan->product->name }}</td>
+                        <td>{{ $loan->quantity }}</td>
                     </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
                     <th>Total Quantity</th>
-                    <th>{{ $loans->sum('quantity') }}</th> 
+                    <th>{{ $loans->sum('quantity') }}</th>
                 </tr>
             </tfoot>
         </table>
     @endif
-    <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+
+    <a href="{{ url()->previous() }}" class="btn btn-back">Back</a>
 </div>
 
 @endsection

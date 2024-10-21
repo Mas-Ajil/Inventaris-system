@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
     body {
@@ -133,7 +134,7 @@
                     <th>Pemberi</th>
                     <th>Tanggal Pinjam</th>
                     <th>Estimasi Kembali</th>
-                    <th>Actions</th>
+                    <th>Tindakan</th>
                 </tr>
             </thead>
             <tbody>
@@ -154,6 +155,7 @@
                         <td>
                             <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">More</a>
                             
+                           
                             <form action="{{ route('loan.return', $transaction->id) }}" method="POST" style="display:inline;" id="returnForm-{{ $transaction->id }}">
                                 @csrf
                                 <button type="button" class="return-button" onclick="confirmReturn({{ $transaction->id }})">Return</button>
@@ -181,20 +183,20 @@
                                         });
                                     }
 
-                                    Swal.fire({
-  title: "Do you want to save the changes?",
-  showDenyButton: true,
-  showCancelButton: true,
-  confirmButtonText: "Save",
-  denyButtonText: `Don't save`
-}).then((result) => {
-  /* Read more about isConfirmed, isDenied below */
-  if (result.isConfirmed) {
-    Swal.fire("Saved!", "", "success");
-  } else if (result.isDenied) {
-    Swal.fire("Changes are not saved", "", "info");
-  }
-});
+                                                Swal.fire({
+                                            title: "Do you want to save the changes?",
+                                            showDenyButton: true,
+                                            showCancelButton: true,
+                                            confirmButtonText: "Save",
+                                            denyButtonText: `Don't save`
+                                            }).then((result) => {
+                                            /* Read more about isConfirmed, isDenied below */
+                                            if (result.isConfirmed) {
+                                                Swal.fire("Saved!", "", "success");
+                                            } else if (result.isDenied) {
+                                                Swal.fire("Changes are not saved", "", "info");
+                                            }
+                                            });
                                     </script>
                                     
                             </form>

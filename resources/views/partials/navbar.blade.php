@@ -38,29 +38,46 @@
                 padding: 10px 15px; 
             }
         }
+
+        .btn-secondary {
+        background: linear-gradient(45deg, #32CD32, #228B22); 
+        border: none;
+        padding: 10px 15px;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(45deg, #228B22, #006400);
+        }
+
     </style>
 </head>
 <body>
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/home">Inventory</a>
+        <a class="navbar-brand" href="/home">
+            <img src="/assets/logoku.png" alt="Logo" style="height: 40px;">
+        </a>        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('home') ? 'active' : '' }}" href="/home"><i class="bi bi-house-door-fill"></i> Home</a>
+                    <a class="nav-link {{ request()->is('home') ? 'active' : '' }}" href="/home"><i class="bi bi-house-door-fill"></i> Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('products') ? 'active' : '' }}" href="/products"><i class="bi bi-file-earmark-plus-fill"></i> Borrowing</a>
+                    <a class="nav-link {{ request()->is('products') ? 'active' : '' }}" href="/products"><i class="bi bi-file-earmark-plus-fill"></i> Produk</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('status') ? 'active' : '' }}" href="{{ route('status.loans') }}"><i class="bi bi-check-circle-fill"></i> Status</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('history') ? 'active' : '' }}" href="/history"><i class="bi bi-clock-history"></i> History</a>
+                    <a class="nav-link {{ request()->is('history') ? 'active' : '' }}" href="/history"><i class="bi bi-clock-history"></i> Riwayat</a>
                 </li>
 
                 @auth
@@ -69,18 +86,19 @@
                         <i class="bi bi-person-circle"> </i>{{ auth()->user()->name }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/admin"><i class="bi bi-person-vcard"></i> Account</a></li>
+                        <li><a class="dropdown-item" href="/homeAdmin"><i class="bi bi-person-vcard"></i> Akun</a></li>
+                        
                         <li>
                             <form action="/logout" method="POST">
                                 @csrf
-                                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-left"></i> Logout</button>
+                                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-left"></i> Keluar</button>
                             </form>
                         </li>
                     </ul>
                 </div>
                 @else
                 <li class="nav-item">
-                    <a href="/login" class="nav-link"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                    <a href="/login" class="nav-link"><i class="bi bi-box-arrow-in-right"></i> Masuk</a>
                 </li>
                 @endauth
             </ul>

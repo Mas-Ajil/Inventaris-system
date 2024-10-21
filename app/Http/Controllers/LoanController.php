@@ -11,6 +11,7 @@ use App\Models\transaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\LoansExport;
+use PDF; 
 use Maatwebsite\Excel\Facades\Excel;
 
 class LoanController extends Controller
@@ -167,6 +168,25 @@ public function export()
     {
         return Excel::download(new LoansExport, 'loans-history.xlsx');
     }
+
+
+
+    
+    public function downloadPDF($id)
+    {
+        // Ambil transaksi berdasarkan id
+        $transaction = Transaction::with('loans.product', 'loans.user')->findOrFail($id);
+    
+        // Ambil semua data loans yang terkait dengan transaksi tersebut
+        $loans = $transaction->loans;
+    
+        // Muat tampilan PDF dengan data yang dibutuhkan
+        $pdf = PDF::loadView('users.products.show', compact('transaction', 'loans'));
+    
+        // Mengunduh file PDF dengan nama yang sesuai
+        return $pdf->download('invoice_' . $transaction->id . '.pdf');
+    }
+    
 
 }
 

@@ -10,7 +10,6 @@ class LoginController extends Controller
 {
     public function index(){
        return view('login.index',[
-        'title' => 'Login'
        ] );
     }
     public function authenticate(Request $request)
@@ -37,7 +36,7 @@ class LoginController extends Controller
  
     $request->session()->regenerateToken();
  
-    return redirect('/');
+    return redirect('/login');
 }
 
 }

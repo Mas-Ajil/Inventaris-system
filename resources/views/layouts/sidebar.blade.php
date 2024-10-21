@@ -145,6 +145,9 @@
 			<nav id="sidebar" class="active">
 				<h1><a href="/home" class="logo">ST</a></h1>
         <ul class="list-unstyled components mb-5">
+          <li class="active">
+            <a href="/homeAdmin"><span class="fa fa-home"></span>Beranda</a>
+        </li> 
           @if (auth()->user()->level=="superAdmin")
           <li class="active">
               <a href="/listUser"><span class="fa fa-user"></span> User</a>

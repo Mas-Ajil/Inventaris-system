@@ -2,10 +2,10 @@
 @section('container')
 
 <div class="container">
-    <h1>Daftar User</h1>
+    <h1>Daftar Pengguna</h1>
     <div class="d-flex justify-content-end mb-3">
     <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#addUserModal">
-        Add User
+       Tambahkan Pengguna
     </button>
     </div>
     
@@ -13,9 +13,9 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nama</th>
-                <th>Created At</th>
-                <th>Action</th>
+                <th>Username</th>
+                <th>Akun dibuat</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $user->id }}">
-                                Delete
+                                Hapus
                             </button>
                         </form>
     
@@ -52,7 +52,7 @@
                                         @method('PUT')
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="name{{ $user->id }}" class="form-label">Nama</label>
+                                                <label for="name{{ $user->id }}" class="form-label">Username</label>
                                                 <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}">
                                             </div>
                                             <div class="mb-3">
@@ -61,8 +61,8 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-success">Save changes</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-success">Simpan perubahan</button>
                                         </div>
                                     </form>
                                 </div>
@@ -80,29 +80,44 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                    <h5 class="modal-title" id="addUserModalLabel">Tambahkan Pengguna</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="addUserForm" method="POST" action="{{ route('users.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
+                            <label for="name" class="form-label">Username</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Masukkan nama" value="{{ old('name') }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Masukkan password" required>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Add User</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-success">Tambahkan pengguna</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 
  
