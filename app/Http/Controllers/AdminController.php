@@ -6,16 +6,51 @@ use Illuminate\Http\Request;
 use App\Models\user;
 use App\Models\transaction;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
 
     public function showHomeAdmin()
     {
-        $users = User::all();
-        return view('admin.homeAdmin', compact('users'));
+        $user = Auth::user(); // Mengambil user yang sedang login
+
+
+        return view('admin.homeAdmin', compact('user'));
         
     }
+
+    public function updateProfile(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+
+    // Validasi input
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'full_name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+        'phone' => 'required|string|max:15',
+        'address' =>  'required|string|max:255',
+        'password' => 'nullable|string|min:8|confirmed', // Password tidak wajib diisi
+    ]);
+
+    // Update data profil
+    $user->name = $request->name;
+    $user->full_name = $request->full_name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->address = $request->address;
+
+    // Jika password diisi, update password
+    if ($request->filled('password')) {
+        $user->password = bcrypt($request->password);
+    }
+
+    // Simpan perubahan
+    $user->save();
+
+    return redirect()->back()->with('success', 'Profile updated successfully!');
+}
+
 
 
 

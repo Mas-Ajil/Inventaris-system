@@ -14,20 +14,28 @@
             <tr>
                 <th>ID</th>
                 <th>Username</th>
-                <th>Akun dibuat</th>
+                <th>Nama lengkap</th>
+                <th>Email</th>
+                <th>No.  Telepon</th>
+             
+                
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td>{{ $user->id }}</td>
+                    <td>{{ $loop->iteration}}</td>
                     <td>{{ $user->name }}</td>
-                    <td>{{ $user->created_at->format('d-m-Y H:i') }}</td>
+                    <td>{{ $user->full_name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->phone}}</td>
+                   
+                    
                     <td>
                         <!-- Button Edit -->
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
-                            Edit
+                            <span class="fa fa-edit">
                         </button>
     
                         <!-- Button Delete -->
@@ -35,7 +43,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $user->id }}">
-                                Hapus
+                                <span class="fa fa-trash">
                             </button>
                         </form>
     
@@ -180,6 +188,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 this.submit();
+            }
         });
     });
 

@@ -25,7 +25,7 @@
 </head>
 <body>
     <footer>
-        &copy;<script>document.write(new Date().getFullYear());</script> Infromation Technology Tribuns Solo 
+        &copy;<script>document.write(new Date().getFullYear());</script> IT Tribun Solo 
     </footer>
 </body>
 </html>

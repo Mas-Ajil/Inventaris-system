@@ -2,41 +2,41 @@
 @section('container')
 
 <div class="container">
-    <h1>Daftar Produk</h1>
+    <h1>Daftar Barang</h1>
     <div class="d-flex justify-content-end mb-3">
     <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#addProductModal">
-        Add Product
+        Tambahkan Barang
     </button>
     </div>
     
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>Stock</th>
-                <th>Created At</th>
-                <th>Action</th>
+                <th>No</th>
+                <th>Nama barang</th>
+                <th>Stok</th>
+                <th>Di tambahkan pada</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($products as $product)
                 <tr>
-                    <td>{{ $product->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->stock }}</td>
                     <td>{{ $product->created_at->format('d-m-Y H:i') }}</td>
                     <td>
                         <!-- Button trigger modal for Edit -->
                         <div class="d-flex">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">
-                                <i class="bi bi-pencil-square"></i>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">
+                                <span class="fa fa-edit">
                             </button>
                             <form id="deleteForm{{ $product->id }}" action="{{ route('delete.product', $product->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="btn btn-delete" data-id="{{ $product->id }}">
-                                    <i class="bi bi-trash"></i>
+                                <button type="button" class="btn btn-sm btn-danger" data-id="{{ $product->id }}">
+                                    <span class="fa fa-trash">
                                 </button>
                             </form>
                         </div>

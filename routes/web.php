@@ -41,6 +41,11 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function()
 //dashboard
     
 Route::get('/homeAdmin', [AdminController::class, 'showHomeAdmin']);
+Route::put('/profile/{id}', [AdminController::class, 'updateProfile'])->name('profile.update');
+
+
+
+
     Route::get('/listProduct', [AdminController::class, 'listProducts'])->name('admin.listProducts');
     Route::post('/listproduct', [AdminController::class, 'addProducts'])->name('products.store');
     Route::put('/listProduct/{id}', [AdminController::class, 'updateProducts'])->name('products.update');

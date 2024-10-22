@@ -103,6 +103,7 @@
 
         .form-control {
             margin-bottom: 15px;
+            
         }
 
         .alert {
@@ -110,7 +111,28 @@
         }
 
         .input-group {
-            width: 200px; /* Adjust this value as needed */
+            width: 245px;
+            
+            /* Adjust this value as needed */
+        }
+        .input-group-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.375rem 0.75rem; /* Padding simetris di sekitar ikon */
+            height: 38px; /* Sesuaikan tinggi input agar sesuai */
+            border-right: none; /* Menghilangkan border kanan agar lebih mulus dengan input */
+        }
+
+        .input-group .form-control {
+            height: 38px;
+            padding: 0.375rem 0.75rem;
+            border-left: none; /* Menghilangkan border kiri agar mulus dengan ikon */
+        }
+
+        .bi-search {
+            font-size: 1rem;
+            vertical-align: middle; /* Sesuaikan ukuran ikon */
         }
 
 
@@ -151,12 +173,12 @@
             <h4>List Barang</h4>
             
                 <!-- Input pencarian -->
-            <div class="input-group mb-3">
-    <span class="input-group-text" id="search-addon">
-        <i class="bi bi-search"></i> <!-- Perbaiki class ikon di sini -->
-    </span>
-    <input type="text" id="search" class="form-control" placeholder="Cari barang..." onkeyup="searchProduct()" aria-describedby="search-addon">
-</div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="search-addon">
+                        <i class="bi bi-search"></i>
+                    </span>
+                <input type="text" id="search" class="form-control" placeholder="Cari barang..." onkeyup="searchProduct()" aria-describedby="search-addon">
+                </div>
 
             <ul class="list-group" id="product-list">
                 @foreach ($products as $product)
