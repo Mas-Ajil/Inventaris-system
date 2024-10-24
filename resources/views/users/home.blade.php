@@ -1,21 +1,8 @@
 @extends('layouts.main')
 @section('container')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homepage</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
+<style>
     body {
         font-family: 'Poppins', sans-serif;
         background: url('/assets/bg-all.jpg') no-repeat center center fixed;
@@ -32,6 +19,7 @@
     }
 
     .welcome-card {
+        min-height: 100px;
         max-height: 85px; /* Atur tinggi maksimal kartu */
     }
 
@@ -44,12 +32,11 @@
 
     .duration-container {
         text-align: center;
-        margin-top: 15px;
+        margin-top: 4px;
         font-size: 1.0rem;
         font-weight: 400;
         color: rgb(74, 74, 74); /* Change color to match your theme */
         font-family: 'Montserrat', sans-serif;
-
     }
 
     .duration-item {
@@ -74,6 +61,7 @@
         display: flex;
         justify-content: space-around;
         margin-top: 20px;
+        flex-wrap: wrap; /* Allow cards to wrap onto the next line */
     }
 
     .card {
@@ -119,17 +107,52 @@
         }
     }
 
-  </style>
-</head>
-<body>
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .welcome-message {
+            font-size: 1.2rem; /* Adjust font size for welcome message */
+        }
+
+        .description,
+        .duration-container {
+            font-size: 0.8rem; /* Reduce font size for better visibility */
+        }
+
+        .chart-card {
+            padding: 20px; /* Decrease padding for smaller screens */
+            overflow: hidden;
+        }
+
+        .chart-card h4 {
+            font-size: 1.5rem; /* Adjust title size */
+        }
+
+        .card {
+            flex: 1 1 100%; /* Allow cards to take full width on small screens */
+            margin: 10px 0; /* Add vertical margin between cards */
+        }
+    }
+
+    @media (max-height: 800px) {
+        .chart-card canvas {
+            height: 300px; /* Adjust chart height for smaller screens */
+        }
+    }
+</style>
+
+
 
   <div class="container">
     <!-- Welcome Message Card -->
     <div class="card mb-3 welcome-card">
         <div class="card-body text-center">
             <h5 class="welcome-message">
-              <i class="bi bi-person-fill"></i>
-              Hai, <span style="color: #20c997;">{{ Auth::user()->full_name }}!</span>
+                <i class="bi bi-person-fill"></i>
+                @if(Auth::user()->full_name)
+                    Hai, <span style="color: #20c997;">{{ Auth::user()->full_name }}!</span>
+                @else
+                    <span style="color: #dc3545;">Isikan Nama Lengkap Anda!</span>
+                @endif
             </h5>
             <h6 id="current-date-time" class="clock-card"></h6>
             <div class="duration-container">

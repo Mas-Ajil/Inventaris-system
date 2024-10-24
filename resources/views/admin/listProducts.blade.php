@@ -1,6 +1,23 @@
-@extends('layouts.sidebar')
+@extends('layouts.main')
 @section('container')
 
+
+<style>
+.btn-sm {
+    margin-right: 10px;
+}
+.btn-ryu {
+  width: 25px;
+  height: 25px;
+  display: inline-block; 
+  text-align: center;
+  vertical-align: middle;
+  padding: 6px;
+  
+}
+
+
+</style>
 <div class="container">
     <h1>Daftar Barang</h1>
     <div class="d-flex justify-content-end mb-3">
@@ -29,18 +46,18 @@
                     <td>
                         <!-- Button trigger modal for Edit -->
                         <div class="d-flex">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">
+                            <button type="button" class="btn btn-sm btn-primary btn-ryu" data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">
                                 <span class="fa fa-edit">
                             </button>
                             <form id="deleteForm{{ $product->id }}" action="{{ route('delete.product', $product->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="btn btn-sm btn-danger" data-id="{{ $product->id }}">
+                                <button type="button" class="btn btn-sm btn-danger btn-ryu btn-delete" data-id="{{ $product->id }}">
                                     <span class="fa fa-trash">
                                 </button>
                             </form>
                         </div>
-                                                
+                                               
                 <!-- Form untuk Edit Produk -->
                 <div class="modal fade" id="editModal{{ $product->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $product->id }}" aria-hidden="true">
                     <div class="modal-dialog">

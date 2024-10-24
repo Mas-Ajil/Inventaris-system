@@ -123,7 +123,7 @@ public function return($transaction_id)
     $transaction = Transaction::with('loans')->findOrFail($transaction_id);
 
     
-    $receiver = auth()->user()->name;
+    $receiver = auth()->user()->full_name;
 
    
     if ($transaction->status === 'borrowed') {

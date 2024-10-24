@@ -1,17 +1,6 @@
 @extends('layouts.main')
 @section('container')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Borrowed Equipment</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
     body {
@@ -21,6 +10,7 @@
         background: url('/assets/bg-all.jpg') no-repeat center center fixed;
         background-size: cover;
         color: #343a40;
+        overflow-x: hidden; /* Prevent horizontal scroll on body */
     }
 
     .container {
@@ -29,6 +19,7 @@
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         margin-top: 30px;
+        overflow-x: auto; /* Enable horizontal scrolling */
     }
 
     h1 {
@@ -61,8 +52,9 @@
         border-radius: 5px;
         transition: background 0.3s ease, transform 0.3s;
         text-decoration: none; 
-        text-align: center; 
+        text-align: center;
     }
+
     .return-button:hover {
         background: linear-gradient(45deg, #ff6b4d, #fea16e); 
         transform: scale(1.05);
@@ -116,12 +108,17 @@
         .return-button, .more-button {
             padding: 8px 15px;
             font-size: 0.9rem;
+            margin: 10px 0;
+        }
+
+        /* Ensure the table is scrollable on small screens */
+        .table-responsive {
+            overflow-x: auto;
         }
     }
   </style>
-</head>
-<body>
-   <div class="container">
+
+   <div class="">
     <h1>List Peminjaman</h1>
 
     @if($transactions->isEmpty())
@@ -145,7 +142,7 @@
                     @endphp
                     <tr>
                         <td>{{ $firstLoan->user_name }}</td> 
-                        <td>{{ $transaction->user->name }}</td> 
+                        <td>{{ $transaction->user->full_name }}</td> 
                         <td>{{ \Carbon\Carbon::parse($firstLoan->borrowed_at)->format('d-m-Y') }}</td>
                         <td>
                             @if($firstLoan->returned_at)
@@ -208,7 +205,5 @@
     @endif
 </div>
 
-</body>
-</html>
 
 @endsection

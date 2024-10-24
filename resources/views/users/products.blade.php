@@ -1,14 +1,5 @@
 @extends('layouts.main')
 @section('container')
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Selection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
@@ -20,12 +11,48 @@
             color: #343a40;
         }
 
+        #search-box {
+            display: flex;
+            transition: all 0.3s ease; /* Menambahkan animasi untuk transisi */
+        }
+
+        #search {
+            width: 150px; /* Atur lebar input sesuai keinginan */
+            min-width: 200px; /* Pastikan input tidak terlalu kecil */
+            border-radius: 5px; /* Sudut melengkung */
+        }
+
+        .active-button {
+            background-color: #007bff; /* Warna biru */
+            color: white; /* Mengubah teks menjadi putih */
+        }
+
+
+        .input-group {
+            width: fit-content; /* Mengatur lebar grup input agar sesuai */
+        }
+
+
+        .product-list {
+            height: 650px; /* Set a fixed height for the product list */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+        
+        #selected-products {
+            max-height: 200px; /* Adjust this height according to your item height */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        .container .col-md-6 { /* Ensure columns can expand dynamically */
+            transition: height 0.3s ease; /* Smooth transition when height changes */
+        }
+
         .container {
             background-color: #ffffff;
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
+            margin-top: 10px;
         }
 
         h4 {
@@ -33,6 +60,11 @@
             font-weight: 600;
             color: #20c997; 
             margin-bottom: 20px;
+        }
+
+        .btn-outline-secondary{
+            padding: 7 10px;
+            margin-top: -17px;
         }
 
         .btn-add, .btn-remove, .btn-plus, .btn-minus, .btn-success {
@@ -43,6 +75,7 @@
             background: linear-gradient(45deg, #007bff, #00c6ff); 
             border: none;
             color: white;
+            padding: 7px 10px;
         }
 
         .btn-add:disabled {
@@ -59,6 +92,7 @@
             background: linear-gradient(45deg, #dc3545, #ff4d4d); 
             border: none;
             color: white;
+            padding: 7px 10px;
         }
 
         .btn-remove:hover {
@@ -70,12 +104,14 @@
             background: linear-gradient(45deg, #ffc107, #ffd700);
             color: white;
             border: none;
+            padding: 7px 10px;
         }
 
         .btn-plus {
             background: linear-gradient(45deg, #28a745, #85e085);
             color: white;
             border: none;
+            padding: 7px 10px;
         }
 
         .btn-minus:hover, .btn-plus:hover {
@@ -83,12 +119,12 @@
         }
 
         .btn-success {
-        background: linear-gradient(45deg, #32CD32, #228B22);
-        border: none;
-        padding: 10px 15px;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
+            background: linear-gradient(45deg, #32CD32, #228B22);
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
         }
 
         .btn-success:hover {
@@ -113,8 +149,8 @@
         .input-group {
             width: 245px;
             
-            /* Adjust this value as needed */
         }
+
         .input-group-text {
             display: flex;
             justify-content: center;
@@ -147,8 +183,7 @@
             }
         }
     </style>
-</head>
-<body>
+
 
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -166,37 +201,41 @@
     </div>
 @endif
 
-<div class="container mt-5">
+<div class=" mt-5">
     <div class="row">
         <!-- Kolom Kiri: Daftar Produk -->
         <div class="col-md-6">
-            <h4>List Barang</h4>
-            
-                <!-- Input pencarian -->
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="search-addon">
-                        <i class="bi bi-search"></i>
-                    </span>
-                <input type="text" id="search" class="form-control" placeholder="Cari barang..." onkeyup="searchProduct()" aria-describedby="search-addon">
-                </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h4>List Barang</h4>
+                <!-- Tombol Search -->
+                <button class="btn btn-outline-secondary" id="toggle-search" onclick="toggleSearchBox()" style="margin-left: 10px;">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        
+            <!-- Kotak Search Tersembunyi -->
+            <div id="search-box" class="input-group mt-2" style="display: none;">
+                <input type="text" id="search" class="form-control" onkeyup="searchProduct()" placeholder="Cari barang...">
+            </div>
 
-            <ul class="list-group" id="product-list">
-                @foreach ($products as $product)
+                <div class="product-list" id="product-list"> <!-- Added a new container for scrolling -->
+                    <ul class="list-group">
+                        @foreach ($products as $product)
+                            <li class="list-group-item product-item">
+                                <span>{{ $product->name }}</span>
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted me-3">Stock: <span class="stock" data-id="{{ $product->id }}">{{ $product->stock }}</span></span>
+                                    <button class="btn btn-add btn-sm" 
+                                            onclick="addProduct('{{ $product->id }}', '{{ $product->name }}')" 
+                                            {{ $product->stock == 0 ? 'disabled' : '' }}>
+                                            <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
                 
-                    <li class="list-group-item product-item">
-                        <span>{{ $product->name }}</span>
-                        <div class="d-flex align-items-center">
-                            <span class="text-muted me-3">Stock: <span class="stock" data-id="{{ $product->id }}">{{ $product->stock }}</span></span>
-                            <button class="btn btn-add btn-sm" 
-                                    onclick="addProduct('{{ $product->id }}', '{{ $product->name }}')" 
-                                    {{ $product->stock == 0 ? 'disabled' : '' }}>
-                                Tambah
-                            </button>
-                        </div>
-                    </li>
-                
-                @endforeach
-            </ul>
            
         </div>
 
@@ -204,7 +243,6 @@
         <div class="col-md-6">
             <h4>Keranjang</h4>
             <ul class="list-group" id="selected-products"></ul>
-
             <div class="mt-4" id="loan-info" style="display: none;">
                 <h4>Informasi Pinjam</h4>
                 <form action="/submit-loan" method="POST" id="loan-form">
@@ -346,8 +384,6 @@ function displaySelectedProducts() {
     document.getElementById('selected_products_input').value = JSON.stringify(selectedProducts);
 }
 
-
-
 function searchProduct() {
     const query = document.getElementById('search').value.toLowerCase();
     const productItems = document.querySelectorAll('.product-item');
@@ -372,11 +408,25 @@ function prepareSubmission(event) {
     }
 }
 
+function toggleSearchBox() {
+    const searchBox = document.getElementById('search-box');
+    const toggleButton = document.getElementById('toggle-search');
+
+    // Tampilkan atau sembunyikan kotak pencarian
+    searchBox.style.display = searchBox.style.display === 'none' ? 'flex' : 'none';
+    
+    // Tambahkan atau hapus kelas aktif
+    toggleButton.classList.toggle('active-button');
+    
+    // Fokus pada input pencarian jika ditampilkan
+    if (searchBox.style.display === 'flex') {
+        document.getElementById('search').focus(); 
+    }
+}
+
+
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-</body>
-</html>
+
 @endsection

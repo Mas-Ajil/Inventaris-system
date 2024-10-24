@@ -1,19 +1,33 @@
-(function($) {
+document.getElementById('sidebarCollapse').addEventListener('click', function () {
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
 
-	"use strict";
+    // Toggle class 'active' untuk sidebar dan konten
+    sidebar.classList.toggle('active');
+    content.classList.toggle('active');
 
-	var fullHeight = function() {
+    // Jika sidebar aktif, periksa jika dalam mode mobile dan ubah konten untuk menyesuaikan
+    if (window.innerWidth <= 768) {
+        if (sidebar.classList.contains('active')) {
+            content.style.marginLeft = "0"; // Konten penuh di layar mobile saat sidebar aktif
+        } else {
+            content.style.marginLeft = "10%"; // Konten bergeser di layar mobile saat sidebar tertutup
+        }
+    }
+});
 
-		$('.js-fullheight').css('height', $(window).height());
-		$(window).resize(function(){
-			$('.js-fullheight').css('height', $(window).height());
-		});
+// Event listener untuk mendeteksi perubahan ukuran jendela
+window.addEventListener('resize', function () {
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
 
-	};
-	fullHeight();
+    if (window.innerWidth > 768 && !sidebar.classList.contains('active')) {
+        content.style.marginLeft = "calc(100% - 50px)"; // Kembali ke tampilan desktop saat diperbesar
+    } else if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+        content.style.marginLeft = "0"; // Menyesuaikan konten saat sidebar aktif di mobile
+    } else {
+        content.style.marginLeft = "0"; // Konten penuh saat sidebar tertutup di mobile
+    }
+});
 
-	$('#sidebarCollapse').on('click', function () {
-      $('#sidebar').toggleClass('active');
-  });
 
-})(jQuery);

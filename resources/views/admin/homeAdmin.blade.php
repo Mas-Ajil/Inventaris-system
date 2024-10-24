@@ -1,8 +1,8 @@
-@extends('layouts.sidebar')
+@extends('layouts.main')
 @section('container')
 
-
 <div class="container mt-5">
+    <h1 style="">Profil saya</h1>
     <div class="card">
         <div class="card-body">
             <!-- Mobile -->

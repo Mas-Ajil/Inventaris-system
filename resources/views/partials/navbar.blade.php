@@ -1,126 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-    <link rel="icon" href="{{ asset('logoku.png') }}" type="image/png">
+<div class="wrapper d-flex align-items-stretch">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="">
+        <!-- Logo di tengah -->
+        <div class="logo-container">
+            <a href="/home" class="logo">
+                <img src="/assets/logoku.png" alt="Logo">
+            </a>
+        </div>
 
-    <style>
-        .navbar {
-            font-family: 'Poppins', sans-serif; /* Pastikan font Poppins diterapkan di navbar */
-            transition: background-color 0.5s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-        }
+        <!-- Menu List -->
+        <ul class="list-unstyled components mb-5">
+            <li class="active">
+                <a href="/home">
+                    <span class="fa fa-home"></span> 
+                    <span class="sidebar-text">Beranda</span>
+                </a>
+            </li>
+            
+            @if (auth()->user()->level=="superAdmin")
+            <li>
+                <a href="/listUser">
+                    <span class="fa fa-database"></span> 
+                    <span class="sidebar-text">User</span>
+                </a>
+            </li>
+            @endif
+            <li>
+                <a href="/listProduct">
+                    <span class="bi bi-trash"></span> 
+                    <span class="sidebar-text">Barang</span>
+                </a>
+            </li>
+            <li>
+                <a href="/products">
+                    <span class="bi bi-file-earmark-plus-fill"></span> 
+                    <span class="sidebar-text">Pinjam</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('status.loans') }}">
+                    <span class="bi bi-check-circle-fill"></span> 
+                    <span class="sidebar-text">Status</span>
+                </a>
+            </li>
+            <li>
+                <a href="/history">
+                    <span class="bi bi-clock-history"></span> 
+                    <span class="sidebar-text">Riwayat</span>
+                </a>
+            </li>
+        </ul>
 
-        .nav-link {
-            color: #343a40 !important; 
-            transition: color 0.3s ease; 
-        }
+        <!-- Profil di bagian bawah dengan dropup -->
+        <div class="profile-section">
+            <div class="profile-dropup dropup">
+                <button class="btn dropdown-toggle" type="button" id="profileDropup" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-user"></i>
+                    <span class="sidebar-text">{{ auth()->user()->name }}</span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="profileDropup">
+                    <li><a class="dropdown-item" href="/homeAdmin"><i class="fa fa-user"></i> Profile</a></li>
+                    <li>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item"><i class="fa fa-sign-out-alt"></i> Keluar</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        .nav-link:hover {
-            color: #757575 !important; 
-        }
+    <!-- Konten Utama -->
+    <div id="content" class="p-4 p-md-3">
+        <nav class="navbar navbar-expand-lg ">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+            </div>
+        </nav>
 
-        .nav-link.active {
-            color: #20c997; /* Green color for active link text */
-            font-weight: bold; /* Optional */
-            border-bottom: 2px solid #20c997; /* Optional */
-        }
-
-        .dropdown-menu {
-            border-radius: 10px; 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
-        }
-
-        @media (max-width: 768px) {
-            .navbar .nav-link {
-                padding: 10px 15px; 
-            }
-        }
-
-        .btn-secondary {
-        background: linear-gradient(45deg, #32CD32, #228B22); 
-        border: none;
-        padding: 10px 15px;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background: linear-gradient(45deg, #228B22, #006400);
-        }
-
-    </style>
-</head>
-<body>
-
-<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/home">
-            <img src="/assets/logoku.png" alt="Logo" style="height: 40px;">
-            <span class="ms-2" style="font-size: 1.5rem; font-weight: bold; color: rgb(55, 113, 174); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">
-                Studio Tribun Solo
-            </span>            
-        </a>        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->is('home') ? 'active' : '' }}" href="/home"><i class="bi bi-house-door-fill"></i> Beranda</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->is('products') ? 'active' : '' }}" href="/products"><i class="bi bi-file-earmark-plus-fill"></i> Produk</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->is('status') ? 'active' : '' }}" href="{{ route('status.loans') }}"><i class="bi bi-check-circle-fill"></i> Status</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->is('history') ? 'active' : '' }}" href="/history"><i class="bi bi-clock-history"></i> Riwayat</a>
-                </li>
-
-                @auth
-                <div class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"> </i>{{ auth()->user()->name }}
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/homeAdmin"><i class="bi bi-person-vcard"></i> Akun</a></li>
-                        
-                        <li>
-                            <form action="/logout" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-left"></i> Keluar</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-                @else
-                <li class="nav-item">
-                    <a href="/login" class="nav-link"><i class="bi bi-box-arrow-in-right"></i> Masuk</a>
-                </li>
-                @endauth
-            </ul>
+        <div class="container mt-4">
+            @yield('container')
         </div>
     </div>
-</nav>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-</script>
-</body>
-</html>
+

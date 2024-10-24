@@ -2,249 +2,171 @@
 
 @section('container')
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
     body {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Poppins', sans-serif; /* Mengganti font menjadi Poppins */
+        margin: 0;
+        padding: 0;
         background: url('/assets/bg-all.jpg') no-repeat center center fixed;
         background-size: cover;
-        color: #343a40;
+        color: #343a40; /* Warna teks default */
     }
 
-    .container {
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        margin-top: 30px;
+    .invoice-box {
+        width: 100%; /* Memastikan lebar 100% untuk responsif */
+        max-width: 800px; /* Lebar maksimum untuk nota */
+        margin: 20px auto; /* Margin otomatis untuk center */
+        padding: 30px;
+        border-radius: 15px; /* Sudut membulat */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+        background-color: #ffffff; /* Latar belakang putih untuk nota */
+        overflow: hidden; /* Mencegah konten keluar dari container */
     }
 
     .header-flex {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
+        flex-direction: column; /* Stack items vertically */
+        justify-content: center; /* Center vertically */
+        align-items: center; /* Center horizontally */
         position: relative;
+        margin-bottom: 40px;
     }
 
-    .header-title {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    h1 {
-        font-size: 2.5rem;
+    .header-flex h1 {
+        font-size: 2rem; /* Ukuran font untuk judul */
         font-weight: 600;
-        color: #20c997;
-        margin: 0;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        color: #20c997; /* Warna hijau */
+        margin: 0; /* Menghapus margin default */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Bayangan halus */
         text-align: center;
     }
 
     table {
         width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
+        border-collapse: collapse; /* Menghapus spasi antar sel */
+        margin-top: 20px; /* Spasi atas untuk tabel */
     }
 
     th, td {
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #dee2e6;
+        padding: 15px; /* Spasi dalam sel */
+        text-align: left; /* Rata kiri */
+        border-bottom: 1px solid #dee2e6; /* Garis bawah untuk sel */
     }
 
     th {
-        background-color: #f8f9fa;
+        background-color: #f8f9fa; /* Latar belakang untuk header tabel */
         font-weight: 600;
-        color: #343a40;
+        color: #343a40; /* Warna teks header */
     }
 
     td {
         font-size: 1rem;
-        color: #6c757d;
+        color: #6c757d; /* Warna teks sel */
     }
+
+    .heading td {
+        background-color: #20c997; /* Light green color */
+        color: white; /* Change text color to white for contrast */
+    }    
 
     tr:hover {
-        background-color: #f1f1f1;
+        background-color: #f1f1f1; /* Latar belakang saat hover */
     }
 
-    .table:first-of-type {
-        margin-bottom: 30px;
-    }
-
-    .table:nth-of-type(2) {
-        border: 1px solid #dee2e6;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .table:nth-of-type(2) th {
-        background-color: #20c997;
+    .btn-back, .export-button {
+        border: none;
         color: white;
-    }
-
-    .table:nth-of-type(2) td {
-        background-color: #ffffff;
-    }
-
-    .table:nth-of-type(2) tr:nth-child(even) td {
-        background-color: #f8f9fa;
+        padding: 7px 15px;
+        font-size: 1rem;
+        border-radius: 5px;
+        margin-top: 20px; /* Spasi atas */
+        display: inline-block; /* Memastikan tombol sebagai blok inline */
+        text-align: center;
+        text-decoration: none; /* Menghapus garis bawah */
     }
 
     .btn-back {
-        background: linear-gradient(90deg, #f1c40f, #f39c12);
-        border: none;
-        padding: 10px 15px;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-back:hover {
-        background: linear-gradient(90deg, #f39c12, #e67e22);
+        background: linear-gradient(45deg, #6c757d, #5a6268); /* Gradasi untuk tombol kembali */
     }
 
     .export-button {
         background: linear-gradient(45deg, #007bff, #00c6ff);
-        border: none;
-        color: white;
-        padding: 5px 10px;
-        font-size: 1rem;
-        border-radius: 5px;
-        transition: background 0.3s ease, transform 0.3s;
-        text-decoration: none;
-        text-align: center;
+    }
+
+    .btn-back:hover {
+        background: linear-gradient(45deg, #5a6268, #4e555b); /* Gradasi saat hover */
+        transform: scale(1.05); 
     }
 
     .export-button:hover {
-        background: linear-gradient(45deg, #0056b3, #00aaff);
-        transform: scale(1.05);
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 2rem;
-        }
-
-        th, td {
-            padding: 10px;
-        }
-
-        .export-button {
-            padding: 10px 15px;
-            font-size: 0.875rem;
-        }
-
-        .header-flex {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .export-button {
-            margin-top: 10px;
-            align-self: flex-end;
-        }
+        background: linear-gradient(45deg, #0056b3, #00aaff);  
+        transform: scale(1.05); 
     }
 </style>
-
-<div class="container">
-    <div class="header-flex">
-        <div class="header-title">
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <div class="header-flex">
             <h1>Rincian</h1>
-        </div>
-    <br>
-        <a href="{{ route('loan.download', $transaction->id) }}" class="export-button">
-            <i class="bi bi-printer"></i>  
-            Cetak
-        </a>
-    </div>
-    
+        </div>        
+        <table>
+            <tr class="information">
+                <td colspan="2">
+                    <strong>Peminjam :</strong> {{ $loans->first()->user_name }}<br/>
+                    <strong>Pemberi :</strong> {{ $loans->first()->user->full_name }}<br/>
+                    <strong>Penerima :</strong> {{ $loans->first()->receiver }}<br/>
+                    <strong>Tanggal Pinjam :</strong> {{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->format('d-m-Y') }}<br/>
+                    <strong>Estimasi Kembali :</strong> 
+                    @if($loans->first()->returned_at)
+                        {{ \Carbon\Carbon::parse($loans->first()->returned_at)->format('d-m-Y') }} 
+                        ({{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->diffInDays(\Carbon\Carbon::parse($loans->first()->returned_at)) }} hari)
+                    @else
+                        Belum Kembali
+                    @endif
+                    <br/>
+                    <strong>Status :</strong> {{ $loans->first()->transaction->status }}<br/>
+                    <strong>Dikembalikan :</strong> 
+                    @if($loans->first()->give_back)
+                        {{ \Carbon\Carbon::parse($loans->first()->give_back)->format('d-m-Y') }}
+                    @else
+                        Belum Kembali
+                    @endif
+                    <br/>
+                    <strong>Keterangan :</strong> {{ $loans->first()->notes ?? 'Tidak ada keterangan' }}
+                </td>
+            </tr>
 
-    <table class="table">
-        <tr>
-            <th>Peminjam</th>
-            <td>{{ $loans->first()->user_name }}</td>
-        </tr>
-        <tr>
-            <th>Pemberi</th>
-            <td>{{ $loans->first()->user->name }}</td>
-        </tr>
-        <tr>
-            <th>Penerima</th>
-            <td>{{ $loans->first()->receiver }}</td>
-        </tr>
-        <tr>
-            <th>Tanggal pinjam</th>
-            <td>{{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->format('d-m-Y') }}</td>
-        </tr>
-        <tr>
-            <th>Estimasi Kembali</th>
-            <td>
-                @if($loans->first()->returned_at)
-                    {{ \Carbon\Carbon::parse($loans->first()->returned_at)->format('d-m-Y') }} ({{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->diffInDays(\Carbon\Carbon::parse($loans->first()->returned_at)) }} hari)
-                @else
-                    Not returned
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <th>Status</th>
-            <td>{{ $loans->first()->transaction->status }}</td>
-        </tr>
-        <tr>
-            <th>Dikembalikan</th>
-            <td>
-                @if($loans->first()->give_back)
-                    {{ \Carbon\Carbon::parse($loans->first()->give_back)->format('d-m-Y') }}
-                @else
-                    Belum Kembali
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <th>Keterangan</th>
-            <td>{{ $loans->first()->notes ?? 'Tidak ada keterangan' }}</td>
-        </tr>
-    </table>
-
-    @if($loans->isEmpty())
-        <p>Tidak ada status saat.</p>
-    @else
-        <table class="table">
-            <thead>
+            @if($loans->isEmpty())
                 <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
+                    <td colspan="2" class="text-center">Tidak ada status saat.</td>
                 </tr>
-            </thead>
-            <tbody>
+            @else
+                <tr class="heading">
+                    <td><strong>Barang</strong></td>
+                    <td><strong>Jumlah</strong></td>
+                </tr>
                 @foreach($loans as $loan)
-                    <tr>
+                    <tr class="item">
                         <td>{{ $loan->product->name }}</td>
                         <td>{{ $loan->quantity }}</td>
                     </tr>
                 @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Total Quantity</th>
-                    <th>{{ $loans->sum('quantity') }}</th>
+                <tr class="total">
+                    <td><strong>Total Barang</strong></td>
+                    <td>{{ $loans->sum('quantity') }}</td>
                 </tr>
-            </tfoot>
+            @endif
         </table>
-    @endif
-
-    <a href="{{ url()->previous() }}" class="btn btn-back">Back</a>
-</div>
+        <a href="{{ url()->previous() }}" class="btn-back">Kembali</a>
+        <a href="{{ route('loan.download', $transaction->id) }}" class="export-button">
+            <i class="bi bi-printer"></i> Cetak
+        </a>
+    </div>
+</body>
+</html>
 
 @endsection
