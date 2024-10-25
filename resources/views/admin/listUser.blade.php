@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('container')
 
-<div class="container">
+<div >
     <h1>Daftar Pengguna</h1>
     <div class="d-flex justify-content-end mb-3">
     <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#addUserModal">

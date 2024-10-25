@@ -27,7 +27,7 @@
             @endif
             <li>
                 <a href="/listProduct">
-                    <span class="bi bi-trash"></span> 
+                    <span class="bi bi-box"></span> 
                     <span class="sidebar-text">Barang</span>
                 </a>
             </li>
@@ -55,7 +55,7 @@
         <div class="profile-section">
             <div class="profile-dropup dropup">
                 <button class="btn dropdown-toggle" type="button" id="profileDropup" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-user"></i>
+                    <i class="bi bi-person-square"></i>
                     <span class="sidebar-text">{{ auth()->user()->name }}</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="profileDropup">

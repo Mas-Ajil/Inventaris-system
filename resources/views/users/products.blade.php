@@ -114,7 +114,7 @@
             padding: 7px 10px;
         }
 
-        .btn-minus:hover, .btn-plus:hover {
+        .btn-minus:hover, .btn-plus:hover, .btn-success:hover {
             transform: scale(1.05);
         }
 
@@ -129,6 +129,7 @@
 
         .btn-success:hover {
             background: linear-gradient(45deg, #228B22, #006400);
+            color: black;
         }
 
         .list-group-item {
@@ -212,9 +213,9 @@
                     <i class="bi bi-search"></i>
                 </button>
             </div>
-        
+       
             <!-- Kotak Search Tersembunyi -->
-            <div id="search-box" class="input-group mt-2" style="display: none;">
+            <div id="search-box" class=" mt-2" style="display: none;">
                 <input type="text" id="search" class="form-control" onkeyup="searchProduct()" placeholder="Cari barang...">
             </div>
 

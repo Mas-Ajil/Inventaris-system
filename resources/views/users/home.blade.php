@@ -20,7 +20,7 @@
 
     .welcome-card {
         min-height: 100px;
-        max-height: 85px; /* Atur tinggi maksimal kartu */
+        max-height: 100px; /* Atur tinggi maksimal kartu */
     }
 
     .description {
@@ -104,6 +104,7 @@
     @media (max-height: 800px) {
         .chart-card canvas {
             height: 300px; /* Adjust height for smaller screens */
+            
         }
     }
 
@@ -119,8 +120,8 @@
         }
 
         .chart-card {
-            padding: 20px; /* Decrease padding for smaller screens */
-            overflow: hidden;
+            padding: 95px 20px; /* Decrease padding for smaller screens */
+            margin-top: 20px;
         }
 
         .chart-card h4 {
@@ -133,11 +134,6 @@
         }
     }
 
-    @media (max-height: 800px) {
-        .chart-card canvas {
-            height: 300px; /* Adjust chart height for smaller screens */
-        }
-    }
 </style>
 
 
@@ -177,7 +173,7 @@
         <!-- Total Peminjam Bulan Ini -->
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Peminjam Bulan Ini</h5>
+                <h5 class="card-title">Bulan Ini</h5>
                 <h2>{{ $totalPeminjamBulanIni }}</h2>
             </div>
             <div class="card-footer">

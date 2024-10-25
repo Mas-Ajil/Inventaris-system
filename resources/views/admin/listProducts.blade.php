@@ -18,13 +18,15 @@
 
 
 </style>
-<div class="container">
-    <h1>Daftar Barang</h1>
-    <div class="d-flex justify-content-end mb-3">
-    <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#addProductModal">
-        Tambahkan Barang
-    </button>
+<div>
+    
+    <div class="header-flex ">
+        <h1>Daftar Barang</h1>
+        <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#addProductModal">
+            Tambahkan Barang
+        </button>
     </div>
+    
     
     <table class="table table-striped">
         <thead>

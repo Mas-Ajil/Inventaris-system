@@ -63,6 +63,7 @@
     .more-button:hover {
         background: linear-gradient(45deg, #0056b3, #00aaff); 
         transform: scale(1.05); 
+        color: black;
     }
 
     table {
@@ -131,7 +132,7 @@
                     <th>Pemberi</th>
                     <th>Tanggal Pinjam</th>
                     <th>Estimasi Kembali</th>
-                    <th>Tindakan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -150,12 +151,12 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">More</a>
+                            <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">Detail</a>
                             
                            
                             <form action="{{ route('loan.return', $transaction->id) }}" method="POST" style="display:inline;" id="returnForm-{{ $transaction->id }}">
                                 @csrf
-                                <button type="button" class="return-button" onclick="confirmReturn({{ $transaction->id }})">Return</button>
+                                <button type="button" class="return-button" onclick="confirmReturn({{ $transaction->id }})">Kembalikan</button>
                             </form>
                                 <script>
                                     function confirmReturn(transactionId) {
@@ -166,7 +167,7 @@
                                             showCancelButton: true,
                                             confirmButtonColor: "#3085d6",
                                             cancelButtonColor: "#d33",
-                                            confirmButtonText: "Yes, Return!"
+                                            confirmButtonText: "Iya, Kembalikan!"
                                         }).then((result) => {
                                             if (result.isConfirmed) {
                                                 // Submit the form if confirmed

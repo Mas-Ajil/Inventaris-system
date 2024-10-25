@@ -93,18 +93,32 @@
     }
 
     .export-button {
-        background: linear-gradient(45deg, #007bff, #00c6ff);
+        background: linear-gradient(45deg, #32CD32, #228B22);
     }
 
     .btn-back:hover {
         background: linear-gradient(45deg, #5a6268, #4e555b); /* Gradasi saat hover */
         transform: scale(1.05); 
+        color: black;
     }
 
     .export-button:hover {
-        background: linear-gradient(45deg, #0056b3, #00aaff);  
+        background: linear-gradient(45deg, #228B22, #006400);  
         transform: scale(1.05); 
+        color: black;
     }
+
+    .rincian {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.8;
+        }
+    .label {
+            display: inline-block;
+            width: 150px; /* Adjust this to make the labels the same length */
+            font-weight: bold;
+        }
+   
 </style>
     </style>
 </head>
@@ -116,28 +130,40 @@
         <table>
             <tr class="information">
                 <td colspan="2">
-                    <strong>Peminjam :</strong> {{ $loans->first()->user_name }}<br/>
-                    <strong>Pemberi :</strong> {{ $loans->first()->user->full_name }}<br/>
-                    <strong>Penerima :</strong> {{ $loans->first()->receiver }}<br/>
-                    <strong>Tanggal Pinjam :</strong> {{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->format('d-m-Y') }}<br/>
-                    <strong>Estimasi Kembali :</strong> 
-                    @if($loans->first()->returned_at)
-                        {{ \Carbon\Carbon::parse($loans->first()->returned_at)->format('d-m-Y') }} 
-                        ({{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->diffInDays(\Carbon\Carbon::parse($loans->first()->returned_at)) }} hari)
-                    @else
-                        Belum Kembali
-                    @endif
-                    <br/>
-                    <strong>Status :</strong> {{ $loans->first()->transaction->status }}<br/>
-                    <strong>Dikembalikan :</strong> 
-                    @if($loans->first()->give_back)
+                    <div>
+                        <span class="label">Peminjam</span>
+                        <span class="separator">: </span>
+                        <span class="value">{{ $loans->first()->user_name }}</span>
+                    </div>
+                    <div>
+                        <span class="label">Pemberi</span>
+                        <span class="separator">: </span>
+                        <span class="value">{{ $loans->first()->user->full_name }}</span>
+                    </div>
+                    <div>
+                        <span class="label">Penerima</span>
+                        <span class="separator">: </span>
+                        <span class="value">{{ $loans->first()->receiver }}</span>
+                    </div>
+                    <div>
+                        <span class="label">Tanggal Pinjam</span>
+                        <span class="separator">: </span>
+                        <span class="value">{{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->format('d-m-Y') }}</span>
+                    </div>
+                    <div>
+                        <span class="label">Estimasi Kembali</span>
+                        <span class="separator">:</span>
+                        <span class="value">@if($loans->first()->give_back)
                         {{ \Carbon\Carbon::parse($loans->first()->give_back)->format('d-m-Y') }}
                     @else
                         Belum Kembali
-                    @endif
-                    <br/>
-                    <strong>Keterangan :</strong> {{ $loans->first()->notes ?? 'Tidak ada keterangan' }}
-                </td>
+                    @endif</span>
+                    </div>
+                    <div>
+                        <span class="label">Keterangan</span>
+                        <span class="seperator">: </span>
+                        <span class="value">{{ $loans->first()->notes ?? 'Tidak ada keterangan' }}</span>
+                    </div>
             </tr>
 
             @if($loans->isEmpty())

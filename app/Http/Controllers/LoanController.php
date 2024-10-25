@@ -158,6 +158,7 @@ public function history()
         ->where('status', 'Returned')
         ->orderBy('created_at', 'desc') 
         ->get();
+    
 
     return view('users.history', compact('transactions'));
 }
