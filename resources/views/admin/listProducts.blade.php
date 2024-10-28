@@ -3,27 +3,122 @@
 
 
 <style>
-.btn-sm {
-    margin-right: 10px;
-}
-.btn-ryu {
-  width: 25px;
-  height: 25px;
-  display: inline-block; 
-  text-align: center;
-  vertical-align: middle;
-  padding: 6px;
-  
-}
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: url('/assets/bg-all.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #343a40;
+    }
 
+    .container-listproducts {
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
 
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #20c997; 
+        margin-bottom: 20px; /* Add spacing below the heading */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #007bff, #00aaff); /* Gradient from dark blue to light blue */
+        border: none;
+        border-radius: 5px;
+        color: white; /* Text color */
+        padding: 6px 10px; /* Padding for buttons */
+        font-size: 16px; /* Font size */
+        cursor: pointer; /* Pointer on hover */
+        transition: background 0.3s ease; /* Animation on hover */
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(to right, #00aaff, #007bff);
+        color: black;
+    }
+
+    .btn-delete {
+        background: linear-gradient(to right, #ff7e7e, #ff2c2c); /* Gradient from dark blue to light blue */
+        border: none;
+        border-radius: 5px;
+        color: white; /* Text color */
+        padding: 6px 10px; /* Padding for buttons */
+        font-size: 16px; /* Font size */
+        cursor: pointer; /* Pointer on hover */
+        transition: background 0.3s ease; /* Animation on hover */
+    }
+
+    .btn-delete:hover {
+        background: linear-gradient(to right, #ff2c2c, #ff7e7e);
+        color: black;
+    }
+
+    .btn-success {
+        background: linear-gradient(to right, #32CD32, #228B22); /* Gradient from light green to dark green */
+        border: none;
+        border-radius: 5px;
+        color: white; /* Text color */
+        padding: 8px 20px; /* Padding for buttons */
+        font-size: 16px; /* Font size */
+        cursor: pointer; /* Pointer on hover */
+        transition: background 0.3s ease; /* Animation on hover */
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(to right, #228B22, #006400);
+        background-color: #0056b3;
+        color: black;
+    }
+
+    .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: none;
+    }
+
+    .modal-title {
+        color: #20c997; /* Title color in modal */
+    }
+
+    .form-label {
+        color: #343a40; /* Label color in form */
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem; /* Adjust h1 font size for mobile */
+        }
+
+        .table {
+            font-size: 14px; /* Adjust font size for smaller screens */
+        }
+
+        .btn-delete {
+            margin-top: 5px;
+        }
+    }
 </style>
-<div>
+<div class="container-listproducts">
     
     <div class="header-flex ">
         <h1>Daftar Barang</h1>
         <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#addProductModal">
-            Tambahkan Barang
+            <span class="fa fa-plus-square">
         </button>
     </div>
     
@@ -39,6 +134,7 @@
             </tr>
         </thead>
         <tbody>
+            
             @foreach ($products as $product)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
@@ -47,26 +143,27 @@
                     <td>{{ $product->created_at->format('d-m-Y H:i') }}</td>
                     <td>
                         <!-- Button trigger modal for Edit -->
-                        <div class="d-flex">
-                            <button type="button" class="btn btn-sm btn-primary btn-ryu" data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">
+                        
+                            <button type="button" class="btn btn-sm btn-primary " data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">
                                 <span class="fa fa-edit">
                             </button>
-                            <form id="deleteForm{{ $product->id }}" action="{{ route('delete.product', $product->id) }}" method="POST">
+                            <form id="deleteForm{{ $product->id }}" action="{{ route('delete.product', $product->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="btn btn-sm btn-danger btn-ryu btn-delete" data-id="{{ $product->id }}">
+                                <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $product->id }}">
                                     <span class="fa fa-trash">
                                 </button>
                             </form>
-                        </div>
-                                               
+                        
+                    </td>
+                                     
                 <!-- Form untuk Edit Produk -->
                 <div class="modal fade" id="editModal{{ $product->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $product->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="editModalLabel{{ $product->id }}">Edit Product</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                
                             </div>
                             <form id="editForm{{ $product->id }}" action="{{ route('products.update', $product->id) }}" method="POST">
                                 @csrf
@@ -186,8 +283,5 @@
     });
 
 </script>
-
-<!-- Include Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

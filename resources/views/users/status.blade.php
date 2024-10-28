@@ -13,13 +13,13 @@
         overflow-x: hidden; /* Prevent horizontal scroll on body */
     }
 
-    .container {
+    .container-products {
         background-color: #ffffff;
-        padding: 40px;
+        padding: 20px;
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        margin-top: 30px;
-        overflow-x: auto; /* Enable horizontal scrolling */
+        overflow-x: auto; 
+        margin: 20px
     }
 
     h1 {
@@ -116,10 +116,14 @@
         .table-responsive {
             overflow-x: auto;
         }
+
+        h1 {
+            text-align: left; /* Change alignment to left for small screens */
+        }
     }
   </style>
 
-   <div class="">
+   <div class="container-products">
     <h1>List Peminjaman</h1>
 
     @if($transactions->isEmpty())

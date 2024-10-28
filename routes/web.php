@@ -40,7 +40,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function()
 
 //dashboard
     
-Route::get('/homeAdmin', [AdminController::class, 'showHomeAdmin']);
+Route::get('/profile', [AdminController::class, 'showHomeAdmin']);
 Route::put('/profile/{id}', [AdminController::class, 'updateProfile'])->name('profile.update');
 
 

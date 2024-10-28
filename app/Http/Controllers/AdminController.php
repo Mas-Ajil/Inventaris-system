@@ -15,7 +15,7 @@ class AdminController extends Controller
         $user = Auth::user(); // Mengambil user yang sedang login
 
 
-        return view('admin.homeAdmin', compact('user'));
+        return view('admin.profile', compact('user'));
         
     }
 
@@ -84,6 +84,8 @@ class AdminController extends Controller
     ]);
     $user = User::findOrFail($id);
     $user->name = $request->name;
+    $user->level = $request->input('level');
+    
     if ($request->filled('password')) {
         $user->password = bcrypt($request->password);  
     }

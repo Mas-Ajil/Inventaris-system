@@ -1,8 +1,108 @@
 @extends('layouts.main')
 @section('container')
 
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: url('/assets/bg-all.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #343a40;
+    }
+
+    .container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #20c997; 
+        margin-bottom: 20px; /* Add spacing below the heading */
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    strong {
+        color: #000000; /* Change strong text color */
+    }
+
+    p {
+        margin: 0; /* Remove default margin for paragraphs */
+        color: #6c757d; /* Slightly lighter color for the paragraph text */
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #007bff, #00aaff); /* Gradasi dari biru tua ke biru muda */
+        border: none;
+        border-radius: 5px;
+        color: white; /* Warna teks */
+        padding: 6px 20px; /* Padding untuk tombol */
+        font-size: 16px; /* Ukuran font */
+        cursor: pointer; /* Pointer saat hover */
+        transition: background 0.3s ease; /* Animasi saat hover */
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(to right, #00aaff, #007bff);
+        background-color: #0056b3;
+        color: black;
+    }
+
+    .btn-success {
+        background: linear-gradient(to right, #32CD32, #228B22); /* Gradasi dari biru tua ke biru muda */
+        border: none;
+        border-radius: 5px;
+        color: white; /* Warna teks */
+        padding:8px 20px; /* Padding untuk tombol */
+        font-size: 16px; /* Ukuran font */
+        cursor: pointer; /* Pointer saat hover */
+        transition: background 0.3s ease; /* Animasi saat hover */
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(to right, #228B22, #006400);
+        background-color: #0056b3;
+        color: black;
+    }
+
+    .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: none;
+    }
+
+    .modal-title {
+        color: #20c997; /* Title color in modal */
+    }
+
+    .form-label {
+        color: #343a40; /* Label color in form */
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem; /* Adjust h1 font size for mobile */
+        }
+    }
+</style>
 <div class="container mt-5">
-    <h1 style="">Profil saya</h1>
+    <h1 style="">Profil Saya</h1>
     <div class="card">
         <div class="card-body">
             <!-- Mobile -->
@@ -127,7 +227,7 @@
                   <small id="passwordMismatch" class="text-danger" style="display: none;">Passwords do not match</small>
               </div>
   
-              <button type="submit" id="submitBtn" class="btn btn-success">Save changes</button>
+              <button type="submit" id="submitBtn" class="btn btn-success">Simpan</button>
           </form>
         </div>
       </div>

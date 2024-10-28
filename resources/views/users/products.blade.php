@@ -11,6 +11,17 @@
             color: #343a40;
         }
 
+        .container-products {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+
+    }
         #search-box {
             display: flex;
             transition: all 0.3s ease; /* Menambahkan animasi untuk transisi */
@@ -23,7 +34,7 @@
         }
 
         .active-button {
-            background-color: #007bff; /* Warna biru */
+            background: linear-gradient(45deg, #007bff, #00c6ff); /* Warna biru */
             color: white; /* Mengubah teks menjadi putih */
         }
 
@@ -36,6 +47,7 @@
         .product-list {
             height: 650px; /* Set a fixed height for the product list */
             overflow-y: auto; /* Enable vertical scrolling */
+           
         }
         
         #selected-products {
@@ -43,18 +55,11 @@
             overflow-y: auto; /* Enable vertical scrolling */
         }
 
-        .container .col-md-6 { /* Ensure columns can expand dynamically */
+        .container-listproducts .col-md-6 { /* Ensure columns can expand dynamically */
             transition: height 0.3s ease; /* Smooth transition when height changes */
         }
 
-        .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin-top: 10px;
-        }
-
+        
         h4 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -162,12 +167,13 @@
         }
 
         .input-group .form-control {
-            height: 38px;
+            height: 30px;
             padding: 0.375rem 0.75rem;
             border-left: none; /* Menghilangkan border kiri agar mulus dengan ikon */
         }
 
         .bi-search {
+            height: 30px;
             font-size: 1rem;
             vertical-align: middle; /* Sesuaikan ukuran ikon */
         }
@@ -182,41 +188,33 @@
             h4 {
                 font-size: 1.2rem;
             }
+            
+            .cart-title {
+                margin: 10px 0px;
+            }
+
         }
     </style>
 
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-<div class=" mt-5">
+<div class="container-products">
     <div class="row">
         <!-- Kolom Kiri: Daftar Produk -->
         <div class="col-md-6">
             <div class="d-flex justify-content-between align-items-center">
                 <h4>List Barang</h4>
-                <!-- Tombol Search -->
-                <button class="btn btn-outline-secondary" id="toggle-search" onclick="toggleSearchBox()" style="margin-left: 10px;">
-                    <i class="bi bi-search"></i>
-                </button>
-            </div>
-       
-            <!-- Kotak Search Tersembunyi -->
-            <div id="search-box" class=" mt-2" style="display: none;">
-                <input type="text" id="search" class="form-control" onkeyup="searchProduct()" placeholder="Cari barang...">
+                <!-- Container for Search Button and Search Box -->
+                <div class="d-flex align-items-center">
+                    <!-- Search Button -->
+                    <button class="btn btn-outline-secondary" id="toggle-search" onclick="toggleSearchBox()">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    
+                    <!-- Hidden Search Box -->
+                    <div id="search-box" class="input-group ms-2" style="display: none; max-width: 200px max;">
+                        <input type="text" id="search" class="form-control" onkeyup="searchProduct()" placeholder="Cari barang...">
+                    </div>
+                </div>
             </div>
 
                 <div class="product-list" id="product-list"> <!-- Added a new container for scrolling -->
@@ -242,7 +240,7 @@
 
         <!-- Kolom Kanan: Produk yang Dipilih -->
         <div class="col-md-6">
-            <h4>Keranjang</h4>
+            <h4 class="cart-title">Keranjang</h4>
             <ul class="list-group" id="selected-products"></ul>
             <div class="mt-4" id="loan-info" style="display: none;">
                 <h4>Informasi Pinjam</h4>
@@ -277,157 +275,7 @@
     </div>
 </div>
 
-<!-- Script JavaScript -->
-<script>
-    const selectedProducts = {};
-
-function addProduct(id, name) {
-    const stockElement = document.querySelector(`.stock[data-id='${id}']`);
-    let stock = parseInt(stockElement.textContent);
-
-    if (stock > 0) {
-        if (selectedProducts[id]) {
-            selectedProducts[id].count++;
-        } else {
-            selectedProducts[id] = { id: id, name: name, count: 1 };
-            document.querySelector(`button[onclick="addProduct('${id}', '${name}')"]`).setAttribute('disabled', true);
-        }
-        stockElement.textContent = stock - 1; 
-        displaySelectedProducts(); 
-        
-        // Disable Plus button if stock is 0
-        if (stock - 1 === 0) {
-            document.getElementById(`plus-${id}`).setAttribute('disabled', true);
-        }
-    } else {
-        alert('Stock is out for this product.');
-    }
-}
-
-function removeProduct(id) {
-    if (selectedProducts[id]) {
-        const stockElement = document.querySelector(`.stock[data-id='${id}']`);
-        stockElement.textContent = parseInt(stockElement.textContent) + selectedProducts[id].count; 
-        const addButton = document.querySelector(`button[onclick="addProduct('${id}', '${selectedProducts[id].name}')"]`);
-        addButton.removeAttribute('disabled');
-        delete selectedProducts[id]; 
-        displaySelectedProducts(); 
-    }
-}
-
-function incrementProduct(id) {
-    const stockElement = document.querySelector(`.stock[data-id='${id}']`);
-    let stock = parseInt(stockElement.textContent);
-
-    if (stock > 0) {
-        selectedProducts[id].count++;
-        stockElement.textContent = stock - 1; 
-        displaySelectedProducts(); 
-
-        if (stock - 1 === 0) {
-            document.getElementById(`plus-${id}`).setAttribute('disabled', true); // Disable Plus button if no stock
-        }
-    } else {
-        alert('No more stock available.');
-    }
-}
-
-function decrementProduct(id) {
-    const stockElement = document.querySelector(`.stock[data-id='${id}']`);
-
-    if (selectedProducts[id]) {
-        selectedProducts[id].count--;
-        stockElement.textContent = parseInt(stockElement.textContent) + 1;
-
-        if (parseInt(stockElement.textContent) > 0) {
-            document.getElementById(`plus-${id}`).removeAttribute('disabled');
-        }
-
-        if (selectedProducts[id].count === 0) {
-            delete selectedProducts[id];
-        }
-
-        displaySelectedProducts(); 
-    }
-}
-
-
-function displaySelectedProducts() {
-    const selectedProductsList = document.getElementById('selected-products');
-    selectedProductsList.innerHTML = '';
-
-    for (const id in selectedProducts) {
-        const product = selectedProducts[id];
-        const stockElement = document.querySelector(`.stock[data-id='${id}']`);
-        const currentStock = parseInt(stockElement.textContent); // Ambil stok terkini
-
-        const li = document.createElement('li');
-        li.className = 'list-group-item d-flex justify-content-between align-items-center';
-        li.innerHTML = `
-            <span>${product.name}</span>
-            <div class="d-flex align-items-center"> 
-                <button class="btn btn-minus btn-sm" style="margin-left: 5px;" onclick="decrementProduct('${id}')" ${product.count === 1 ? 'disabled' : ''}>
-                    <i class="bi bi-dash"></i>
-                </button>
-                <span style="margin: 0 10px;">${product.count}</span>
-                <button class="btn btn-plus btn-sm" style="margin-left: 5px;" onclick="incrementProduct('${id}')" id="plus-${id}" ${currentStock === 0 ? 'disabled' : ''}>
-                    <i class="bi bi-plus"></i>
-                </button>
-                <button class="btn btn-remove btn-sm" style="margin-left: 5px;" onclick="removeProduct('${id}')">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </div>
-        `;
-        selectedProductsList.appendChild(li);
-    }
-
-    document.getElementById('loan-info').style.display = Object.keys(selectedProducts).length > 0 ? 'block' : 'none';
-    document.getElementById('selected_products_input').value = JSON.stringify(selectedProducts);
-}
-
-function searchProduct() {
-    const query = document.getElementById('search').value.toLowerCase();
-    const productItems = document.querySelectorAll('.product-item');
-
-    productItems.forEach(item => {
-        const productName = item.textContent.toLowerCase();
-        item.style.display = productName.includes(query) ? 'flex' : 'none';
-    });
-}
-
-// Set minimum date for return_date to today
-document.addEventListener('DOMContentLoaded', function () {
-        const today = new Date();
-        const formattedDate = today.toISOString().split('T')[0]; // Format YYYY-MM-DD
-        document.getElementById('return_date').setAttribute('min', formattedDate);
-    });
-
-function prepareSubmission(event) {
-    if (Object.keys(selectedProducts).length === 0) {
-        event.preventDefault();
-        alert('Please select at least one product before submitting the loan.');
-    }
-}
-
-function toggleSearchBox() {
-    const searchBox = document.getElementById('search-box');
-    const toggleButton = document.getElementById('toggle-search');
-
-    // Tampilkan atau sembunyikan kotak pencarian
-    searchBox.style.display = searchBox.style.display === 'none' ? 'flex' : 'none';
-    
-    // Tambahkan atau hapus kelas aktif
-    toggleButton.classList.toggle('active-button');
-    
-    // Fokus pada input pencarian jika ditampilkan
-    if (searchBox.style.display === 'flex') {
-        document.getElementById('search').focus(); 
-    }
-}
-
-
-
-</script>
-
+{{-- js kusus products --}}
+<script src="/js/products.js"></script>
 
 @endsection

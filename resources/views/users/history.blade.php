@@ -12,12 +12,14 @@
     color: #343a40;
 }
 
-.container {
+.container-products {
     background-color: #ffffff;
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
+    margin: 20px;
+    overflow-x: auto; /*plis bang jangan diilangin anjay capek kali aku*/
+
 }
 
 .header-flex {
@@ -37,16 +39,14 @@
 }
 
 .export-button {
-    position: absolute; /* Make sure the button is absolute */
-    bottom: 6%; /* Aligns the button to the far right */
     background: linear-gradient(45deg, #32CD32, #228B22);
     border: none;
-    color: rgb(255, 255, 255);
-    padding: 5px 10px; 
+    color: #fff;
+    padding: 4px 14px; /* Adjust padding for better alignment */
     font-size: 1rem; 
     border-radius: 5px;
     transition: background 0.3s ease, transform 0.3s;
-    text-decoration: none; 
+    text-decoration: none;
     text-align: center;
 }
 
@@ -55,6 +55,7 @@
     transform: scale(1.05); 
     color: black;
 }
+
 
 table {
     width: 100%;
@@ -117,50 +118,62 @@ tr:hover {
     width: 100%; /* Fill the input group */
 }
 
+.pagination-button {
+    background-color: white; /* Default background for inactive buttons */
+    color: #007bff; /* Text color for inactive buttons */
+    border: 1px solid #007bff; /* Blue border for inactive buttons */
+    transition: background 0.3s ease, color 0.3s ease;
+    margin: 0 5px; /* Add space between buttons */
+    padding: 0.5rem 1rem; /* Adjust padding for better size */
+}
+
+.pagination-button:hover {
+    background-color: #007bff; /* Blue background on hover for inactive buttons */
+    color: white; /* White text on hover */
+}
+
+.pagination-button.active {
+    background-color: #007bff; /* Blue background for active button */
+    color: white; /* White text for active button */
+    border: 1px solid #007bff; /* Consistent border color */
+    cursor: default; /* Indicate this is not clickable */
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
-    .container {
-        padding: 20px;
-        overflow-x: auto; /* Enable horizontal scrolling */
-    }
 
     .header-flex {
         flex-direction: column; /* Stack h1 and button on small screens */
         align-items: flex-start;
     }
 
-    .export-button {
-        position: relative;
-        margin-top: 10px;
-        transform: none;
-        
-        /* Disable transform when stacked */
-    }
-
     table, th, td {
         font-size: 0.9rem; /* Adjust font size for smaller screens */
     }
     
-    /* You may want to add other styles specific to mobile view here */
 }
 
   </style>
 
-<div class="">
+<div class="container-products">
     <div class="header-flex">
         <h1>Riwayat Peminjaman</h1>
         
     </div>
     
-    <div class=" mb-3">
-        <div class="input-group">
+    <div class="d-flex justify-content-between align-items-center mb-3" style="position: relative;">
+        <div class="input-group" style="width: 200px;">
             <span class="input-group-text" id="search-addon">
                 <i class="bi-search"></i>
             </span>
-            <input type="text" id="search" onkeyup="searchTransaction()" class="form-control" placeholder="Cari riwayat peminjaman..." aria-describedby="search-addon">
+            <input type="text" id="search" onkeyup="searchTransaction()" class="form-control" placeholder="Cari riwayat..." aria-describedby="search-addon">
         </div>
         
+        <a href="{{ route('loans.export') }}" class="export-button ">
+            <i class="bi bi-archive" style="margin-right: 5px;"></i>
+            Export
+        </a>
     </div>
    
    
@@ -197,92 +210,175 @@ tr:hover {
             </tbody>                
         </table>
         <div>
-        <a href="{{ route('loans.export') }}" class="export-button ">
-            <i class="bi bi-archive" style="margin-right: 5px;"></i>
-            Export to Excel
-        </a>
-        <!-- Pagination -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-end">
-                {{-- {{ $transactions->links('pagination::bootstrap-4') }} --}}
-            </ul>
-        </nav>
+            
+            <div id="paginationControls" class="d-flex justify-content-end mt-4"></div>
         </div>
     @endif
     
 </div>
-<!-- Pagination Buttons -->
-<div id="paginationControls" class="d-flex justify-content-center mt-4"></div>
+<!-- Pagination -->
+
 
 <script>
  let allTransactions = []; // Array to store all transactions
+let filteredTransactions = []; // Array for filtered transactions
+const rowsPerPage = 10;
 
-    // Gather all transaction data when the page loads
-    document.addEventListener("DOMContentLoaded", () => {
-        const transactions = document.querySelectorAll('.transaction-item');
-        transactions.forEach(item => {
-            const userName = item.cells[0].textContent.toLowerCase();
-            const fullName = item.cells[1].textContent.toLowerCase();
-            const receiver = item.cells[2].textContent.toLowerCase();
-            const borrowedAt = item.cells[3].textContent.toLowerCase();
-            const returnedAt = item.cells[4].textContent.toLowerCase();
+document.addEventListener("DOMContentLoaded", () => {
+    const transactions = document.querySelectorAll('.transaction-item');
+    transactions.forEach(item => {
+        const userName = item.cells[0].textContent.toLowerCase();
+        const fullName = item.cells[1].textContent.toLowerCase();
+        const receiver = item.cells[2].textContent.toLowerCase();
+        const borrowedAt = item.cells[3].textContent.toLowerCase();
+        const returnedAt = item.cells[4].textContent.toLowerCase();
 
-            allTransactions.push({
-                userName,
-                fullName,
-                receiver,
-                borrowedAt,
-                returnedAt,
-                rowElement: item // Store the reference to the row element
-            });
+        allTransactions.push({
+            userName,
+            fullName,
+            receiver,
+            borrowedAt,
+            returnedAt,
+            rowElement: item // Store the reference to the row element
         });
     });
+    filteredTransactions = [...allTransactions]; // Start with all transactions
+    displayPage(1);
+    createPaginationButtons();
+});
 
-    function searchTransaction() {
-        const input = document.getElementById('search').value.toLowerCase();
+function searchTransaction() {
+    const input = document.getElementById('search').value.toLowerCase();
 
-        // Filter transactions based on the input
-        allTransactions.forEach(transaction => {
-            const matches = transaction.userName.includes(input) ||
-                            transaction.fullName.includes(input) ||
-                            transaction.receiver.includes(input) ||
-                            transaction.borrowedAt.includes(input) ||
-                            transaction.returnedAt.includes(input);
+    // Filter transactions based on the input
+    filteredTransactions = allTransactions.filter(transaction => {
+        return transaction.userName.includes(input) ||
+               transaction.fullName.includes(input) ||
+               transaction.receiver.includes(input) ||
+               transaction.borrowedAt.includes(input) ||
+               transaction.returnedAt.includes(input);
+    });
 
-            // Show or hide the row based on the search input
-            transaction.rowElement.style.display = matches ? '' : 'none';
-        });
+    // Reset pagination based on the search results
+    displayPage(1);
+    createPaginationButtons();
+}
+
+function displayPage(pageNumber) {
+    const start = (pageNumber - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    // Hide all rows, then show only the rows for the current page from filtered results
+    allTransactions.forEach(transaction => {
+        transaction.rowElement.style.display = 'none'; // Hide all rows
+    });
+
+    filteredTransactions.slice(start, end).forEach(transaction => {
+        transaction.rowElement.style.display = ''; // Display rows for the current page
+    });
+}
+
+function createPaginationButtons() {
+    const paginationControls = document.getElementById('paginationControls');
+    paginationControls.innerHTML = '';
+
+    const totalPages = Math.ceil(filteredTransactions.length / rowsPerPage);
+    const paginationList = document.createElement('ul');
+    paginationList.classList.add('pagination');
+
+    // Helper function to create page items
+    const createPageItem = (pageNumber, isActive = false) => {
+        const pageItem = document.createElement('li');
+        pageItem.classList.add('page-item');
+        if (isActive) pageItem.classList.add('active');
+
+        const pageLink = document.createElement('a');
+        pageLink.classList.add('page-link');
+        pageLink.href = '#';
+        pageLink.innerText = pageNumber;
+
+        pageLink.onclick = (e) => {
+            e.preventDefault();
+            displayPage(pageNumber);
+            createPaginationButtons(); // Refresh pagination on click
+        };
+
+        pageItem.appendChild(pageLink);
+        return pageItem;
+    };
+
+    // Add "Previous" button
+    const previousItem = document.createElement('li');
+    previousItem.classList.add('page-item');
+    if (currentPage === 1) previousItem.classList.add('disabled');
+
+    const previousLink = document.createElement('a');
+    previousLink.classList.add('page-link');
+    previousLink.href = '#';
+    previousLink.innerHTML = '&laquo;'; // Left arrow
+
+    previousLink.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+            displayPage(currentPage - 1);
+            createPaginationButtons(); // Refresh pagination
+        }
+    };
+
+    previousItem.appendChild(previousLink);
+    paginationList.appendChild(previousItem);
+
+    // Display only 3 page numbers at a time
+    const startPage = Math.max(currentPage - 1, 1);
+    const endPage = Math.min(currentPage + 1, totalPages);
+
+    for (let i = startPage; i <= endPage; i++) {
+        const pageItem = createPageItem(i, i === currentPage);
+        paginationList.appendChild(pageItem);
     }
 
-    const rowsPerPage = 10;
-      const tableRows = Array.from(document.querySelectorAll('.transaction-item'));
-      const totalPages = Math.ceil(tableRows.length / rowsPerPage);
+    // Add "Next" button
+    const nextItem = document.createElement('li');
+    nextItem.classList.add('page-item');
+    if (currentPage === totalPages) nextItem.classList.add('disabled');
 
-      function displayPage(pageNumber) {
-          const start = (pageNumber - 1) * rowsPerPage;
-          const end = start + rowsPerPage;
+    const nextLink = document.createElement('a');
+    nextLink.classList.add('page-link');
+    nextLink.href = '#';
+    nextLink.innerHTML = '&raquo;'; // Right arrow
 
-          // Hide all rows, then show only the rows for the current page
-          tableRows.forEach((row, index) => {
-              row.style.display = index >= start && index < end ? '' : 'none';
-          });
-      }
+    nextLink.onclick = (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            displayPage(currentPage + 1);
+            createPaginationButtons(); // Refresh pagination
+        }
+    };
 
-      function createPaginationButtons() {
-          const paginationControls = document.getElementById('paginationControls');
-          paginationControls.innerHTML = '';
+    nextItem.appendChild(nextLink);
+    paginationList.appendChild(nextItem);
+    paginationControls.appendChild(paginationList);
+}
 
-          for (let i = 1; i <= totalPages; i++) {
-              const button = document.createElement('button');
-              button.innerText = i;
-              button.classList.add('btn', 'btn-primary', 'mx-1');
-              button.onclick = () => displayPage(i);
-              paginationControls.appendChild(button);
-          }
-      }
+// Track the current page globally
+let currentPage = 1;
 
-      // Initialize pagination
-      displayPage(1);
-      createPaginationButtons();
+function displayPage(pageNumber) {
+    currentPage = pageNumber; // Set the current page
+    const start = (pageNumber - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    allTransactions.forEach(transaction => {
+        transaction.rowElement.style.display = 'none';
+    });
+
+    filteredTransactions.slice(start, end).forEach(transaction => {
+        transaction.rowElement.style.display = '';
+    });
+}
+
+
+
+
 </script>
 @endsection

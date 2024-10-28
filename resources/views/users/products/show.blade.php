@@ -44,6 +44,12 @@
         text-align: center;
     }
 
+    .total {
+        background-color: #e9ecef; /* Light gray color for total row */
+        font-weight: bold; /* Bold text for emphasis */
+        text-align: right; /* Align text to the right */
+    }
+
     table {
         width: 100%;
         border-collapse: collapse; /* Menghapus spasi antar sel */

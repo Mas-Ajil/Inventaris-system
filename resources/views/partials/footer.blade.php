@@ -1,31 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footer Example</title>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-        }
-        .content {
-            flex: 1;
-        }
-        footer {
-            background-color: lightgray;
-            text-align: center;
-            padding: 10px 0;
-            color: rgb(0, 0, 0);
-            margin-top: auto;
-        }
-    </style>
-</head>
-<body>
-    <footer>
-        &copy;<script>document.write(new Date().getFullYear());</script> IT Tribun Solo 
-    </footer>
-</body>
-</html>
+<footer class="py-4 bg-light mt-auto">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted"> &copy;<script>document.write(new Date().getFullYear());</script> IT Tribun Solo </div>
+            {{-- <div>
+                <a href="#">Privacy Policy</a>
+                &middot;
+                <a href="#">Terms &amp; Conditions</a>
+            </div> --}}
+        </div>
+    </div>
+</footer>

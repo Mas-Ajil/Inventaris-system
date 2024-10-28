@@ -9,6 +9,10 @@
         background-size: cover;
         color: #343a40;
     }
+    .container-home{
+        margin-left: 30px;
+        margin-right: 30px;
+    }
 
     .welcome-message {
         text-align: center;
@@ -138,7 +142,7 @@
 
 
 
-  <div class="container">
+  <div class="container-home">
     <!-- Welcome Message Card -->
     <div class="card mb-3 welcome-card">
         <div class="card-body text-center">
@@ -162,7 +166,7 @@
         <!-- Total Users -->
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Pengguna</h5>
+                <h5 class="card-title">Pengguna Aktif</h5>
                 <h2>{{ $totalUsers }}</h2>
             </div>
             <div class="card-footer">
@@ -184,22 +188,22 @@
         <!-- Total Borrowed -->
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Status Dipinjam</h5>
+                <h5 class="card-title">Proses</h5>
                 <h2>{{ $totalBorrowed }}</h2>
             </div>
             <div class="card-footer">
-                <small class="text-muted">Total Dipinjam</small>
+                <small class="text-muted">Total Proses</small>
             </div>
         </div>
 
         <!-- Total Returned -->
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Status Dikembalikan</h5>
+                <h5 class="card-title">Selesai</h5>
                 <h2>{{ $totalReturned }}</h2>
             </div>
             <div class="card-footer">
-                <small class="text-muted">Total Dikembalikan</small>
+                <small class="text-muted">Total Selesai</small>
             </div>
         </div>
     </div>
