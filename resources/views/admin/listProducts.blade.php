@@ -17,7 +17,8 @@
         padding: 20px;
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+        margin: 20px;
+        overflow-x: auto;
     }
 
     h1 {
@@ -65,7 +66,7 @@
         border: none;
         border-radius: 5px;
         color: white; /* Text color */
-        padding: 8px 20px; /* Padding for buttons */
+        
         font-size: 16px; /* Font size */
         cursor: pointer; /* Pointer on hover */
         transition: background 0.3s ease; /* Animation on hover */
@@ -115,12 +116,17 @@
 </style>
 <div class="container-listproducts">
     
-    <div class="header-flex ">
+    <div class="header-flex">
         <h1>Daftar Barang</h1>
-        <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#addProductModal">
-            <span class="fa fa-plus-square">
+        <button type="button" class="btn btn-success float-end ms-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+            <span class="fa fa-plus-square"></span>
         </button>
+
+        <a href="{{ route('products.export') }}" type="button" class="btn btn-primary float-end ms-2" id="exportButton">
+            <span class="fa fa-download"></span>
+        </a>
     </div>
+    
     
     
     <table class="table table-striped">
@@ -196,29 +202,59 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                <h5 class="modal-title" id="addProductModalLabel">Tambahkan Barang</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="addForm" action="{{ route('products.store') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
+            <div class="modal-body">
+                <!-- Tabs for Add Product and Import Product -->
+                <ul class="nav nav-tabs" id="productTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#add-product" type="button" role="tab" aria-controls="add-product" aria-selected="true">Tambahkan Barang</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="import-tab" data-bs-toggle="tab" data-bs-target="#import-product" type="button" role="tab" aria-controls="import-product" aria-selected="false">Import Barang</button>
+                    </li>
+                </ul>
+                <div class="tab-content mt-3" id="productTabContent">
+                    <!-- Add Product Form -->
+                    <div class="tab-pane fade show active" id="add-product" role="tabpanel" aria-labelledby="add-tab">
+                        <form id="addForm" action="{{ route('products.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="stock" class="form-label">Stock</label>
+                                <input type="number" class="form-control" id="stock" name="stock" placeholder="Masukkan jumlah stock" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-success btn-add">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label for="stock" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="stock" name="stock" placeholder="Masukkan jumlah stock" required>
+
+                    <!-- Import Products Form -->
+                    <div class="tab-pane fade" id="import-product" role="tabpanel" aria-labelledby="import-tab">
+                        <form id="importForm" action="{{ route('products.import') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="importFile" class="form-label">Import File (Excel)</label>
+                                <input type="file" class="form-control" id="importFile" name="file" accept=".xls,.xlsx" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success btn-add">Add Product</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
 
 <script>
     // SweetAlert2 untuk Edit Produk

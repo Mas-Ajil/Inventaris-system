@@ -33,6 +33,8 @@ class LoanController extends Controller
         'selected_products' => 'required|json',
     ]);
 
+    
+
     // Decode string JSON dari produk yang dipilih
     $selectedProducts = json_decode($validated['selected_products'], true);
 
@@ -43,6 +45,7 @@ class LoanController extends Controller
 
     
     $user_id = auth()->id(); 
+    $transactionId = Transaction::generateTransactionId();
 
     // Memulai transaksi database
     DB::beginTransaction();
@@ -50,6 +53,7 @@ class LoanController extends Controller
     try {
         $transaction = Transaction::create([
             'user_id' => $user_id,
+            'transaction_id' => $transactionId,
         ]);
         // Loop untuk menyimpan semua produk yang dipilih
         foreach ($selectedProducts as $productId => $productData) {
@@ -79,12 +83,12 @@ class LoanController extends Controller
         // Jika semuanya berhasil, komit transaksi
         DB::commit();
 
-        return redirect()->back()->with('success', 'Pinjaman berhasil dibuat!');
+        return redirect()->route('status.loans');
     } catch (\Exception $e) {
         // Jika terjadi kesalahan, rollback transaksi
         DB::rollBack();
 
-        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        return redirect()->back();
     }
 }
 
@@ -95,7 +99,7 @@ class LoanController extends Controller
     {
         $transactions = Transaction::with('loans', 'user')
             ->where('status', 'borrowed')
-            
+            ->orderBy('created_at', 'desc') 
             ->get();
 
         return view('users.status', compact('transactions'));
@@ -117,11 +121,14 @@ class LoanController extends Controller
     return view('users.products.show', compact('loans', 'transaction'));
 }
 
-public function return($transaction_id)
+public function return(Request $request, $transaction_id)
 {
    
     $transaction = Transaction::with('loans')->findOrFail($transaction_id);
 
+    $request->validate([
+        'comment' => 'nullable|string|max:255', // Keterangan bisa diisi atau kosong
+    ]);
     
     $receiver = auth()->user()->full_name;
 
@@ -144,10 +151,11 @@ public function return($transaction_id)
 
        
         $transaction->status = 'returned';
+        $transaction->comment = $request->input('comment');
         $transaction->save(); 
     }
 
-    return redirect()->back()->with('success', 'Equipment has been successfully returned.');
+    return redirect( )->route('loans.history')->with('success', 'Equipment has been successfully returned.');
 }
 
 
@@ -173,20 +181,7 @@ public function export()
 
 
     
-    public function downloadPDF($id)
-    {
-        // Ambil transaksi berdasarkan id
-        $transaction = Transaction::with('loans.product', 'loans.user')->findOrFail($id);
     
-        // Ambil semua data loans yang terkait dengan transaksi tersebut
-        $loans = $transaction->loans;
-    
-        // Muat tampilan PDF dengan data yang dibutuhkan
-        $pdf = PDF::loadView('users.products.show', compact('transaction', 'loans'));
-    
-        // Mengunduh file PDF dengan nama yang sesuai
-        return $pdf->download('invoice_' . $transaction->id . '.pdf');
-    }
     
 
 }

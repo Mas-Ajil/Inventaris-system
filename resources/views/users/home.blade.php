@@ -61,6 +61,18 @@
         margin-top: 20px;
     }
 
+    .btn-primary {
+        background: linear-gradient(45deg, #007bff, #00c6ff); 
+        border: none;
+        color: white;
+        padding: 4px 10px;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #0056b3, #0081c9); 
+        transform: scale(1.05);
+    }
+
     .cards-row {
         display: flex;
         justify-content: space-around;
@@ -188,7 +200,7 @@
         <!-- Total Borrowed -->
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Proses</h5>
+                <h5 class="card-title">Dalam Proses</h5>
                 <h2>{{ $totalBorrowed }}</h2>
             </div>
             <div class="card-footer">
@@ -216,11 +228,11 @@
           <form method="GET" action="{{ route('transactions.chart') }}">
               <label for="year">Tahun</label>
               <select name="year" id="year">
-                  @for($i = date('Y'); $i >= 2020; $i--)
+                  @for($i = date('Y'); $i >= 2023; $i--)
                       <option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>{{ $i }}</option>
                   @endfor
               </select>
-              <button type="submit">Tampilkan</button>
+              <button class="btn btn-primary" type="submit">Tampilkan</button>
           </form>
         </div>
     </div>
@@ -234,7 +246,7 @@
             data: {
                 labels: {!! json_encode($monthlyTransactions->keys()) !!},
                 datasets: [{
-                    label: 'Jumlah Peminjaman Product (Status Returned)',
+                    label: 'Jumlah Peminjaman Barang (Status Selesai)',
                     data: {!! json_encode($monthlyTransactions->values()) !!},
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',

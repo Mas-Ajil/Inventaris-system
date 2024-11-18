@@ -40,12 +40,12 @@
                         <div class="nav">
                             
                             <a class="nav-link" href="/home">
-                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                                <div class="sb-nav-link-icon"><i class="bi bi-house-door-fill"></i></div>
                                 Beranda
                             </a>
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-database"></i></div>
+                                <div class="sb-nav-link-icon"><i class="bi bi-database-fill-gear"></i></div>
                                 Master
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -56,9 +56,13 @@
                                         <div class="sb-nav-link-icon"><i class="bi bi-person-lines-fill"></i></div>
                                         Pengguna
                                     </a>
+                                    <a class="nav-link" href="/activity-logs">
+                                        <div class="sb-nav-link-icon"><i class="bi bi-arrow-clockwise"></i></div>
+                                        Aktivitas
+                                    </a>
                                     @endif
                                     <a class="nav-link" href="/listProduct">
-                                        <div class="sb-nav-link-icon"><i class="bi bi-card-list"></i></div>
+                                        <div class="sb-nav-link-icon"><i class="bi bi-box"></i></div>
                                         Barang
                                     </a>
                                     
@@ -66,8 +70,8 @@
                             </div>
                            
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Halaman
+                                <div class="sb-nav-link-icon"><i class="bi bi-receipt"></i></div>
+                                Transaksi
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                                 <div class="collapse" id="collapsePages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -77,11 +81,11 @@
                                                 Pinjam
                                             </a>
                                             <a class="nav-link" href="/status">
-                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                <div class="sb-nav-link-icon"><i class="bi bi-hourglass-split"></i></div>
                                                 Status
                                             </a>
                                             <a class="nav-link" href="/history">
-                                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                                <div class="sb-nav-link-icon"><i class="bi bi-calendar-check-fill"></i></div>
                                                 Riwayat
                                             </a>
                                         </nav>

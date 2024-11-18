@@ -11,11 +11,10 @@
     }
 
     .container-listuser {
-        background-color: transparent;
+        background-color: white;
         padding: 20px;
         margin-left: 20px;
         margin-right: 20px;
-    
         border-radius: 15px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
@@ -87,7 +86,7 @@
     }
 
     .table {
-        border-radius: 20px;
+        border-radius: 5px;
     }
 
     .form-label {
@@ -133,7 +132,7 @@
                     <th>Username</th>
                     <th>Nama lengkap</th>
                     <th>Email</th>
-                    <th>No.  Telepon</th>
+                    <th>No. Telepon</th>
                     <th>Role</th>
                     
                     <th>Aksi</th>

@@ -132,10 +132,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Peminjam</th>
-                    <th>Pemberi</th>
-                    <th>Tanggal Pinjam</th>
-                    <th>Estimasi Kembali</th>
+                    <th>ID</th>
+                    <th>Peminjam Barang</th>
+                    <th>Pemberi Barang</th>
+                    <th>Tanggal Peminjaman</th>
+                    <th>Estimasi Pengembalian</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -146,6 +147,7 @@
                         $firstLoan = $transaction->loans->first(); 
                     @endphp
                     <tr>
+                        <td>{{ $transaction->transaction_id }}</td> 
                         <td>{{ $firstLoan->user_name }}</td> 
                         <td>{{ $transaction->user->full_name }}</td> 
                         <td>{{ \Carbon\Carbon::parse($firstLoan->borrowed_at)->format('d-m-Y') }}</td>
@@ -155,7 +157,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">Detail</a>
+                            <a href="{{ route('loan.show', $transaction->id) }}" class="more-button">Rincian</a>
                             
                            
                             <form action="{{ route('loan.return', $transaction->id) }}" method="POST" style="display:inline;" id="returnForm-{{ $transaction->id }}">
@@ -163,44 +165,47 @@
                                 <button type="button" class="return-button" onclick="confirmReturn({{ $transaction->id }})">Kembalikan</button>
                             </form>
                                 <script>
-                                    function confirmReturn(transactionId) {
-                                        Swal.fire({
-                                            title: "Apakah Kamu ingin mengembalikan?",
-                                            text: "Jika kamu yakin klik tombol dibawah ini!",
-                                            icon: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#3085d6",
-                                            cancelButtonColor: "#d33",
-                                            confirmButtonText: "Iya, Kembalikan!"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                // Submit the form if confirmed
-                                                document.getElementById('returnForm-' + transactionId).submit();
-                                                Swal.fire({
-                                                        title: "Returned!",
-                                                        text: "Barang sudah dikembalikan",
-                                                        icon: "success"
-                                                        });
-                                            }
-                                        });
-                                    }
-
-                                                Swal.fire({
-                                            title: "Do you want to save the changes?",
-                                            showDenyButton: true,
-                                            showCancelButton: true,
-                                            confirmButtonText: "Save",
-                                            denyButtonText: `Don't save`
+                                        function confirmReturn(transactionId) {
+                                            Swal.fire({
+                                                title: "Apakah Kamu ingin mengembalikan?",
+                                                text: "Jika kamu yakin, masukkan keterangan barang yang telah selesai dipakai lalu klik tombol di bawah ini!",
+                                                icon: "warning",
+                                                input: 'text', // Tambahkan input untuk keterangan
+                                                inputPlaceholder: "Masukkan keterangan barang",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Iya, Kembalikan!",
+                                                preConfirm: (comment) => {
+                                                    if (!comment) {
+                                                        Swal.showValidationMessage("Keterangan diperlukan");
+                                                    }
+                                                    return { comment: comment };
+                                                }
                                             }).then((result) => {
-                                            /* Read more about isConfirmed, isDenied below */
-                                            if (result.isConfirmed) {
-                                                Swal.fire("Saved!", "", "success");
-                                            } else if (result.isDenied) {
-                                                Swal.fire("Changes are not saved", "", "info");
-                                            }
+                                                if (result.isConfirmed) {
+                                                    // Ambil komentar dari input
+                                                    const comment = result.value.comment;
+                                                    // Update form dengan komentar
+                                                    const form = document.getElementById('returnForm-' + transactionId);
+                                                    const commentInput = document.createElement("input");
+                                                    commentInput.type = "hidden";
+                                                    commentInput.name = "comment";
+                                                    commentInput.value = comment;
+                                                    form.appendChild(commentInput);
+                                                    // Submit form
+                                                    form.submit();
+
+                                                    Swal.fire({
+                                                        title: "Returned!",
+                                                        text: "Barang sudah dikembalikan dengan keterangan: " + comment,
+                                                        icon: "success"
+                                                    });
+                                                }
                                             });
-                                    </script>
-                                    
+                                        }
+  
+                                    </script> 
                             </form>
                         </td>
                     </tr>
@@ -208,7 +213,6 @@
             </tbody>
         </table>
     @endif
+    
 </div>
-
-
 @endsection

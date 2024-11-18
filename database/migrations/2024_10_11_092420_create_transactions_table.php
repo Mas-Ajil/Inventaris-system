@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_id')->unique(); 
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
             $table->enum('status', ['borrowed', 'returned'])->default('borrowed'); 
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }

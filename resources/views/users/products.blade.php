@@ -12,15 +12,14 @@
         }
 
         .container-products {
-        background-color: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-top: 20px;
-        padding: 20px;
-        margin-bottom: 20px;
-
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
     }
         #search-box {
             display: flex;
@@ -153,23 +152,18 @@
         }
 
         .input-group {
-            width: 245px;
-            
+            width: 200px;
+            flex-wrap: wrap;
+            box-sizing: border-box;
         }
 
-        .input-group-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0.375rem 0.75rem; /* Padding simetris di sekitar ikon */
-            height: 38px; /* Sesuaikan tinggi input agar sesuai */
-            border-right: none; /* Menghilangkan border kanan agar lebih mulus dengan input */
-        }
+        
 
         .input-group .form-control {
             height: 30px;
             padding: 0.375rem 0.75rem;
-            border-left: none; /* Menghilangkan border kiri agar mulus dengan ikon */
+            max-width: 100%;
+            
         }
 
         .bi-search {
@@ -180,20 +174,43 @@
 
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
 
             h4 {
                 font-size: 1.2rem;
+                text-align: center;
             }
             
             .cart-title {
                 margin: 10px 0px;
             }
+            .input-group {
+                width: 100%;
+                max-width: 90%;
+            }
 
-        }
+            .container-products .d-flex.justify-content-between {
+                flex-direction: column; /* Stack vertically */
+                align-items: flex-start; /* Align elements to the left */
+            }
+
+            #search-box {
+                margin-top: -5px; /* Add space between the title and search box */
+                width: 100%; /* Full width on small screens */
+            }
+
+            #search {
+                width: 100%; /* Make search box take full width */
+            }
+
+            .btn-outline-secondary {
+                margin-top: 0px;
+                margin-bottom: 20px;
+            }
+}  
     </style>
 
 
@@ -209,9 +226,9 @@
                     <button class="btn btn-outline-secondary" id="toggle-search" onclick="toggleSearchBox()">
                         <i class="bi bi-search"></i>
                     </button>
-                    
+                  
                     <!-- Hidden Search Box -->
-                    <div id="search-box" class="input-group ms-2" style="display: none; max-width: 200px max;">
+                    <div id="search-box" class="input-group ms-2" style="display: none">
                         <input type="text" id="search" class="form-control" onkeyup="searchProduct()" placeholder="Cari barang...">
                     </div>
                 </div>

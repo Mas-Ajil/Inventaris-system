@@ -6,6 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+
     body {
         font-family: 'Poppins', sans-serif; /* Mengganti font menjadi Poppins */
         margin: 0;
@@ -16,14 +17,15 @@
     }
 
     .invoice-box {
-        width: 100%; /* Memastikan lebar 100% untuk responsif */
-        max-width: 800px; /* Lebar maksimum untuk nota */
-        margin: 20px auto; /* Margin otomatis untuk center */
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
         padding: 30px;
-        border-radius: 15px; /* Sudut membulat */
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
-        background-color: #ffffff; /* Latar belakang putih untuk nota */
-        overflow: hidden; /* Mencegah konten keluar dari container */
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        overflow: hidden;
+        position: relative; /* Pastikan posisi relatif */
     }
 
     .header-flex {
@@ -121,15 +123,21 @@
         }
     .label {
             display: inline-block;
-            width: 150px; /* Adjust this to make the labels the same length */
+            width: 200px; /* Adjust this to make the labels the same length */
             font-weight: bold;
         }
-   
+        @media print {
+            /* Sembunyikan tombol cetak dan kembali saat dicetak */
+            .no-print {
+                display: none;
+            }
+            
+            
+        }
 </style>
-    </style>
-</head>
-<body>
-    <div class="invoice-box">
+
+<body >
+    <div class="invoice-box watermark">
         <div class="header-flex">
             <h1>Rincian</h1>
         </div>        
@@ -137,38 +145,53 @@
             <tr class="information">
                 <td colspan="2">
                     <div>
-                        <span class="label">Peminjam</span>
+                        <span class="label">ID</span>
+                        <span class="separator">: </span>
+                        <span class="value">{{ $transaction->transaction_id }}</span>
+                    </div>
+                    <div>
+                        <span class="label">Peminjam Barang</span>
                         <span class="separator">: </span>
                         <span class="value">{{ $loans->first()->user_name }}</span>
                     </div>
                     <div>
-                        <span class="label">Pemberi</span>
+                        <span class="label">Pemberi Barang</span>
                         <span class="separator">: </span>
                         <span class="value">{{ $loans->first()->user->full_name }}</span>
                     </div>
                     <div>
-                        <span class="label">Penerima</span>
+                        <span class="label">Penerima Barang</span>
                         <span class="separator">: </span>
                         <span class="value">{{ $loans->first()->receiver }}</span>
                     </div>
                     <div>
-                        <span class="label">Tanggal Pinjam</span>
+                        <span class="label">Tanggal Peminjaman</span>
                         <span class="separator">: </span>
-                        <span class="value">{{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->format('d-m-Y') }}</span>
+                        <span class="value">{{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->format('d F Y') }}
                     </div>
                     <div>
-                        <span class="label">Estimasi Kembali</span>
-                        <span class="separator">:</span>
-                        <span class="value">@if($loans->first()->give_back)
-                        {{ \Carbon\Carbon::parse($loans->first()->give_back)->format('d-m-Y') }}
-                    @else
-                        Belum Kembali
-                    @endif</span>
+                        <span class="label">Estimasi Pengembalian</span>
+                        <span class="separator">: </span>
+                        <span class="value">{{ \Carbon\Carbon::parse($loans->first()->returned_at)->format('d F Y') }} ({{ \Carbon\Carbon::parse($loans->first()->borrowed_at)->diffInDays(\Carbon\Carbon::parse($loans->first()->returned_at)) }} hari)</span>
                     </div>
+                    <div>
+                        <span class="label">Tanggal Dikembalikan</span>
+                        <span class="separator">:</span>
+                        <span class="value">
+                            {{ $loans->first()->give_back ? \Carbon\Carbon::parse($loans->first()->give_back)->format('d F Y') : 'Dalam peminjaman' }}
+                        </span>
+                    </div>
+                    
                     <div>
                         <span class="label">Keterangan</span>
                         <span class="seperator">: </span>
                         <span class="value">{{ $loans->first()->notes ?? 'Tidak ada keterangan' }}</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Kondisi</span>
+                        <span class="seperator">: </span>
+                        <span class="value">{{ $transaction->comment  }}</span>
                     </div>
             </tr>
 
@@ -185,20 +208,22 @@
                     <tr class="item">
                         <td>{{ $loan->product->name }}</td>
                         <td>{{ $loan->quantity }}</td>
+                        
                     </tr>
                 @endforeach
                 <tr class="total">
                     <td><strong>Total Barang</strong></td>
                     <td>{{ $loans->sum('quantity') }}</td>
+                    
                 </tr>
             @endif
         </table>
-        <a href="{{ url()->previous() }}" class="btn-back">Kembali</a>
-        <a href="{{ route('loan.download', $transaction->id) }}" class="export-button">
+        <a href="{{ url()->previous() }}" class="btn-back no-print">Kembali</a>
+        <a href="javascript:void(0)" onclick="window.print()" class="export-button no-print">
             <i class="bi bi-printer"></i> Cetak
         </a>
     </div>
 </body>
-</html>
+
 
 @endsection
