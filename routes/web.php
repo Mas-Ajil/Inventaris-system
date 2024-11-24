@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ActivityController;
+
 
 Route::get('/', function () { 
     return view('login.index',[
@@ -33,15 +34,16 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function()
     Route::get('/status', [LoanController::class, 'userLoans'])->name('status.loans');
     Route::get('/status/{transaction}', [LoanController::class, 'showLoans'])->name('loan.show');
     Route::post('/return/{transaction_id}', [LoanController::class, 'return'])->name('loan.return');
-    Route::get('/loan/{id}/download', [LoanController::class, 'downloadPDF'])->name('loan.download');
+    
 
     Route::get('/history', [LoanController::class, 'history'])->name('loans.history');
     Route::get('/history/export', [LoanController::class, 'export'])->name('loans.export');
 
 //dashboard
     
-Route::get('/profile', [AdminController::class, 'showHomeAdmin']);
-Route::put('/profile/{id}', [AdminController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/profile', [AdminController::class, 'showHomeAdmin']);
+    Route::put('/profile/{id}', [AdminController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/activity-logs', [ActivityController::class, 'index'])->name('activity-logs.index');
 
 
 
@@ -50,6 +52,9 @@ Route::put('/profile/{id}', [AdminController::class, 'updateProfile'])->name('pr
     Route::post('/listproduct', [AdminController::class, 'addProducts'])->name('products.store');
     Route::put('/listProduct/{id}', [AdminController::class, 'updateProducts'])->name('products.update');
     Route::delete('/lisProduct/delete/{id}', [AdminController::class, 'destroyProduct'])->name('delete.product');
+    Route::post('/products/remove', [AdminController::class, 'bulkDelete'])->name('products.remove');
+    Route::post('/products/import', [AdminController::class, 'importProduct'])->name('products.import');
+    Route::get('/products/export', [AdminController::class, 'exportProduct'])->name('products.export');
     
 
     

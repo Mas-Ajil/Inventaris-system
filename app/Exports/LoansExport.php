@@ -21,6 +21,7 @@ class LoansExport implements FromArray, WithHeadings , WithStyles,  WithColumnWi
         
         $data = Loan::with('product')->get()->map(function ($loan) {
                         return [
+                            $loan->transaction->transaction_id,
                             $loan->user_name,
                             $loan->product->name, 
                             $loan->quantity,
@@ -30,6 +31,8 @@ class LoansExport implements FromArray, WithHeadings , WithStyles,  WithColumnWi
                             $loan->returned_at,
                             $loan->give_back,
                             $loan->transaction->status,
+                            $loan->notes,
+                            $loan->transaction->comment,
                         ];
                     });
                     return array_merge([$this->headings()], $data->toArray());
@@ -38,6 +41,7 @@ class LoansExport implements FromArray, WithHeadings , WithStyles,  WithColumnWi
     public function headings(): array
     {
         return [
+            'Transaksi ID',
             'Peminjam',
             'Produk',
             'Quantity',
@@ -47,6 +51,8 @@ class LoansExport implements FromArray, WithHeadings , WithStyles,  WithColumnWi
             'Estimasi Kembali',
             'Tanggal Dikembalikan',
             'status',
+            'Tujuan',
+            'Kondisi'
         ];
     }
     public function styles(Worksheet $sheet)
@@ -57,7 +63,7 @@ class LoansExport implements FromArray, WithHeadings , WithStyles,  WithColumnWi
     $sheet->setCellValue('A1', 'Laporan Data Peminjaman Produk');
     
     // Gabungkan cell untuk judul
-    $sheet->mergeCells('A1:I1');
+    $sheet->mergeCells('A1:L1');
     
 
         return [
@@ -71,15 +77,18 @@ class LoansExport implements FromArray, WithHeadings , WithStyles,  WithColumnWi
     public function columnWidths(): array
     {
         return [
-            'A' => 20,   
-            'B' => 50,  
-            'C' => 12,  
-            'D' => 25,  
+            'A' => 20,
+            'B' => 20,   
+            'C' => 50,  
+            'D' => 12,  
             'E' => 25,  
-            'F' => 20, 
-            'G' => 20,
-            'H' => 25,
-            'I' =>  15,
+            'F' => 25,  
+            'G' => 20, 
+            'H' => 20,
+            'I' => 25,
+            'J' => 15,
+            'K' => 50,
+            'L' => 50,
         ];
     }
 }

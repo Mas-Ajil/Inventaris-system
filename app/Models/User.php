@@ -8,11 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Loan;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, LogsActivity, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -55,4 +57,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+    
+    protected static $logAttributes = ['name', 'password'];
+    protected static $logName = 'user';
+    
+    protected static $logOnlyDirty = true;
 }

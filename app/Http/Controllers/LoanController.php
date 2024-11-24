@@ -24,7 +24,6 @@ class LoanController extends Controller
 
     public function store(Request $request)
 {
-    
     $validated = $request->validate([
         'user_name' => 'required|string|max:255',
         'borrow_date' => 'required|date',
@@ -41,8 +40,8 @@ class LoanController extends Controller
         return redirect()->back()->withErrors(['selected_products' => 'Setidaknya satu produk harus dipilih.']);
     }
 
-    
-    $user_id = auth()->id(); 
+    $user_id = auth()->id();
+    $transactionId = Transaction::generateTransactionId();
 
     // Memulai transaksi database
     DB::beginTransaction();
@@ -50,7 +49,11 @@ class LoanController extends Controller
     try {
         $transaction = Transaction::create([
             'user_id' => $user_id,
+            'transaction_id' => $transactionId,
         ]);
+
+        $logProducts = []; // Array untuk menyimpan data produk yang akan dicatat di log
+
         // Loop untuk menyimpan semua produk yang dipilih
         foreach ($selectedProducts as $productId => $productData) {
             // Validasi keberadaan produk dan jumlah
@@ -59,7 +62,7 @@ class LoanController extends Controller
                 throw new \Exception("Stok tidak mencukupi untuk produk: {$product->name}");
             }
 
-           
+            // Membuat record peminjaman
             $loan = new Loan();
             $loan->user_id = $user_id;
             $loan->transaction_id = $transaction->id;
@@ -71,15 +74,35 @@ class LoanController extends Controller
             $loan->quantity = $productData['count'];
             $loan->save();
 
-            
+            // Mengurangi stok produk
             $product->stock -= $productData['count'];
             $product->save();
+
+            // Menambahkan data ke logProducts
+            $logProducts[] = [
+                'name' => $product->name,
+                'quantity' => $productData['count'],
+            ];
         }
+
+        // Mencatat aktivitas log
+        $productNames = implode(', ', array_column($logProducts, 'name'));
+        activity('Loan Created')
+            ->causedBy(auth()->user())
+            ->performedOn($transaction)
+            ->withProperties([
+                'user_name' => $validated['user_name'],
+                'products' => $productNames, // Hanya nama produk, dipisahkan koma
+                'borrow_date' => $validated['borrow_date'],
+                'return_date' => $validated['return_date'],
+            ])
+            ->log('New loan transaction created.');
+
 
         // Jika semuanya berhasil, komit transaksi
         DB::commit();
 
-        return redirect()->back()->with('success', 'Pinjaman berhasil dibuat!');
+        return redirect()->route('status.loans')->with('success', 'Peminjaman berhasil dibuat!');
     } catch (\Exception $e) {
         // Jika terjadi kesalahan, rollback transaksi
         DB::rollBack();
@@ -91,11 +114,12 @@ class LoanController extends Controller
 
 
 
+
         public function userLoans()
     {
         $transactions = Transaction::with('loans', 'user')
             ->where('status', 'borrowed')
-            
+            ->orderBy('created_at', 'desc') 
             ->get();
 
         return view('users.status', compact('transactions'));
@@ -117,38 +141,58 @@ class LoanController extends Controller
     return view('users.products.show', compact('loans', 'transaction'));
 }
 
-public function return($transaction_id)
+
+public function return(Request $request, $transaction_id)
 {
-   
     $transaction = Transaction::with('loans')->findOrFail($transaction_id);
 
-    
+    $request->validate([
+        'comment' => 'nullable|string|max:255', // Keterangan bisa diisi atau kosong
+    ]);
+
     $receiver = auth()->user()->full_name;
 
-   
     if ($transaction->status === 'borrowed') {
+        $productDetails = [];
+
         foreach ($transaction->loans as $loan) {
-            
-           
             $product = Product::find($loan->product_id); 
             if ($product) {
-                $product->stock += $loan->quantity; 
-                $product->save(); 
+                $product->stock += $loan->quantity; // Mengembalikan stok produk
+                $product->save();
             }
 
-           
             $loan->receiver = $receiver;
-            $loan->give_back = now(); 
+            $loan->give_back = now(); // Menandai waktu pengembalian
             $loan->save();
+
+            // Menyimpan detail produk yang dikembalikan
+            $productDetails[] = $loan->product->name . ' (Quantity: ' . $loan->quantity . ')';
         }
 
-       
         $transaction->status = 'returned';
-        $transaction->save(); 
+        $transaction->comment = $request->input('comment'); // Menyimpan komentar jika ada
+        $transaction->save();
+
+        // Log activity setelah pengembalian
+        activity('return')
+            ->causedBy(auth()->user())
+            ->performedOn($transaction)
+            ->withProperties([
+                'transaction_id' => $transaction->transaction_id,
+                'products_returned' => implode(', ', $productDetails), // Menggabungkan nama produk dan jumlah
+                'receiver' => $receiver,
+                'comment' => $transaction->comment,
+            ])
+            ->log('Products returned and transaction status updated');
+
+        return redirect()->route('loans.history')->with('success', 'Equipment has been successfully returned.');
     }
 
-    return redirect()->back()->with('success', 'Equipment has been successfully returned.');
+    return redirect()->route('loans.history')->with('error', 'This transaction has already been returned.');
 }
+
+
 
 
 public function history()
@@ -173,20 +217,7 @@ public function export()
 
 
     
-    public function downloadPDF($id)
-    {
-        // Ambil transaksi berdasarkan id
-        $transaction = Transaction::with('loans.product', 'loans.user')->findOrFail($id);
     
-        // Ambil semua data loans yang terkait dengan transaksi tersebut
-        $loans = $transaction->loans;
-    
-        // Muat tampilan PDF dengan data yang dibutuhkan
-        $pdf = PDF::loadView('users.products.show', compact('transaction', 'loans'));
-    
-        // Mengunduh file PDF dengan nama yang sesuai
-        return $pdf->download('invoice_' . $transaction->id . '.pdf');
-    }
     
 
 }

@@ -24,7 +24,7 @@
 
     .welcome-card {
         min-height: 100px;
-        max-height: 100px; /* Atur tinggi maksimal kartu */
+        max-height: 100px;
     }
 
     .description {
@@ -39,7 +39,7 @@
         margin-top: 4px;
         font-size: 1.0rem;
         font-weight: 400;
-        color: rgb(74, 74, 74); /* Change color to match your theme */
+        color: rgb(74, 74, 74); 
         font-family: 'Montserrat', sans-serif;
     }
 
@@ -61,11 +61,23 @@
         margin-top: 20px;
     }
 
+    .btn-primary {
+        background: linear-gradient(45deg, #32CD32, #228B22); 
+        border: none;
+        color: white;
+        padding: 4px 10px;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #0056b3, #0081c9); 
+        transform: scale(1.05);
+    }
+
     .cards-row {
         display: flex;
         justify-content: space-around;
         margin-top: 20px;
-        flex-wrap: wrap; /* Allow cards to wrap onto the next line */
+        flex-wrap: wrap;
     }
 
     .card {
@@ -78,7 +90,8 @@
 
     .card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
     }
 
     .card-body {
@@ -86,28 +99,28 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 120px; /* Fixed height to make cards smaller */
+        height: 120px;
     }
 
     .chart-card {
         margin-top: 20px;
-        padding: 40px; /* Adjust padding as needed */
+        padding: 40px;
         height: calc(400px + 5px * 2);
     }
 
     .chart-card h3 {
-        margin-bottom: 20px; /* Ensure space between title and chart */
+        margin-bottom: 20px;
         text-align: center;
     }
 
     .chart-card canvas {
         width: 100%;
-        height: 400px; /* Increase height for better visibility */
+        height: 400px;
     }
 
     @media (max-height: 800px) {
         .chart-card canvas {
-            height: 300px; /* Adjust height for smaller screens */
+            height: 300px;
             
         }
     }
@@ -115,26 +128,26 @@
     /* Responsive Adjustments */
     @media (max-width: 768px) {
         .welcome-message {
-            font-size: 1.2rem; /* Adjust font size for welcome message */
+            font-size: 1.2rem;
         }
 
         .description,
         .duration-container {
-            font-size: 0.8rem; /* Reduce font size for better visibility */
+            font-size: 0.8rem; 
         }
 
         .chart-card {
-            padding: 95px 20px; /* Decrease padding for smaller screens */
+            padding: 95px 20px; 
             margin-top: 20px;
         }
 
         .chart-card h4 {
-            font-size: 1.5rem; /* Adjust title size */
+            font-size: 1.5rem;
         }
 
         .card {
-            flex: 1 1 100%; /* Allow cards to take full width on small screens */
-            margin: 10px 0; /* Add vertical margin between cards */
+            flex: 1 1 100%;
+            margin: 10px 0; 
         }
     }
 
@@ -188,7 +201,7 @@
         <!-- Total Borrowed -->
         <div class="card text-center">
             <div class="card-body">
-                <h5 class="card-title">Proses</h5>
+                <h5 class="card-title">Dalam Proses</h5>
                 <h2>{{ $totalBorrowed }}</h2>
             </div>
             <div class="card-footer">
@@ -216,11 +229,11 @@
           <form method="GET" action="{{ route('transactions.chart') }}">
               <label for="year">Tahun</label>
               <select name="year" id="year">
-                  @for($i = date('Y'); $i >= 2020; $i--)
+                  @for($i = date('Y'); $i >= 2023; $i--)
                       <option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>{{ $i }}</option>
                   @endfor
               </select>
-              <button type="submit">Tampilkan</button>
+              <button class="btn btn-primary" type="submit">Tampilkan</button>
           </form>
         </div>
     </div>
@@ -234,16 +247,16 @@
             data: {
                 labels: {!! json_encode($monthlyTransactions->keys()) !!},
                 datasets: [{
-                    label: 'Jumlah Peminjaman Product (Status Returned)',
+                    label: 'Jumlah Peminjaman Barang (Status Selesai)',
                     data: {!! json_encode($monthlyTransactions->values()) !!},
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(50, 205, 50, 0.7)',
+                    borderColor: 'rgba(34, 139, 34, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Ensure the chart fills the container
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -256,8 +269,7 @@
                 }
             }
         });
-
-
+        
       // Menghitung durasi login
       if (!sessionStorage.getItem('loginTime')) {
         sessionStorage.setItem('loginTime', new Date());

@@ -21,6 +21,8 @@ function addProduct(id, name) {
     } else {
         alert('Stock is out for this product.');
     }
+
+    updateRemoveAllButtonVisibility();
 }
 
 function removeProduct(id) {
@@ -32,6 +34,8 @@ function removeProduct(id) {
         delete selectedProducts[id]; 
         displaySelectedProducts(); 
     }
+
+    updateRemoveAllButtonVisibility();
 }
 
 function incrementProduct(id) {
@@ -167,8 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 }
 
-
-
 function toggleSearchBox() {
     const searchBox = document.getElementById("search-box");
     const toggleButton = document.getElementById('toggle-search');
@@ -182,6 +184,60 @@ function toggleSearchBox() {
     // Fokus pada input pencarian jika ditampilkan
     if (searchBox.style.display === 'flex') {
         document.getElementById('search').focus(); 
+    }
+}
+
+function removeAllProducts() {
+    // Ambil elemen keranjang dan daftar produk
+    const selectedProductsList = document.getElementById('selected-products');
+
+    // Kembalikan stok semua produk di keranjang dan aktifkan tombol "Add"
+    Object.keys(selectedProducts).forEach(productId => {
+        const productStock = document.querySelector(`.stock[data-id="${productId}"]`);
+        const quantity = selectedProducts[productId].count;
+
+        // Update stok produk
+        if (productStock) {
+            const currentStock = parseInt(productStock.textContent);
+            productStock.textContent = currentStock + quantity; // Kembalikan stok ke jumlah sebelumnya
+        }
+
+        // Aktifkan tombol "Add" jika stok tersedia
+        const addButton = document.querySelector(`button[onclick="addProduct('${productId}', '${selectedProducts[productId].name}')"]`);
+        if (addButton) {
+            addButton.removeAttribute('disabled');
+        }
+    });
+
+    // Kosongkan selectedProducts (menghapus produk dari keranjang)
+    for (const productId in selectedProducts) {
+        delete selectedProducts[productId]; // Menghapus produk satu per satu
+    }
+
+    // Perbarui tampilan keranjang agar kosong
+    selectedProductsList.innerHTML = ''; // Kosongkan elemen keranjang
+
+    // Sembunyikan form pinjam jika keranjang kosong
+    document.getElementById('loan-info').style.display = 'none';
+
+    // Pastikan tombol "Remove All" diupdate
+    updateRemoveAllButtonVisibility();
+}
+
+
+
+function updateRemoveAllButtonVisibility() {
+    const selectedProducts = document.getElementById('selected-products');
+    const removeAllButton = document.getElementById('remove-all');
+
+    // Hitung jumlah item di keranjang
+    const itemCount = selectedProducts.querySelectorAll('.list-group-item').length;
+
+    // Tampilkan tombol jika jumlah item lebih dari 2
+    if (itemCount > 1) {
+        removeAllButton.style.display = 'inline-block';
+    } else {
+        removeAllButton.style.display = 'none';
     }
 }
 

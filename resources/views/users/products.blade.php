@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('container')
 
-    <style>
+<style>
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
@@ -12,51 +12,50 @@
         }
 
         .container-products {
-        background-color: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        margin-left: 20px;
-        margin-right: 20px;
-        margin-top: 20px;
-        padding: 20px;
-        margin-bottom: 20px;
-
-    }
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-top: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
         #search-box {
             display: flex;
-            transition: all 0.3s ease; /* Menambahkan animasi untuk transisi */
+            transition: all 0.3s ease;
         }
 
         #search {
-            width: 150px; /* Atur lebar input sesuai keinginan */
-            min-width: 200px; /* Pastikan input tidak terlalu kecil */
-            border-radius: 5px; /* Sudut melengkung */
+            width: 150px;
+            min-width: 200px; 
+            border-radius: 5px;
         }
 
         .active-button {
-            background: linear-gradient(45deg, #007bff, #00c6ff); /* Warna biru */
-            color: white; /* Mengubah teks menjadi putih */
+            background: linear-gradient(45deg, #007bff, #00c6ff);
+            color: white;
         }
 
 
         .input-group {
-            width: fit-content; /* Mengatur lebar grup input agar sesuai */
+            width: fit-content;
         }
 
 
         .product-list {
-            height: 650px; /* Set a fixed height for the product list */
-            overflow-y: auto; /* Enable vertical scrolling */
+            height: 650px;
+            overflow-y: auto;
            
         }
         
         #selected-products {
-            max-height: 200px; /* Adjust this height according to your item height */
-            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 200px;
+            overflow-y: auto;
         }
 
-        .container-listproducts .col-md-6 { /* Ensure columns can expand dynamically */
-            transition: height 0.3s ease; /* Smooth transition when height changes */
+        .container-listproducts .col-md-6 { 
+            transition: height 0.3s ease; 
         }
 
         
@@ -71,6 +70,26 @@
             padding: 7 10px;
             margin-top: -17px;
         }
+
+        .btn-removeall {
+            background: transparent; 
+            border: 2px solid red; 
+            color: red;
+            padding: 3px 10px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .btn-removeall:hover {
+            background: linear-gradient(45deg, #ff4d4d, #ff1a1a);
+            color: white; 
+            border: 2px solid transparent;
+            transform: scale(1.05);
+        }
+
 
         .btn-add, .btn-remove, .btn-plus, .btn-minus, .btn-success {
             transition: background 0.3s ease, transform 0.3s;
@@ -109,14 +128,24 @@
             background: linear-gradient(45deg, #ffc107, #ffd700);
             color: white;
             border: none;
-            padding: 7px 10px;
+            padding: 7px 7px;
         }
 
         .btn-plus {
             background: linear-gradient(45deg, #28a745, #85e085);
             color: white;
             border: none;
-            padding: 7px 10px;
+            padding: 7px 7px;
+        }
+
+        .btn-plus:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .btn-minus:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
         }
 
         .btn-minus:hover, .btn-plus:hover, .btn-success:hover {
@@ -153,48 +182,86 @@
         }
 
         .input-group {
-            width: 245px;
-            
-        }
-
-        .input-group-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0.375rem 0.75rem; /* Padding simetris di sekitar ikon */
-            height: 38px; /* Sesuaikan tinggi input agar sesuai */
-            border-right: none; /* Menghilangkan border kanan agar lebih mulus dengan input */
+            width: 200px;
+            flex-wrap: wrap;
+            box-sizing: border-box;
         }
 
         .input-group .form-control {
             height: 30px;
             padding: 0.375rem 0.75rem;
-            border-left: none; /* Menghilangkan border kiri agar mulus dengan ikon */
+            max-width: 100%;
+            
         }
 
         .bi-search {
             height: 30px;
             font-size: 1rem;
-            vertical-align: middle; /* Sesuaikan ukuran ikon */
+            vertical-align: middle;
+        }
+
+        .stock {
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            font-weight: bold;
+            color: #343a40;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px; 
+        }
+
+        .stock:hover {
+            background: linear-gradient(45deg, #32CD32, #228B22); 
+            color: white; 
+            transform: scale(1.05); 
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+            transition: all 0.3s ease; 
         }
 
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .container {
                 padding: 20px;
             }
 
             h4 {
                 font-size: 1.2rem;
+                text-align: center;
             }
             
             .cart-title {
-                margin: 10px 0px;
+                margin: 15px 0px;
+            }
+            .input-group {
+                width: 100%;
+                max-width: 90%;
             }
 
-        }
-    </style>
+            .container-products .d-flex.justify-content-between {
+                flex-direction: column;
+                align-items: flex-start; 
+            }
+
+            #search-box {
+                margin-top: -5px; 
+                width: 100%; 
+            }
+
+            #search {
+                width: 100%; 
+            }
+
+            .btn-removeall {
+                margin-bottom : 5px;
+            }
+
+            .btn-outline-secondary {
+                margin-top: 0px;
+                margin-bottom: 20px;
+            }
+    }  
+</style>
 
 
 <div class="container-products">
@@ -203,27 +270,26 @@
         <div class="col-md-6">
             <div class="d-flex justify-content-between align-items-center">
                 <h4>List Barang</h4>
-                <!-- Container for Search Button and Search Box -->
                 <div class="d-flex align-items-center">
                     <!-- Search Button -->
                     <button class="btn btn-outline-secondary" id="toggle-search" onclick="toggleSearchBox()">
                         <i class="bi bi-search"></i>
                     </button>
-                    
+                  
                     <!-- Hidden Search Box -->
-                    <div id="search-box" class="input-group ms-2" style="display: none; max-width: 200px max;">
+                    <div id="search-box" class="input-group ms-2" style="display: none">
                         <input type="text" id="search" class="form-control" onkeyup="searchProduct()" placeholder="Cari barang...">
                     </div>
                 </div>
             </div>
 
-                <div class="product-list" id="product-list"> <!-- Added a new container for scrolling -->
+                <div class="product-list" id="product-list"> 
                     <ul class="list-group">
                         @foreach ($products as $product)
                             <li class="list-group-item product-item">
                                 <span>{{ $product->name }}</span>
                                 <div class="d-flex align-items-center">
-                                    <span class="text-muted me-3">Stock: <span class="stock" data-id="{{ $product->id }}">{{ $product->stock }}</span></span>
+                                    <span class="text-muted me-3"><i class="bi bi-box"></i> <strong>Stok:</strong> <span class="stock" data-id="{{ $product->id }}">{{ $product->stock }}</span></span>
                                     <button class="btn btn-add btn-sm" 
                                             onclick="addProduct('{{ $product->id }}', '{{ $product->name }}')" 
                                             {{ $product->stock == 0 ? 'disabled' : '' }}>
@@ -240,10 +306,14 @@
 
         <!-- Kolom Kanan: Produk yang Dipilih -->
         <div class="col-md-6">
-            <h4 class="cart-title">Keranjang</h4>
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="cart-title">Keranjang</h4>
+                <!-- Tombol Remove All -->
+                <button class="btn btn-removeall" id="remove-all" style="display: none;" onclick="removeAllProducts()">Remove All</button>
+            </div>
             <ul class="list-group" id="selected-products"></ul>
             <div class="mt-4" id="loan-info" style="display: none;">
-                <h4>Informasi Pinjam</h4>
+                <h4>Informasi Peminjaman</h4>
                 <form action="/submit-loan" method="POST" id="loan-form">
                     @csrf
                     <input type="hidden" name="selected_products" id="selected_products_input">
