@@ -14,6 +14,7 @@
 
     #search-box {
         display: flex;
+<<<<<<< HEAD
         transition: all 0.3s ease;
     }
 
@@ -26,6 +27,20 @@
     .active-button {
         background: linear-gradient(45deg, #007bff, #00c6ff); 
         color: white;
+=======
+        transition: all 0.3s ease; /* Menambahkan animasi untuk transisi */
+    }
+
+    #search {
+        width: 170px; /* Atur lebar input sesuai keinginan */
+        min-width: 200px; /* Pastikan input tidak terlalu kecil */
+        border-radius: 5px; /* Sudut melengkung */
+    }
+
+    .active-button {
+        background: linear-gradient(45deg, #007bff, #00c6ff); /* Warna biru */
+        color: white; /* Mengubah teks menjadi putih */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     }
 
     .container-products {
@@ -40,8 +55,13 @@
 
     .header-flex {
         display: flex;
+<<<<<<< HEAD
         justify-content: center;
         align-items: center;
+=======
+        justify-content: center; /* Ensures the h1 is centered */
+        align-items: center; /* Vertically aligns the button and h1 */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         position: relative;
         margin-bottom: 40px;
     }
@@ -50,7 +70,11 @@
         font-size: 2.5rem;
         font-weight: 600;
         color: #20c997; 
+<<<<<<< HEAD
         margin: 0;
+=======
+        margin: 0; /* Remove default margin */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
@@ -58,7 +82,11 @@
         background: linear-gradient(45deg, #32CD32, #228B22);
         border: none;
         color: #fff;
+<<<<<<< HEAD
         padding: 6px 14px;
+=======
+        padding: 6px 14px; /* Adjust padding for better alignment */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         font-size: 1rem; 
         border-radius: 5px;
         transition: background 0.3s ease, transform 0.3s;
@@ -124,11 +152,19 @@
 
     .search-container {
         display: flex;
+<<<<<<< HEAD
         align-items: center;
     }
 
     .input-group {
         width: 200px;
+=======
+        align-items: center; /* Align vertically center */
+    }
+
+    .input-group {
+        width: 200px; /* Adjust width of the input group */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     }
 
     .input-group .form-control {
@@ -138,6 +174,7 @@
 
 
     .pagination-button {
+<<<<<<< HEAD
         background-color: white;
         color: #007bff;
         border: 1px solid #007bff;
@@ -156,6 +193,26 @@
         color: white; 
         border: 1px solid #007bff; 
         cursor: default;
+=======
+        background-color: white; /* Default background for inactive buttons */
+        color: #007bff; /* Text color for inactive buttons */
+        border: 1px solid #007bff; /* Blue border for inactive buttons */
+        transition: background 0.3s ease, color 0.3s ease;
+        margin: 0 5px; /* Add space between buttons */
+        padding: 0.5rem 1rem; /* Adjust padding for better size */
+    }
+
+    .pagination-button:hover {
+        background-color: #007bff; /* Blue background on hover for inactive buttons */
+        color: white; /* White text on hover */
+    }
+
+    .pagination-button.active {
+        background-color: #007bff; /* Blue background for active button */
+        color: white; /* White text for active button */
+        border: 1px solid #007bff; /* Consistent border color */
+        cursor: default; /* Indicate this is not clickable */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     }
 
     
@@ -163,16 +220,28 @@
     @media (max-width: 768px) {
 
         .header-flex {
+<<<<<<< HEAD
             flex-direction: column;
+=======
+            flex-direction: column; /* Stack h1 and button on small screens */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
             align-items: flex-start;
         }
 
         table, th, td {
+<<<<<<< HEAD
             font-size: 0.9rem;
         }
         
         .export-text {
             display: none;
+=======
+            font-size: 0.9rem; /* Adjust font size for smaller screens */
+        }
+        
+        .export-text {
+            display: none; /* Sembunyikan teks */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         }
 
         .export-button {
@@ -209,8 +278,18 @@
                     <i class="fa fa-download"></i>
                     
             </a>   
+<<<<<<< HEAD
     </div>
    
+=======
+        
+            
+        
+    </div>
+   
+
+    
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     @if($transactions->isEmpty())
         <p>Belum ada riwayat peminjaman sama sekali.</p>
     @else

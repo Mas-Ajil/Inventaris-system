@@ -175,7 +175,11 @@
                         // Mengambil data pinjaman pertama untuk ditampilkan
                         $firstLoan = $transaction->loans->first(); 
                     @endphp
+<<<<<<< HEAD
                     <tr class="transaction-item">
+=======
+                    <tr>
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
                         <td>{{ $transaction->transaction_id }}</td> 
                         <td>{{ $firstLoan->user_name }}</td> 
                         <td>{{ $transaction->user->full_name }}</td> 
@@ -199,7 +203,11 @@
                                                 title: "Apakah Kamu ingin mengembalikan?",
                                                 text: "Jika kamu yakin, masukkan keterangan barang yang telah selesai dipakai lalu klik tombol di bawah ini!",
                                                 icon: "warning",
+<<<<<<< HEAD
                                                 input: 'text', 
+=======
+                                                input: 'text', // Tambahkan input untuk keterangan
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
                                                 inputPlaceholder: "Masukkan keterangan barang",
                                                 showCancelButton: true,
                                                 confirmButtonColor: "#3085d6",
@@ -245,8 +253,12 @@
             <div id="paginationControls" class="d-flex justify-content-end mt-4"></div>
         </div>
     @endif
+    
 </div>
+<<<<<<< HEAD
 <script src="/js/status.js">
 
 </script>
+=======
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
 @endsection

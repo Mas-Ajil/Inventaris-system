@@ -22,6 +22,7 @@
                     <td>{{ $activity->causer ? $activity->causer->name : '-' }}</td>
                     <td>
                         <ul class="list-unstyled">
+<<<<<<< HEAD
                             @if ($activity->properties->isNotEmpty())
                                 <ul>
                                     @foreach ($activity->properties as $key => $value)
@@ -37,6 +38,11 @@
                                 </ul>
                             @endif
 
+=======
+                            @foreach ($activity->properties->toArray() as $key => $value)
+                                <li><strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong> {{ $value }} </li>
+                            @endforeach
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
                         </ul>
                     </td>
                     <td>{{ $activity->created_at->format('d-m-Y H:i') }}</td>

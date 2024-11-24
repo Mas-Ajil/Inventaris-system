@@ -52,7 +52,11 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,superAdmin']], function()
     Route::post('/listproduct', [AdminController::class, 'addProducts'])->name('products.store');
     Route::put('/listProduct/{id}', [AdminController::class, 'updateProducts'])->name('products.update');
     Route::delete('/lisProduct/delete/{id}', [AdminController::class, 'destroyProduct'])->name('delete.product');
+<<<<<<< HEAD
     Route::post('/products/remove', [AdminController::class, 'bulkDelete'])->name('products.remove');
+=======
+    Route::post('/products/bulk-delete', [AdminController::class, 'bulkDelete'])->name('products.bulkDelete');
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     Route::post('/products/import', [AdminController::class, 'importProduct'])->name('products.import');
     Route::get('/products/export', [AdminController::class, 'exportProduct'])->name('products.export');
     

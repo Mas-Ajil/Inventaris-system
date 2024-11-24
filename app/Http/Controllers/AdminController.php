@@ -126,7 +126,11 @@ public function updateUser(Request $request, $id)
     $user->save();
 
     // Log activity based on updates
+<<<<<<< HEAD
     activity('Update')
+=======
+    activity('update')
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         ->causedBy(auth()->user())
         ->performedOn($user)
         ->withProperties([
@@ -180,7 +184,11 @@ public function addProducts(Request $request)
     ]);
 
     Product::create($validatedData);
+<<<<<<< HEAD
     activity('Add')
+=======
+    activity()
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         ->causedBy(auth()->user())
         ->withProperties([
             'product_name' => $validatedData['name'],
@@ -200,6 +208,7 @@ public function updateProducts(Request $request, $id)
 
     // Ambil data produk sebelum diupdate
     $product = Product::findOrFail($id);
+<<<<<<< HEAD
     $oldProperties = [
         'name' => $product->name,
         'stock' => $product->stock,
@@ -225,6 +234,16 @@ public function updateProducts(Request $request, $id)
         ->log('Product updated');
 
     // Redirect kembali dengan pesan sukses
+=======
+    $productName = $product->name;
+    $productStock = $product->stock;
+    $product->update($validatedData);
+
+    activity('Update')
+        ->causedBy(auth()->user())
+        ->withProperties(['product_name' => $productName, 'product_stock' => $productStock])
+        ->log('Product Updated');
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     return redirect()->route('admin.listProducts')->with('success', 'Product berhasil diupdate');
 }
 
@@ -235,15 +254,23 @@ public function destroyProduct($id){
     $productName = $product->name;
     $product->delete();
 
+<<<<<<< HEAD
     activity('Delete')
         ->causedBy(auth()->user())
         ->withProperties(['product_name' => $productName])
         ->log('Product Deleted');
+=======
+    activity('delete')
+        ->causedBy(auth()->user())
+        ->withProperties(['product_name' => $productName])
+        ->log('Product deleted');
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     return redirect('/listProduct')->with('success', 'Products deleted successfully');
 }
 
 public function bulkDelete(Request $request)
 {
+<<<<<<< HEAD
     $ids = $request->input('ids');
     
     if ($ids) {
@@ -273,6 +300,12 @@ public function bulkDelete(Request $request)
 }
 
 
+=======
+    Product::whereIn('id', $request->input('selected_products'))->delete();
+    return redirect()->back()->with('success', 'Produk terpilih telah dihapus.');
+}
+
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
 public function importProduct(Request $request)
 {
     $request->validate([
@@ -286,11 +319,14 @@ public function importProduct(Request $request)
 
 public function exportProduct() 
     {
+<<<<<<< HEAD
         activity('Export')
             ->causedBy(auth()->user())
             ->withProperties(['Export to Excel'])
             ->log('Products Export');
 
+=======
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         return Excel::download(new ProductsExport, 'products.xlsx');
     }
 

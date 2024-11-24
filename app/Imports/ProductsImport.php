@@ -29,6 +29,7 @@ class ProductsImport implements ToModel, WithStartRow
             return null;
         }
         
+<<<<<<< HEAD
         $newProduct = new Product([
             'name' => $row[0],
             'stock' => $row[1],
@@ -47,5 +48,11 @@ class ProductsImport implements ToModel, WithStartRow
             ->log('Product imported');
 
         return $newProduct;
+=======
+        return new Product([
+            'name' => $row[0],
+            'stock' => $row[1],
+        ]);
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     }
 }

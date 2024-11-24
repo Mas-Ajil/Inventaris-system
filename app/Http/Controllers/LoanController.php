@@ -32,6 +32,8 @@ class LoanController extends Controller
         'selected_products' => 'required|json',
     ]);
 
+    
+
     // Decode string JSON dari produk yang dipilih
     $selectedProducts = json_decode($validated['selected_products'], true);
 
@@ -40,7 +42,12 @@ class LoanController extends Controller
         return redirect()->back()->withErrors(['selected_products' => 'Setidaknya satu produk harus dipilih.']);
     }
 
+<<<<<<< HEAD
     $user_id = auth()->id();
+=======
+    
+    $user_id = auth()->id(); 
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     $transactionId = Transaction::generateTransactionId();
 
     // Memulai transaksi database
@@ -102,12 +109,16 @@ class LoanController extends Controller
         // Jika semuanya berhasil, komit transaksi
         DB::commit();
 
+<<<<<<< HEAD
         return redirect()->route('status.loans')->with('success', 'Peminjaman berhasil dibuat!');
+=======
+        return redirect()->route('status.loans');
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     } catch (\Exception $e) {
         // Jika terjadi kesalahan, rollback transaksi
         DB::rollBack();
 
-        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        return redirect()->back();
     }
 }
 
@@ -141,7 +152,10 @@ class LoanController extends Controller
     return view('users.products.show', compact('loans', 'transaction'));
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
 public function return(Request $request, $transaction_id)
 {
     $transaction = Transaction::with('loans')->findOrFail($transaction_id);
@@ -149,7 +163,11 @@ public function return(Request $request, $transaction_id)
     $request->validate([
         'comment' => 'nullable|string|max:255', // Keterangan bisa diisi atau kosong
     ]);
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     $receiver = auth()->user()->full_name;
 
     if ($transaction->status === 'borrowed') {
@@ -171,6 +189,7 @@ public function return(Request $request, $transaction_id)
         }
 
         $transaction->status = 'returned';
+<<<<<<< HEAD
         $transaction->comment = $request->input('comment'); // Menyimpan komentar jika ada
         $transaction->save();
 
@@ -190,6 +209,13 @@ public function return(Request $request, $transaction_id)
     }
 
     return redirect()->route('loans.history')->with('error', 'This transaction has already been returned.');
+=======
+        $transaction->comment = $request->input('comment');
+        $transaction->save(); 
+    }
+
+    return redirect( )->route('loans.history')->with('success', 'Equipment has been successfully returned.');
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
 }
 
 

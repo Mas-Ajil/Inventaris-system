@@ -62,7 +62,11 @@
     }
 
     .btn-primary {
+<<<<<<< HEAD
         background: linear-gradient(45deg, #32CD32, #228B22); 
+=======
+        background: linear-gradient(45deg, #007bff, #00c6ff); 
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         border: none;
         color: white;
         padding: 4px 10px;

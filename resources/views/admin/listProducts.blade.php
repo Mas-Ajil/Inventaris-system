@@ -82,7 +82,11 @@
         border: none;
         border-radius: 5px;
         color: white; /* Text color */
+<<<<<<< HEAD
         padding: 6px 10px;
+=======
+        
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         font-size: 16px; /* Font size */
         cursor: pointer; /* Pointer on hover */
         transition: background 0.3s ease; /* Animation on hover */
@@ -157,8 +161,11 @@
         <a href="{{ route('products.export') }}" type="button" class="btn btn-primary float-end ms-2" id="exportButton">
             <span class="fa fa-download"></span>
         </a>
+<<<<<<< HEAD
 
         <button id="removeButton" class="btn btn-removeall" style="display: none;">Remove</button>
+=======
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
     </div>
     
     

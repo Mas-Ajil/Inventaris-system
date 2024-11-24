@@ -20,7 +20,11 @@
             margin-top: 20px;
             padding: 20px;
             margin-bottom: 20px;
+<<<<<<< HEAD
         }
+=======
+    }
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
         #search-box {
             display: flex;
             transition: all 0.3s ease;
@@ -186,6 +190,11 @@
             flex-wrap: wrap;
             box-sizing: border-box;
         }
+<<<<<<< HEAD
+=======
+
+        
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
 
         .input-group .form-control {
             height: 30px;
@@ -237,8 +246,13 @@
                 width: 100%;
                 max-width: 90%;
             }
+            .input-group {
+                width: 100%;
+                max-width: 90%;
+            }
 
             .container-products .d-flex.justify-content-between {
+<<<<<<< HEAD
                 flex-direction: column;
                 align-items: flex-start; 
             }
@@ -254,14 +268,32 @@
 
             .btn-removeall {
                 margin-bottom : 5px;
+=======
+                flex-direction: column; /* Stack vertically */
+                align-items: flex-start; /* Align elements to the left */
+            }
+
+            #search-box {
+                margin-top: -5px; /* Add space between the title and search box */
+                width: 100%; /* Full width on small screens */
+            }
+
+            #search {
+                width: 100%; /* Make search box take full width */
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
             }
 
             .btn-outline-secondary {
                 margin-top: 0px;
                 margin-bottom: 20px;
             }
+<<<<<<< HEAD
     }  
 </style>
+=======
+}  
+    </style>
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
 
 
 <div class="container-products">

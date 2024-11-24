@@ -68,8 +68,13 @@
                                     
                                 </nav>
                             </div>
+<<<<<<< HEAD
                           
                             <a class="nav-link " href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+=======
+                           
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+>>>>>>> 5fc181a3762210176b11be846d6f86c7d68c92c7
                                 <div class="sb-nav-link-icon"><i class="bi bi-receipt"></i></div>
                                 Transaksi
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
